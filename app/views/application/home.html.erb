@@ -2,5 +2,8 @@ hehee
 <%= @kek  %>
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
-<%= link_to "new posts", posts_new_path %>
-<%= link_to "edit posts", posts_edit_path %>
+<%= link_to "new posts", new_post_path %>
+
+<% @posts.each do |p| %>
+  <%= p.body %>
+<% end %>
