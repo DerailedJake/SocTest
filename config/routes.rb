@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  get 'users/home'
+  get 'users/profile/(:id)'=> 'users#profile', as: 'profile'
+  get 'users/index'
+
+
   resources :posts, only: [:new, :edit, :create, :index]
 
   devise_for :users

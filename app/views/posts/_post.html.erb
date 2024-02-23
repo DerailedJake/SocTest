@@ -2,7 +2,9 @@
   <div class="card" style="width: 18rem;">
     <div class="card-body">
       <p class="card-text"><%= body %></p>
-      <%= link_to current_user.email, root_path %>
+      <% if author != current_user %>
+        <%= link_to author.email, root_path %>
+      <% end %>
     </div>
   </div>
 </div>
