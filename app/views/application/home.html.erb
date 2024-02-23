@@ -1,9 +1,4 @@
-hehee
-<%= @kek  %>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+
 <%= link_to "new posts", new_post_path %>
 
-<% @posts.each do |post| %>
-  <%= render partial: 'posts/post', locals: { body: post.body } %>
-<% end %>
+<%= render partial: 'posts/posts', locals: { posts: @posts } %>
