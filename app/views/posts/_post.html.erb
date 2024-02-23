@@ -1,7 +1,11 @@
 <div class="col">
   <div class="card" style="width: 18rem;">
+    <% if post.picture.representable? %>
+      <%= image_tag post.picture.representation(resize_to_fill: [286, 120]), style: "height: 180px" %>
+    <% end %>
+
     <div class="card-body">
-      <p class="card-text"><%= body %></p>
+      <p class="card-text"><%= post.body %></p>
       <% if author != current_user %>
         <%= link_to author.email, root_path %>
       <% end %>
