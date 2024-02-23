@@ -1,12 +1,12 @@
-<h2>New Post</h2>
+<h2 class="text-center">New Post</h2>
 
 <%= form_with model: @post do |f| %>
-  <div class="field">
-    <%= f.label :body, "Post content:" %><br />
-    <%= f.text_area :body %>
+  <div class="mb-3">
+    <%= f.label :body, "Post content:", class: "form-label" %><br />
+    <%= f.text_area :body, class: "form-control" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Create" %>
+  <div class="actions col-auto text-center">
+    <%= f.submit "Create", class: "btn btn-primary" %>
   </div>
 <% end %>
