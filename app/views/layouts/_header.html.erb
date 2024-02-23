@@ -24,6 +24,8 @@
       <ul class="dropdown-menu dropdown-menu-end">
         <% if current_user %>
           <li><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><%= link_to 'Edit profile', edit_user_registration_path, class: "dropdown-item" %></li>
         <% else %>
           <li><%= link_to 'Sign In', new_user_session_path, class: "dropdown-item" %></li>
           <li><hr class="dropdown-divider"></li>
