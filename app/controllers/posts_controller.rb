@@ -10,7 +10,7 @@ class PostsController < ApplicationController
       redirect_to root_path
     else
       flash[:danger] = @post.errors.full_messages.first
-      redirect_to new_post_path
+      render 'new', status: 422
     end
   end
 
