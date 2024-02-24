@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'static_pages/landing'
+  get 'static_pages/about'
+  get 'static_pages/contact'
+  get 'static_pages/legal'
 
   get 'users/home'
   get 'users/profile/(:id)'=> 'users#profile', as: 'profile'
