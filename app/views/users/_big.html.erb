@@ -1,0 +1,22 @@
+<section class="text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <% if user.avatar.representable? %>
+        <%= image_tag user.avatar.representation(resize_to_limit: [200, 200]), class: "avatar" %>
+      <% else %>
+        <svg class="bd-placeholder-img rounded-circle" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
+        <h2>
+          SERgSERGsergserg2
+        </h2>
+      <% end %>
+      <h1 class="fw-light"><%= user.email %></h1>
+      <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+      <p>
+        <% if current_user != user %>
+          <a href="#" class="btn btn-primary my-2">Button for later</a>
+          <a href="#" class="btn btn-secondary my-2">Second button for later</a>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</section>

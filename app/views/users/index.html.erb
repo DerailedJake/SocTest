@@ -1,14 +1,15 @@
-<div class="container">
-  <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
-    <% @users.each do |user| %>
-      <div class="col">
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <p class="card-text"><%= user.email %></p>
-            <%= link_to user.email, profile_path(user) %>
-          </div>
-        </div>
-      </div>
-    <% end %>
+<main>
+  <div class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+    <h1>
+      LifeBook Users
+    </h1>
+    <hr class="featurette-divider">
   </div>
-</div>
+  <div class="px-lg-5 container">
+    <div class="px-lg-5 row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
+      <% @users.each do |user| %>
+        <%= render partial: 'users/medium', locals: { user: user } %>
+      <% end %>
+    </div>
+  </div>
+</main>

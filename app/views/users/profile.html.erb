@@ -1,2 +1,4 @@
 
+<%= render partial: 'users/big', locals: { user: @user } %>
+
 <%= render partial: 'posts/posts', locals: { author: @user, posts: @user.posts } %>
