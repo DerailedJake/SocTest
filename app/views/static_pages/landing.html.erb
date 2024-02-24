@@ -22,38 +22,12 @@
   <div class="container marketing">
 
     <div class="px-sm-4 row">
-      <div class="col-lg-4">
-        <% if @users[0].avatar.representable? %>
-          <%= image_tag @users[0].avatar.representation(resize_to_limit: [140, 140]), class: "bd-placeholder-img rounded-circle" %>
-        <% else %>
-          <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
-        <% end %>
-        <h2 class="fw-normal"><%= @users[0].email %></h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. </p>
-        <%= link_to "Open profile", profile_path(@users[0].id), class: "btn btn-secondary" %>
-      </div>
 
-      <div class="col-lg-4">
-        <% if @users[1].avatar.representable? %>
-          <%= image_tag @users[1].avatar.representation(resize_to_limit: [140, 140]), class: "bd-placeholder-img rounded-circle" %>
-        <% else %>
-          <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
-        <% end %>
-        <h2 class="fw-normal"><%= @users[1].email %></h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. </p>
-        <%= link_to "Open profile", profile_path(@users[1].id), class: "btn btn-secondary" %>
-      </div>
+      <%= render partial: 'users/medium', locals: { user: @users[0] } %>
 
-      <div class="col-lg-4 flex-column">
-        <% if @users[02].avatar.representable? %>
-          <%= image_tag @users[2].avatar.representation(resize_to_limit: [140, 140]), class: "bd-placeholder-img rounded-circle" %>
-        <% else %>
-          <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
-        <% end %>
-        <h2 class="fw-normal"><%= @users[2].email %></h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. </p>
-        <%= link_to "Open profile", profile_path(@users[2].id), class: "btn btn-secondary" %>
-      </div>
+      <%= render partial: 'users/medium', locals: { user: @users[1] } %>
+
+      <%= render partial: 'users/medium', locals: { user: @users[2] } %>
     </div>
 
     <hr class="featurette-divider">

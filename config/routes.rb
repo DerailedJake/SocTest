@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'static_pages/landing'
+  get 'landing' => 'static_pages#landing', as: 'static_pages_landing'
   get 'static_pages/about'
   get 'static_pages/contact'
   get 'static_pages/legal'
