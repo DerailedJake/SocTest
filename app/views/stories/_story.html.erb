@@ -1,0 +1,12 @@
+<div class="col">
+  <div class="card text-center" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title"><%= story.title %></h5>
+      <p class="card-text"><%= story.description %></p>
+      <% if author != current_user %>
+        <%= link_to author.email, root_path %>
+      <% end %>
+      <%= link_to "See story", story_path(story), class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>

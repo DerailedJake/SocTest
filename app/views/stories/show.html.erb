@@ -1,0 +1,11 @@
+<section class="text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light"><%= @story.title %></h1>
+      <p class="lead text-body-secondary"><%= @story.description %></p>
+      <p>
+        <%= render partial: 'users/small', locals: { user: @story.user } %>
+      </p>
+    </div>
+  </div>
+</section>
