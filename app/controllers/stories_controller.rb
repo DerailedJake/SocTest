@@ -18,9 +18,21 @@ class StoriesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @story = current_user.stories.find_by(params[:id])
+    @posts = current_user.posts
+  end
 
-  def update; end
+  def update
+    @story = current_user.stories.find_by(params[:id])
+    if @story.update_attributes(stories_params)
+      flash[:success] = "Story updated!"
+      redirect_to story_path(@story)
+    else
+      flash[:danger] = @story.errors.full_messages.first
+      render 'edit', status: 422
+    end
+  end
 
   def delete; end
 
