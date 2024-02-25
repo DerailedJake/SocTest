@@ -1,11 +1,13 @@
-<section class="text-center container">
-  <div class="row py-lg-5">
-    <div class="col-lg-6 col-md-8 mx-auto">
-      <h1 class="fw-light"><%= @story.title %></h1>
-      <p class="lead text-body-secondary"><%= @story.description %></p>
-      <p>
-        <%= render partial: 'users/small', locals: { user: @story.user } %>
-      </p>
-    </div>
+<div class="container my-5">
+  <div class="p-5 text-center bg-body-tertiary rounded-3">
+    <h1 class="text-body-emphasis"><%= @story.title %></h1>
+    <p class="lead">
+      <%= @story.description %>
+    </p>
+    <h3>By:</h3>
+    <p>
+      <%= render partial: 'users/small', locals: { user: @story.user } %>
+    </p>
+    <%= link_to 'Edit story', edit_story_path, class: "btn btn-primary my-2"  %>
   </div>
-</section>
+</div>
