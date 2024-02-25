@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :post do
-    title { Faker::Name.name }
+    body { Faker::Lorem.sentence(word_count: 10) }
   end
 end
