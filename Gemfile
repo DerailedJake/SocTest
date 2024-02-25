@@ -48,9 +48,10 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
   gem 'rubocop', require: false
-  gem 'rspec-rails', '~> 6.1.0'
+  gem 'rspec-rails'
   gem 'simplecov', require: false
   gem 'faker'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -78,3 +79,5 @@ gem 'sassc-rails'
 gem 'bootstrap'
 
 gem "jquery-rails"
+
+gem "bigdecimal", "~> 3.1.6" # to get rid of a warning
