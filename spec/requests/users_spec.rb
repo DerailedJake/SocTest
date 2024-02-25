@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  let(:valid_attributes) {
-    { email: 'john@example.com', password: 'qwerqwer' }
-  }
-
-  let(:invalid_attributes) {
-    { email: 'invalid_email' }
-  }
-
   before(:context) do
     @current_user = create(:user)
     @user = create(:user)
