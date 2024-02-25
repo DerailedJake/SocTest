@@ -14,7 +14,7 @@ RSpec.describe "Posts", type: :request do
 
   describe 'GET /new' do
     it 'returns a success response' do
-      get :new
+      get new_post_path
       expect(response).to be_successful
     end
   end
@@ -23,26 +23,26 @@ RSpec.describe "Posts", type: :request do
     context 'with valid params' do
       it 'creates a new Post' do
         expect {
-          post :create, params: { post: valid_attributes }
+          post posts_path, params: { post: valid_attributes }
         }.to change(Post, :count).by(1)
       end
 
       it 'redirects to the created Post' do
-        post '/posts/create', params: { post: valid_attributes }
-        expect(response).to redirect_to(User.last)
+        post posts_path, params: { post: valid_attributes }
+        expect(response).to redirect_to(root_path)
       end
     end
 
     context 'with invalid params' do
       it 'redirects back' do
-        post '/posts/create', params: { post: invalid_attributes }
-        expect(response).to redirect_to '/posts/new'
+        post posts_path, params: { post: invalid_attributes }
+        expect(response).to have_http_status('422')
       end
     end
 
     context 'while logged out' do
       it 'should ' do
-        post '/posts/create', params: { post: valid_attributes}
+        post posts_path, params: { post: valid_attributes}
         expect(response).not_to be_successful
       end
     end

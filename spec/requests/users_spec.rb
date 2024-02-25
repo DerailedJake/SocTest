@@ -15,21 +15,21 @@ RSpec.describe "Users", type: :request do
 
     describe 'GET /home' do
       it 'returns a success response' do
-        get '/users/home'
+        get users_home_path
         expect(response).to be_successful
       end
     end
 
     describe 'GET /index' do
       it 'returns a success response' do
-        get '/'
+        get users_index_path
         expect(response).to be_successful
       end
     end
 
     describe 'GET /profile' do
       it 'returns a success response' do
-        get "/users/profile/#{@user.id}"
+        get profile_path(@user.id)
         expect(response).to be_successful
       end
     end
@@ -38,21 +38,21 @@ RSpec.describe "Users", type: :request do
   context 'when user logged out' do
     describe 'GET /home' do
       it 'returns a success response' do
-        get '/'
+        get users_home_path
         expect(response).not_to be_successful
       end
     end
 
     describe 'GET /index' do
       it 'returns a success response' do
-        get '/users/index'
+        get users_index_path
         expect(response).to be_successful
       end
     end
 
     describe 'GET /profile' do
       it 'returns a success response' do
-        get "/users/profile/#{@user.id}"
+        get profile_path(@user.id)
         expect(response).to be_successful
       end
     end
