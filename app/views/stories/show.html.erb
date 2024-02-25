@@ -8,6 +8,8 @@
     <p>
       <%= render partial: 'users/small', locals: { user: @story.user } %>
     </p>
-    <%= link_to 'Edit story', edit_story_path, class: "btn btn-primary my-2"  %>
+    <% if current_user == @story.user %>
+      <%= link_to 'Edit story', edit_story_path, class: "btn btn-primary my-2"  %>
+    <% end %>
   </div>
 </div>
