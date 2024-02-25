@@ -7,7 +7,6 @@ RSpec.describe "StaticPages", type: :request do
 
   describe 'GET /landing' do
     it 'returns a success response' do
-      user = create :user
       get "/landing"
       expect(response).to be_successful
     end
