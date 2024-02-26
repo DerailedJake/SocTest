@@ -11,9 +11,9 @@
 
   <div class="list-group">
     <div class="list-group">
-      <%= f.collection_check_boxes :id, @posts, :id, :short_description do |b|%>
+      <%= f.collection_check_boxes :post_ids, @posts, :id, :short_description do |b|%>
         <%= b.label(class: 'list-group-item d-flex gap-2') {
-           b.check_box(class: 'form-check-input flex-shrink-0') + b.text  } %>
+            b.check_box(class: 'form-check-input flex-shrink-0') + b.text  } %>
       <% end %>
     </div>
   </div>

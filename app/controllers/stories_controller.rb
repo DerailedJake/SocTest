@@ -24,9 +24,8 @@ class StoriesController < ApplicationController
   end
 
   def update
-    @story = current_user.stories.find_by(params[:id])
-    if @story.update_attributes(stories_params)
-      flash[:success] = "Story updated!"
+    @story = current_user.stories.find(params[:id])
+    if @story.update(stories_params)
       redirect_to story_path(@story)
     else
       flash[:danger] = @story.errors.full_messages.first
@@ -39,6 +38,6 @@ class StoriesController < ApplicationController
   private
 
   def stories_params
-    params.require(:story).permit(:title, :description)
+    params.require(:story).permit(:title, :description, { post_ids: [] })
   end
 end
