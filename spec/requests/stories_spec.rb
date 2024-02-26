@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Stories", type: :request do
   let(:valid_attributes) {
-    { title: Faker::Lorem.sentence(word_count: 10),
+    { title: Faker::Lorem.sentence(word_count: 3),
       description: Faker::Lorem.sentence(word_count: 10) }
   }
   let(:invalid_attributes) {
@@ -58,18 +58,15 @@ RSpec.describe "Stories", type: :request do
 
     context 'when logged in' do
       it 'shows the Story' do
-        get stories_path(@story.id)
+        get edit_story_path(@story)
         expect(response).to be_successful
       end
     end
 
     context 'when logged out' do
-      before(:example) do
-        sign_out(@current_user)
-      end
-
       it 'redirects back' do
-        post stories_path, params: { story: invalid_attributes }
+        sign_out(@current_user)
+        get edit_story_path(@story)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
@@ -83,28 +80,28 @@ RSpec.describe "Stories", type: :request do
 
     context 'with valid params' do
       it 'updates the Story' do
-        expect {
-          put stories_path, params: { id: @story.id, story: valid_attributes }
-        }.to change(Story, :count).by(1)
+        put story_path(@story), params: { id: @story, story: { title: 'New name' } }
+        expect(@story.reload.title).to eq 'New name'
       end
 
       it 'redirects to the Story' do
-        post stories_path, params: { id: @story.id, story: valid_attributes }
-        expect(response).to redirect_to(story_path(Story.last.id))
+        put story_path(@story), params: { id: @story, story: { title: 'New name' } }
+        expect(response).to redirect_to(story_path(@story))
       end
     end
 
     context 'with invalid params' do
       it 'redirects back' do
-        post stories_path, params: { story: invalid_attributes }
-        expect(response).to have_http_status('422')
+        put story_path(@story), params: { id: @story, story: { title: '' } }
+        expect(response).to redirect_to(edit_story_path(@story))
       end
     end
 
     context 'while logged out' do
       it 'should not work' do
-        post posts_path, params: { story: valid_attributes}
-        expect(response).not_to be_successful
+        sign_out(@current_user)
+        put story_path(@story), params: { id: @story, story: { title: 'New name' } }
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end

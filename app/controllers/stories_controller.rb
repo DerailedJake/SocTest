@@ -29,7 +29,7 @@ class StoriesController < ApplicationController
       redirect_to story_path(@story)
     else
       flash[:danger] = @story.errors.full_messages.first
-      render 'edit', status: 422
+      redirect_to edit_story_path(@story)
     end
   end
 
