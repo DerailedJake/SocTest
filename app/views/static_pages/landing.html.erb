@@ -9,8 +9,8 @@
         <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
         <p>
           <% unless current_user %>
-            <%= link_to 'Sign In', new_user_session_path, class: "dropdown-item", class: "btn btn-primary my-2" %>
-            <%= link_to 'Register', new_user_registration_path, class: "dropdown-item", class: "btn btn-secondary my-2" %>
+            <%= link_to 'Sign In', new_user_session_path, class: "btn btn-primary my-2 dropdown-item" %>
+            <%= link_to 'Register', new_user_registration_path, class: "btn btn-secondary my-2 dropdown-item" %>
           <% end %>
         </p>
       </div>
