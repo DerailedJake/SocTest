@@ -1,0 +1,24 @@
+<h2 class="text-center">Edit Story</h2>
+
+<%= form_with model: @story do |f| %>
+
+  <div class="mb-3">
+    <%= f.text_field :title, value: @story.title, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= f.text_area :description, value: @story.description, class: "form-control" %>
+  </div>
+
+  <div class="list-group">
+    <div class="list-group">
+      <%= f.collection_check_boxes :id, @posts, :id, :short_description do |b|%>
+        <%= b.label(class: 'list-group-item d-flex gap-2') {
+           b.check_box(class: 'form-check-input flex-shrink-0') + b.text  } %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="my-lg-3 actions col-auto text-center">
+    <%= f.submit "Update", class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -19,7 +19,7 @@ class StoriesController < ApplicationController
   end
 
   def edit
-    @story = current_user.stories.find_by(params[:id])
+    @story = current_user.stories.find(params[:id])
     @posts = current_user.posts
   end
 
