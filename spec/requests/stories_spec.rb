@@ -14,7 +14,7 @@ RSpec.describe "Stories", type: :request do
     sign_in(@current_user)
   end
 
-  describe 'GET /show' do
+  describe 'GET /new' do
     it 'returns a success response' do
       get new_story_path
       expect(response).to be_successful
@@ -25,26 +25,26 @@ RSpec.describe "Stories", type: :request do
     context 'with valid params' do
       it 'creates a new Story' do
         expect {
-          post stories_path, params: { post: valid_attributes }
+          post stories_path, params: { story: valid_attributes }
         }.to change(Story, :count).by(1)
       end
 
       it 'redirects to the created Story' do
-        post stories_path, params: { post: valid_attributes }
+        post stories_path, params: { story: valid_attributes }
         expect(response).to redirect_to(story_path(Story.last.id))
       end
     end
 
     context 'with invalid params' do
       it 'redirects back' do
-        post stories_path, params: { post: invalid_attributes }
+        post stories_path, params: { story: invalid_attributes }
         expect(response).to have_http_status('422')
       end
     end
 
     context 'while logged out' do
       it 'should not work' do
-        post posts_path, params: { post: valid_attributes}
+        post posts_path, params: { story: valid_attributes}
         expect(response).not_to be_successful
       end
     end
@@ -65,12 +65,12 @@ RSpec.describe "Stories", type: :request do
 
     context 'when logged out' do
       before(:example) do
-        sign_out
+        sign_out(@current_user)
       end
 
       it 'redirects back' do
-        post stories_path, params: { post: invalid_attributes }
-        expect(response).to redirect_to(root_path)
+        post stories_path, params: { story: invalid_attributes }
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
@@ -96,14 +96,14 @@ RSpec.describe "Stories", type: :request do
 
     context 'with invalid params' do
       it 'redirects back' do
-        post stories_path, params: { post: invalid_attributes }
+        post stories_path, params: { story: invalid_attributes }
         expect(response).to have_http_status('422')
       end
     end
 
     context 'while logged out' do
       it 'should not work' do
-        post posts_path, params: { post: valid_attributes}
+        post posts_path, params: { story: valid_attributes}
         expect(response).not_to be_successful
       end
     end
