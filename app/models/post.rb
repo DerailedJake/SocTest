@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
-  belongs_to :story
+  has_and_belongs_to_many :stories
   validates :body, presence: true, length: { minimum: 10 }
   has_one_attached :picture
   def short_description
