@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def profile
-    @user = User.find(params[:id])
+    @user = User.includes(posts: :picture_attachment).find(params[:id])
     @stories = @user.stories
   end
 
