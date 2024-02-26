@@ -1,7 +1,8 @@
 class StoriesController < ApplicationController
 
   def show
-    @story = Story.find(params[:id])
+    @story = Story.includes(user: :avatar_attachment).find(params[:id])
+    @posts = @story.posts.with_attached_picture
   end
   def new
     @story = Story.new(user: current_user)
