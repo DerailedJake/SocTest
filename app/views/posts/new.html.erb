@@ -9,6 +9,15 @@
     <%= f.text_area :body, value: @post.body, class: "form-control" %>
   </div>
 
+  <div class="list-group">
+    <div class="list-group">
+      <%= f.collection_check_boxes :story_ids, current_user.stories, :id, :title do |b|%>
+        <%= b.label(class: 'list-group-item d-flex gap-2') {
+          b.check_box(class: 'form-check-input flex-shrink-0') + b.text  } %>
+      <% end %>
+    </div>
+  </div>
+  <%= f.hidden_field 'story_to_redirect', value: @story_to_redirect %>
   <div class="actions col-auto text-center">
     <%= f.submit "Create", class: "btn btn-primary" %>
   </div>

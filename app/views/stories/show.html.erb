@@ -11,6 +11,9 @@
     <% if current_user == @story.user %>
       <%= link_to 'Edit story', edit_story_path, class: "btn btn-primary my-2"  %>
     <% end %>
+    <% if current_user == @story.user %>
+      <%= link_to 'Add post to story', new_post_path(post: {story_ids: [@story]}, story_to_redirect: @story), class: "btn btn-primary my-2"  %>
+    <% end %>
   </div>
 </div>
 
