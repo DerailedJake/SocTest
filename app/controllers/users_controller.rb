@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def home
-    @posts = current_user.posts | []
+    @posts = current_user.posts.with_attached_picture | []
     @stories = current_user.stories
   end
 end
