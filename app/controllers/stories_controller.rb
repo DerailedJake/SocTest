@@ -8,6 +8,10 @@ class StoriesController < ApplicationController
     @story = Story.new(user: current_user)
   end
 
+  def index
+    @stories = Story.order('RANDOM()').limit(9)
+  end
+
   def create
     @story = current_user.stories.new(stories_params)
     if @story.save

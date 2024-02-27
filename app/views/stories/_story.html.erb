@@ -4,9 +4,9 @@
       <h5 class="card-title"><%= story.title %></h5>
       <p class="card-text"><%= story.description %></p>
       <% if author != current_user %>
-        <%= link_to author.email, root_path %>
+        <p><%= link_to author.email, profile_path(author) %></p>
       <% end %>
-      <%= link_to "See story", story_path(story), class: "btn btn-primary" %>
+      <p><%= link_to "See story", story_path(story), class: "btn btn-primary" %></p>
     </div>
   </div>
 </div>

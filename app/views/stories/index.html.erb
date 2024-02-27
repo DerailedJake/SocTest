@@ -1,0 +1,22 @@
+
+<div class="container my-5">
+  <div class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5">
+    <h1 class="text-body-emphasis">Discover New Stories!</h1>
+    <p class="py-lg-4 col-lg-6 mx-auto mb-4">
+      Quasi nisi corrupti ea sint modi doloribus enim cupiditate corporis rerum nulla nobis suscipit dolorem pariatur
+      ut labore ullam occaecati voluptas a ratione eveniet ipsam minima fugit atque incidunt id velit inventore
+      assumenda non aut dolor ad ipsum sed voluptatibus consectetur est quaerat quos aut nesciunt aperiam ut itaque
+      illo amet esse veritatis sit unde eaque similique quam at autem.
+    </p>
+  </div>
+</div>
+
+<hr class="featurette-divider">
+
+<div class="container">
+  <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
+    <% @stories.each do |story| %>
+      <%= render partial: 'stories/story', locals: { author: story.user, story: story } %>
+    <% end %>
+  </div>
+</div>
