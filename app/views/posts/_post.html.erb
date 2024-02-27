@@ -10,5 +10,9 @@
         <%= link_to author.full_name, profile_path(author) %>
       <% end %>
     </div>
+    <% post.comments.each do |com| %>
+      <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
+    <% end %>
+
   </div>
 </div>
