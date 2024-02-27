@@ -1,0 +1,2 @@
+$("<%= escape_javascript(render @comment, author: current_user) %>").insertBefore("#post-comments-<%= @comment.post.id %> .form-div");
+$(':input','#comment-form')[2].value = ''

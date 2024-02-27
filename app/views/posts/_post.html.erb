@@ -1,5 +1,5 @@
 <div class="col">
-  <div class="card" style="width: 18rem;">
+  <div id="post-comments-<%= post.id %>" class="card" style="width: 18rem;">
     <% if post.picture.representable? %>
       <%= image_tag post.picture.representation(resize_to_fill: [286, 120]), style: "height: 180px" %>
     <% end %>
@@ -13,6 +13,6 @@
     <% post.comments.each do |com| %>
       <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
     <% end %>
-
+    <%= render partial: 'comments/new_comment', locals: { post: post, comment: post.comments.new } %>
   </div>
 </div>
