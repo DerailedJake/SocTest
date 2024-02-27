@@ -9,22 +9,15 @@
 #   end
 
 def random_avatar
-  Rack::Test::UploadedFile.new("#{Rails.root}/app/assets/images/#{rand(1..8)}.jpeg", 'jpeg')
+  Rack::Test::UploadedFile.new(
+    Dir.glob("#{Rails.root}/app/assets/images/user_avatars/*.jpeg").sample,
+    'jpeg')
 end
 
 def random_picture
-  Rack::Test::UploadedFile.new("#{Rails.root}/app/assets/images/#{rand(1..8)}.jpeg", 'jpeg')
-end
-
-def create_posts(user)
-  min = 15
-  max = 40
-  rand(min..max).times do
-    user.posts.create(
-      body: Faker::Lorem.sentence(word_count: 10),
-      picture: random_picture
-    )
-  end
+  Rack::Test::UploadedFile.new(
+    Dir.glob("#{Rails.root}/app/assets/images/post_pictures/*.jpeg").sample,
+    'jpeg')
 end
 
 def create_stories(user)
@@ -32,8 +25,21 @@ def create_stories(user)
   max = 7
   rand(min..max).times do
     user.stories.create(
-      title: Faker::Lorem.sentence(word_count: 3),
-      description: Faker::Lorem.sentence(word_count: 10)
+      title: Faker::Lorem.sentence(word_count: rand(1..6)),
+      description: Faker::Lorem.sentence(word_count: rand(15..50))
+    )
+  end
+end
+
+def create_posts(user)
+  min = 15
+  max = 40
+  rand(min..max).times do
+    picture = random_picture
+    title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
+    user.posts.create(
+      body: "#{title} #{Faker::Lorem.sentence(word_count: rand(4..25))}",
+      picture: picture
     )
   end
 end

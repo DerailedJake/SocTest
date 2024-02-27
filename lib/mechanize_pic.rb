@@ -38,4 +38,3 @@ website_pages.each do |single_page|
     image_count += 1
   end
 end
-
