@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
         format.js   {}
         format.json { render json: @comment, status: :created, location: @comment }
       else
-        flash[:danger] = @comment.errors.full_messages.first
+        flash.now[:danger] = @comment.errors.full_messages.first
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
