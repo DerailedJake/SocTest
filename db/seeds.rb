@@ -8,9 +8,14 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+def random_avatar
+  Rack::Test::UploadedFile.new("#{Rails.root}/app/assets/images/#{rand(1..8)}.jpeg", 'jpeg')
+end
+
 def random_picture
   Rack::Test::UploadedFile.new("#{Rails.root}/app/assets/images/#{rand(1..8)}.jpeg", 'jpeg')
 end
+
 def create_posts(user)
   min = 15
   max = 40
@@ -46,7 +51,7 @@ user = User.create(
   email: 'asdf@asdf.asdf',
   password: 'qwerqwer',
   password_confirmation: 'qwerqwer',
-  avatar: random_picture
+  avatar: random_avatar
 )
 
 create_posts(user)
@@ -58,7 +63,7 @@ randomly_attach(user)
     email: Faker::Internet.email,
     password: 'qwerqwer',
     password_confirmation: 'qwerqwer',
-    avatar: random_picture
+    avatar: random_avatar
   )
   create_posts(user)
   create_stories(user)
