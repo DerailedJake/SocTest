@@ -7,19 +7,24 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+def random_picture
+  Rack::Test::UploadedFile.new("#{Rails.root}/app/assets/images/#{rand(1..8)}.jpeg", 'jpeg')
+end
 def create_posts(user)
-  min = 6
+  min = 15
   max = 40
   rand(min..max).times do
     user.posts.create(
-      body: Faker::Lorem.sentence(word_count: 10)
+      body: Faker::Lorem.sentence(word_count: 10),
+      picture: random_picture
     )
   end
 end
 
 def create_stories(user)
-  min = 4
-  max = 12
+  min = 3
+  max = 7
   rand(min..max).times do
     user.stories.create(
       title: Faker::Lorem.sentence(word_count: 3),
@@ -41,7 +46,7 @@ user = User.create(
   email: 'asdf@asdf.asdf',
   password: 'qwerqwer',
   password_confirmation: 'qwerqwer',
-  avatar: Rack::Test::UploadedFile.new("#{Rails.root}/spec/factories/files/test_pic.jpeg", 'jpeg')
+  avatar: random_picture
 )
 
 create_posts(user)
@@ -53,7 +58,7 @@ randomly_attach(user)
     email: Faker::Internet.email,
     password: 'qwerqwer',
     password_confirmation: 'qwerqwer',
-    avatar: Rack::Test::UploadedFile.new("#{Rails.root}/spec/factories/files/test_pic.jpeg", 'jpeg')
+    avatar: random_picture
   )
   create_posts(user)
   create_stories(user)
