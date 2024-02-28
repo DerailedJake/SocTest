@@ -6,7 +6,11 @@
             LifeBook
           </h2>
         <h1 class="fw-light"> Join Today</h1>
-        <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+        <p class="lead text-body-secondary">
+          Discover the extraordinary in every moment!
+          Join our dynamic community to share thrilling adventures and the simple joys of daily life through captivating photos.
+          Your story awaits on our vibrant platform.
+        </p>
         <p>
           <% unless current_user %>
             <%= link_to 'Sign In', new_user_session_path, class: "btn btn-primary my-2 dropdown-item" %>
@@ -35,7 +39,7 @@
     <div class="row featurette">
       <div class="col-md-7">
         <h2 class="featurette-heading fw-normal lh-1">Firstly we've got people here. <span class="text-body-secondary">It’ll blow your mind.</span></h2>
-        <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+        <p class="lead">Join our vibrant community, where the extraordinary is celebrated, and every picture is a portal to a world of excitement waiting to be shared.</p>
       </div>
       <div class="col-md-5">
         <%= image_tag @pictures.first.picture.representation(resize_to_limit: [500, 500]) %>
@@ -47,7 +51,7 @@
     <div class="row featurette">
       <div class="col-md-7 order-md-2">
         <h2 class="featurette-heading fw-normal lh-1">Secondly it's so fun here. <span class="text-body-secondary">See for yourself.</span></h2>
-        <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+        <p class="lead">Embark on a visual journey like never before at our exhilarating website, where every click unveils a kaleidoscope of thrilling adventures and daily moments that captivate the soul.
       </div>
       <div class="col-md-5 order-md-1">
         <%= image_tag @pictures.second.picture.representation(resize_to_limit: [500, 500]) %>
@@ -59,7 +63,7 @@
     <div class="row featurette">
       <div class="col-md-7">
         <h2 class="featurette-heading fw-normal lh-1">And lastly, it's free. <span class="text-body-secondary">Seriously.</span></h2>
-        <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
+        <p class="lead">Immerse yourself in a tapestry of vivid images, each telling a unique story of exploration and joy, turning ordinary snapshots into extraordinary tales. </p>
       </div>
       <div class="col-md-5">
         <%= image_tag @pictures.third.picture.representation(resize_to_limit: [500, 500]) %>
