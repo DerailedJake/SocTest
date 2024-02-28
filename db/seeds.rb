@@ -8,8 +8,18 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-user_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/user_descriptions.txt").map! { |l| l.strip }
 
+@all_user_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/user_descriptions.txt").map! { |l| l.strip }
+
+def user_descriptions
+  @all_user_descriptions.sample
+end
+
+@all_post_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/post_descriptions.txt").map! { |l| l.strip }
+
+def post_descriptions
+  @all_post_descriptions.sample
+end
 
 def random_avatar
   Rack::Test::UploadedFile.new(
@@ -24,7 +34,6 @@ def random_picture
 end
 
 def create_stories(user)
-  post_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/post_descriptions.txt").map! { |l| l.strip }
   min = 3
   max = 7
   rand(min..max).times do
@@ -38,14 +47,13 @@ def create_stories(user)
 end
 
 def create_posts(user)
-  post_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/post_descriptions.txt").map! { |l| l.strip }
   min = 15
   max = 40
   rand(min..max).times do
     picture = random_picture
     title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
     user.posts.create(
-      body: "#{title} #{post_descriptions.sample}",
+      body: "#{title} #{post_descriptions}",
       picture: picture
     )
   end
@@ -64,7 +72,10 @@ user = User.create(
   email: 'asdf@asdf.asdf',
   password: 'qwerqwer',
   password_confirmation: 'qwerqwer',
-  avatar: random_avatar
+  avatar: random_avatar,
+  first_name: Faker::Name.first_name,
+  last_name: Faker::Name.last_name,
+  description: user_descriptions
 )
 
 create_posts(user)
@@ -76,7 +87,10 @@ randomly_attach(user)
     email: Faker::Internet.email,
     password: 'qwerqwer',
     password_confirmation: 'qwerqwer',
-    avatar: random_avatar
+    avatar: random_avatar,
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    description: user_descriptions
   )
   create_posts(user)
   create_stories(user)
