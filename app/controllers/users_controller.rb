@@ -11,7 +11,9 @@ class UsersController < ApplicationController
   end
 
   def home
-    @posts = current_user.posts.with_attached_picture | []
+    @posts = current_user.posts.with_attached_picture
+                         .includes({ comments: { user: { avatar_attachment: :blob } } }) | []
+
     @stories = current_user.stories
   end
 end

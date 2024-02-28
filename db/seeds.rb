@@ -8,7 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-
 @all_user_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/user_descriptions.txt").map! { |l| l.strip }
 
 def user_descriptions
@@ -19,6 +18,12 @@ end
 
 def post_descriptions
   @all_post_descriptions.sample
+end
+
+@all_post_comments = File.readlines("#{Rails.root}/app/assets/text_files/post_comments.txt").map! { |l| l.strip }
+
+def post_comment
+  @all_post_comments.sample
 end
 
 def random_avatar
@@ -59,6 +64,21 @@ def create_posts(user)
   end
 end
 
+def create_comments
+  @posts = Post.all
+  @users = User.all
+  @posts.each do |post|
+    min = 0
+    max = 6
+    rand(min..max).times do
+      post.comments.create!(
+        body: post_comment,
+        user: @users.sample
+      )
+    end
+  end
+end
+
 def randomly_attach(user)
   posts = user.posts
   stories = user.story_ids
@@ -96,3 +116,5 @@ randomly_attach(user)
   create_stories(user)
   randomly_attach(user)
 end
+
+create_comments
