@@ -1,24 +1,14 @@
-# README
+# Project #1
+# LifeBook
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+#### I'm currently ~50% done with first phase. 
 
-Things you may want to cover:
+#### Second phase are mostly improvements, optimization.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+About the project:
+* User accounts with devise, avatar attachement
+* Users can create posts with description and optional picture
+* Users can create stories and attach posts to them
+* Tests are currently basic, often incomplete, will be expanded in following days
+* Mechanize used to scrape pictures from internet
+* ChatGPT used to create lots of text on website, posts and users descriptions 
