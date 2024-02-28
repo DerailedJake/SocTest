@@ -51,6 +51,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'simplecov', require: false
   gem 'factory_bot_rails'
+
+  gem 'mechanize'
 end
 
 gem 'faker'
@@ -82,5 +84,3 @@ gem 'bootstrap'
 gem "jquery-rails"
 
 gem "bigdecimal", "~> 3.1.6" # to get rid of a warning
-
-gem 'mechanize'

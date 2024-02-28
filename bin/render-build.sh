@@ -3,10 +3,6 @@
 set -o errexit
 
 bundle install
-rails db:drop:_unsafe
-rails db:drop
-rails db:create
-rails db:migrate
-rails db:seed
+rails db:reset
 bundle exec rails assets:precompile
 bundle exec rails assets:clean
