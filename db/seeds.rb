@@ -8,6 +8,9 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+user_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/user_descriptions.txt").map! { |l| l.strip }
+
+
 def random_avatar
   Rack::Test::UploadedFile.new(
     Dir.glob("#{Rails.root}/app/assets/images/user_avatars/*.jpeg").sample,
@@ -21,12 +24,13 @@ def random_picture
 end
 
 def create_stories(user)
+  post_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/post_descriptions.txt").map! { |l| l.strip }
   min = 3
   max = 7
   rand(min..max).times do
     user.stories.create(
       title: Faker::Lorem.sentence(word_count: rand(1..6)),
-      description: Faker::Lorem.sentence(word_count: rand(15..50))
+      description: post_descriptions.sample
     )
   end
 end
