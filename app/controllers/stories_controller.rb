@@ -1,4 +1,5 @@
 class StoriesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:show, :index]
 
   def show
     @story = Story.includes(user: :avatar_attachment).find(params[:id])
