@@ -5,7 +5,13 @@
 
 #### Second phase are mostly improvements, optimization.
 
-### About the project:
+## Website address:
+
+## https://lifebooktest-vjde.onrender.com/
+#### render.com used for hosting
+#### May take up to a minute to make website active
+
+## About the project:
 * Jira used to keep track of the project
 * User accounts with devise, avatar attachment
 * Users can create posts with description and optional picture
