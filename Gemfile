@@ -84,3 +84,6 @@ gem 'bootstrap'
 gem "jquery-rails"
 
 gem "bigdecimal", "~> 3.1.6" # to get rid of a warning
+
+gem 'kaminari'
+
