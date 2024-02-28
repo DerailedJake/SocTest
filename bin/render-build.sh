@@ -3,6 +3,7 @@
 set -o errexit
 
 bundle install
+rails db:drop:_unsafe
 rails db:reset
 rails db:seed
 bundle exec rails assets:precompile
