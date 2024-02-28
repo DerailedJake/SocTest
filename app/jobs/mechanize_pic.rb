@@ -1,9 +1,10 @@
-require 'rubygems'
-require 'mechanize'
+
 
 this_fucking_code_should_work = false
 
 if this_fucking_code_should_work
+  require 'rubygems'
+  require 'mechanize'
   agent = Mechanize.new
 
   website_pages = [
