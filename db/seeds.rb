@@ -28,21 +28,24 @@ def create_stories(user)
   min = 3
   max = 7
   rand(min..max).times do
+    picture = random_picture
+    title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
     user.stories.create(
-      title: Faker::Lorem.sentence(word_count: rand(1..6)),
-      description: post_descriptions.sample
+      title: title,
+      description: post_descriptions
     )
   end
 end
 
 def create_posts(user)
+  post_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/post_descriptions.txt").map! { |l| l.strip }
   min = 15
   max = 40
   rand(min..max).times do
     picture = random_picture
     title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
     user.posts.create(
-      body: "#{title} #{Faker::Lorem.sentence(word_count: rand(4..25))}",
+      body: "#{title} #{post_descriptions.sample}",
       picture: picture
     )
   end
