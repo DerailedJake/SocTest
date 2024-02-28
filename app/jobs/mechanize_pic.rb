@@ -1,40 +1,44 @@
 require 'rubygems'
 require 'mechanize'
 
-agent = Mechanize.new
+this_fucking_code_should_work = false
 
-website_pages = [
-  'https://www.archdaily.com/category/landscape-architecture',
-  'https://www.archdaily.com/category/landscape-architecture/page/2',
-  'https://www.archdaily.com/category/landscape-architecture/page/3',
-  'https://www.archdaily.com/category/landscape-architecture/page/4'
-]
+if this_fucking_code_should_work
+  agent = Mechanize.new
 
-image_count = 1
+  website_pages = [
+    'https://www.archdaily.com/category/landscape-architecture',
+    'https://www.archdaily.com/category/landscape-architecture/page/2',
+    'https://www.archdaily.com/category/landscape-architecture/page/3',
+    'https://www.archdaily.com/category/landscape-architecture/page/4'
+  ]
 
-website_pages.each do |single_page|
-  page = agent.get(single_page)
+  image_count = 1
 
-  images = page.search(".afd-search-list__img")
+  website_pages.each do |single_page|
+    page = agent.get(single_page)
 
-  images_links = images.map{|i| i.attribute_nodes[1].value }
+    images = page.search(".afd-search-list__img")
 
-  images_links.map! { |s| s.sub('small_jpg', 'newsletter') }
+    images_links = images.map{|i| i.attribute_nodes[1].value }
 
-  titles_raw = page.search(".afd-search-list__title")
+    images_links.map! { |s| s.sub('small_jpg', 'newsletter') }
 
-  p images.count
+    titles_raw = page.search(".afd-search-list__title")
 
-  p titles_raw.count
+    p images.count
 
-  images.count.times do |i|
-    p 'kurwa :)'
-    sleep 0.5
-    titles = titles_raw.map { |t| t.children.first.text.strip }
-    titles.map! { |t| t.split('/')[0].strip }
-    title = titles[i - 1].gsub(/\s+/, "_")
+    p titles_raw.count
 
-    agent.get(images_links[i - 1]).save "app/assets/images/post_pictures/#{title}_#{image_count}_pic.jpeg"
-    image_count += 1
+    images.count.times do |i|
+      p 'kurwa :)'
+      sleep 0.5
+      titles = titles_raw.map { |t| t.children.first.text.strip }
+      titles.map! { |t| t.split('/')[0].strip }
+      title = titles[i - 1].gsub(/\s+/, "_")
+
+      agent.get(images_links[i - 1]).save "app/assets/images/post_pictures/#{title}_#{image_count}_pic.jpeg"
+      image_count += 1
+    end
   end
 end

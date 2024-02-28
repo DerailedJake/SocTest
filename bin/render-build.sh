@@ -3,7 +3,6 @@
 set -o errexit
 
 bundle install
-rails db:drop
 rails db:drop:_unsafe
 rails db:drop
 rails db:create
