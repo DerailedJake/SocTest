@@ -42,7 +42,9 @@
         <p class="lead">Join our vibrant community, where the extraordinary is celebrated, and every picture is a portal to a world of excitement waiting to be shared.</p>
       </div>
       <div class="col-md-5">
-        <%= image_tag @pictures.first.picture.representation(resize_to_limit: [500, 500]) %>
+        <% if @posts.first %>
+          <%= image_tag @posts.first.picture.representation(resize_to_limit: [500, 500]) %>
+        <% end %>
       </div>
     </div>
 
@@ -54,7 +56,9 @@
         <p class="lead">Embark on a visual journey like never before at our exhilarating website, where every click unveils a kaleidoscope of thrilling adventures and daily moments that captivate the soul.
       </div>
       <div class="col-md-5 order-md-1">
-        <%= image_tag @pictures.second.picture.representation(resize_to_limit: [500, 500]) %>
+        <% if @posts.second %>
+          <%= image_tag @posts.second.picture.representation(resize_to_limit: [500, 500]) %>
+        <% end %>
       </div>
     </div>
 
@@ -66,7 +70,9 @@
         <p class="lead">Immerse yourself in a tapestry of vivid images, each telling a unique story of exploration and joy, turning ordinary snapshots into extraordinary tales. </p>
       </div>
       <div class="col-md-5">
-        <%= image_tag @pictures.third.picture.representation(resize_to_limit: [500, 500]) %>
+        <% if @posts.third %>
+          <%= image_tag @posts.third.picture.representation(resize_to_limit: [500, 500]) %>
+        <% end %>
       </div>
     </div>
 
