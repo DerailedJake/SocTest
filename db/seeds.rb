@@ -39,7 +39,7 @@ def create_stories(user)
   rand(min..max).times do
     picture = random_picture
     title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
-    user.stories.create(
+    user.stories.create!(
       title: title,
       description: post_descriptions
     )
@@ -52,7 +52,7 @@ def create_posts(user)
   rand(min..max).times do
     picture = random_picture
     title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
-    user.posts.create(
+    user.posts.create!(
       body: "#{title} #{post_descriptions}",
       picture: picture
     )
@@ -68,7 +68,7 @@ def randomly_attach(user)
   end
 end
 
-user = User.create(
+user = User.create!(
   email: 'asdf@asdf.asdf',
   password: 'qwerqwer',
   password_confirmation: 'qwerqwer',
@@ -83,7 +83,7 @@ create_stories(user)
 randomly_attach(user)
 
 20.times do
-  user = User.create(
+  user = User.create!(
     email: Faker::Internet.email,
     password: 'qwerqwer',
     password_confirmation: 'qwerqwer',
