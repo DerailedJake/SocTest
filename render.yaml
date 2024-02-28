@@ -21,3 +21,5 @@ services:
         sync: false
       - key: WEB_CONCURRENCY
         value: 2 # sensible default
+      - key: DISABLE_DATABASE_ENVIRONMENT_CHECK
+        value: 1
