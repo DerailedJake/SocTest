@@ -50,9 +50,10 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rspec-rails'
   gem 'simplecov', require: false
-  gem 'faker'
   gem 'factory_bot_rails'
 end
+
+gem 'faker'
 
 group :development do
   # Use console on exceptions application [https://github.com/rails/web-console]
