@@ -40,7 +40,7 @@ end
 
 def create_stories(user)
   min = 3
-  max = 7
+  max = 15
   rand(min..max).times do
     picture = random_picture
     title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
@@ -52,8 +52,8 @@ def create_stories(user)
 end
 
 def create_posts(user)
-  min = 15
-  max = 40
+  min = 24
+  max = 60
   rand(min..max).times do
     picture = random_picture
     title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
@@ -69,7 +69,7 @@ def create_comments
   @users = User.all
   @posts.each do |post|
     min = 0
-    max = 6
+    max = 15
     rand(min..max).times do
       post.comments.create!(
         body: post_comment,
@@ -102,7 +102,7 @@ create_posts(user)
 create_stories(user)
 randomly_attach(user)
 
-20.times do
+40.times do
   user = User.create!(
     email: Faker::Internet.email,
     password: 'qwerqwer',
