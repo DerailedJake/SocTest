@@ -1,5 +1,5 @@
 <div class="col">
-  <div id="post-comments-<%= post.id %>" class="card" style="width: 18rem;">
+  <div id="post-<%= post.id %>" class="card" style="width: 18rem;">
     <% if post.picture.representable? %>
       <%= image_tag post.picture.representation(resize_to_fill: [286, 120]), style: "height: 180px" %>
     <% end %>
@@ -10,9 +10,10 @@
         <%= link_to author.full_name, profile_path(author) %>
       <% end %>
     </div>
-    <% post.comments.each do |com| %>
-      <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
-    <% end %>
-    <%= render partial: 'comments/new_comment', locals: { post: post, comment: post.comments.new } %>
+    <div id="post-comments-<%= post.id %>">
+      <% if post.comments.any? %>
+        <%= render partial: 'comments/comments', locals: { post: post, comments: post.comments.order("created_at DESC").page(1).per(3) } %>
+      <% end %>
+    </div>
   </div>
 </div>
