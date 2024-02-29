@@ -7,7 +7,7 @@
         <svg class="bd-placeholder-img rounded-circle" width="48" height="48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
       <% end %>
       <div class="ms-2 me-auto">
-        <div class="fw-bold"><%= link_to author.email, profile_path(author) %></div>
+        <div class="fw-bold"><%= link_to author.full_name, profile_path(author) %></div>
         <p><%= comment.body %></p>
       </div>
     </li>
