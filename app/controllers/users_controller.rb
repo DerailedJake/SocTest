@@ -5,11 +5,14 @@ class UsersController < ApplicationController
   before_action :set_user_stories, only: [:profile, :home]
 
   def index
-    @users = User.all
+    @users = User.all.with_attached_avatar.page(params[:page] || 1).per(6) || []
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def profile
-    @user = User.includes(posts: :picture_attachment).find(params[:id])
   end
 
   def home
