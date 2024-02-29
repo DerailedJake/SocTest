@@ -1,2 +1,6 @@
-$("<%= escape_javascript(render @comment, author: current_user) %>").insertAfter("#post-comments-<%= @comment.post.id %> .form-div");
-$(':input','#comment-form')[2].value = ''
+<% if @comment.errors.empty? %>
+  $("<%= escape_javascript(render @comment, author: current_user) %>").insertAfter("#post-comments-<%= @comment.post.id %> .form-div");
+  $(':input','#comment-form')[2].value = ''
+<% else %>
+$("<%= escape_javascript(render 'shared/flashes') %>").insertBefore("#main-body");
+<% end %>

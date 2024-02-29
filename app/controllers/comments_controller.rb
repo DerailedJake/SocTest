@@ -13,11 +13,12 @@ class CommentsController < ApplicationController
     @comment = current_user.comments.new(comment_params)
     respond_to do |format|
       if @comment.save
-        flash[:success] = "Comment created!"
+        flash.now[:success] = "Comment created!"
         format.js   {}
         format.json { render json: @comment, status: :created, location: @comment }
       else
         flash.now[:danger] = @comment.errors.full_messages.first
+        format.js   {}
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
