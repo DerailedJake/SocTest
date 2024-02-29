@@ -1,0 +1,10 @@
+<div id="user-list" class="px-lg-5 container">
+  <div class="px-lg-5 row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
+    <% users.each do |user| %>
+      <%= render partial: 'users/medium', locals: { user: user } %>
+    <% end %>
+  </div>
+  <div id="user-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+    <%= paginate users, window: 2, remote: true %>
+  </div>
+</div>
