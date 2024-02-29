@@ -5,6 +5,14 @@ class PostsController < ApplicationController
     @story_to_redirect = params[:story_to_redirect]
   end
 
+  def index
+    respond_to do |format|
+      format.js
+      format.html
+    end
+    @posts = user_posts(params[:user_id])
+  end
+
   def create
     @post = current_user.posts.new(post_params)
     @story_to_redirect = params[:post][:story_to_redirect]

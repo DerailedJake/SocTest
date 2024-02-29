@@ -8,12 +8,11 @@ class UsersController < ApplicationController
   def profile
     @user = User.includes(posts: :picture_attachment).find(params[:id])
     @stories = @user.stories
+    @posts = user_posts(@user.id)
   end
 
   def home
     @stories = current_user.stories
-    @posts = current_user.posts.with_attached_picture
-                         .includes({ comments: { user: { avatar_attachment: :blob } } })
-                         .page(params[:page] || 1).per(3) || []
+    @posts = user_posts(current_user.id)
   end
 end
