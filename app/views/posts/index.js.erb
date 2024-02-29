@@ -1,1 +1,1 @@
-$("#post-list").html("<%= escape_javascript(render partial: 'posts/posts', locals: { author: current_user, posts: @posts } ) %>")[0].scrollIntoView();
+$("#post-list").html("<%= escape_javascript(render partial: 'posts/posts', locals: { author: @user, posts: @posts } ) %>")[0].scrollIntoView();

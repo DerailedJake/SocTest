@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'users/profile/(:id)'=> 'users#profile', as: 'profile'
   get 'users/index'
 
+  get 'stories/user_stories'
 
   resources :posts, only: [:new, :edit, :create, :index]
 
