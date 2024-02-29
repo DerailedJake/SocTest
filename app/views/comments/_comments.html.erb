@@ -1,0 +1,11 @@
+<div class="pagination justify-content-center">
+  <%= link_to_previous_page comments, 'Newer comments', params: { controller: :comments, action: :index, post_id: post.id }, remote: true, class: 'page-link' %>
+  <%= link_to_next_page comments, 'Older comments', params: { controller: :comments, action: :index, post_id: post.id }, remote: true, class: 'page-link' %>
+</div>
+
+<%= render partial: 'comments/new_comment', locals: { post: post, comment: comments.new } %>
+
+<% comments.each do |com| %>
+  <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
+<% end %>
+
