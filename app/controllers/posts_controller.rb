@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :user_posts, only: [:index]
   def new
     p params
     @post = params[:post] ? Post.new(post_params) : Post.new
@@ -10,7 +11,6 @@ class PostsController < ApplicationController
       format.js
       format.html
     end
-    @posts = user_posts(params[:user_id])
   end
 
   def create
