@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
-  before_action :user_posts, only: [:index]
+  skip_before_action :authenticate_user!, only: [:index]
+  before_action :set_user, only: [:index]
+  before_action :set_user_posts, only: [:index]
   def new
     p params
     @post = params[:post] ? Post.new(post_params) : Post.new
@@ -9,7 +11,6 @@ class PostsController < ApplicationController
   def index
     respond_to do |format|
       format.js
-      format.html
     end
   end
 

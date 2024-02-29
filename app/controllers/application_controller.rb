@@ -6,15 +6,22 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :email, :avatar])
-    devise_parameter_sanitizer.permit(:account_update, keys:  [:username, :email, :avatar])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :email, :avatar])
   end
 
   private
 
-  def user_posts
-    @posts = User.find(params[:user_id] || current_user.id).posts.with_attached_picture
-             .includes({ comments: { user: { avatar_attachment: :blob } } })
-             .page(params[:page] || 1).per(3) || []
+  def set_user
+    @user = User.find(params[:user_id] || params[:id] || current_user.id)
+  end
+  def set_user_posts
+    @posts = @user.posts.with_attached_picture
+                 .includes({ comments: { user: { avatar_attachment: :blob } } })
+                 .page(params[:page] || 1).per(3) || []
   end
 
+  def set_user_stories
+    @stories = @user.stories
+                   .page(params[:page] || 1).per(3) || []
+  end
 end

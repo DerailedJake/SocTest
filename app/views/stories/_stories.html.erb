@@ -1,10 +1,10 @@
-<div class="container">
+<div id="story-list" class="container">
   <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
     <% stories.each do |story| %>
       <%= render partial: 'stories/story', locals: { author: author, story: story } %>
     <% end %>
   </div>
-  <div id="post-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
-    <% # paginate stories, params: { controller: :posts, action: :index, user_id: author.id }, window: 2, remote: true %>
+  <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+    <%= paginate stories, params: { controller: :stories, action: :user_stories, user_id: author.id }, window: 2, remote: true %>
   </div>
 </div>

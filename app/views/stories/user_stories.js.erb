@@ -1,0 +1,1 @@
+$("#story-list").html("<%= escape_javascript(render partial: 'stories/stories', locals: { author: @user, stories: @stories } ) %>")[0].scrollIntoView();

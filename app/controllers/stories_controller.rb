@@ -1,5 +1,7 @@
 class StoriesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show, :index]
+  skip_before_action :authenticate_user!, only: [:show, :index, :user_stories]
+  before_action :set_user, only: [:user_stories]
+  before_action :set_user_stories, only: [:user_stories]
 
   def show
     @story = Story.includes(user: :avatar_attachment).find(params[:id])
@@ -7,6 +9,12 @@ class StoriesController < ApplicationController
   end
   def new
     @story = Story.new(user: current_user)
+  end
+
+  def user_stories
+    respond_to do |format|
+      format.js
+    end
   end
 
   def index
