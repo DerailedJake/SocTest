@@ -10,6 +10,6 @@ class Post < ApplicationRecord
   end
 
   def latest_comments
-    comments.order("created_at DESC").includes(user: :avatar_attachment).page(1).per(5)
+    comments.order("created_at DESC").includes(user: :avatar_attachment).page(1).per(3)
   end
 end
