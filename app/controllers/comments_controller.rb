@@ -1,9 +1,10 @@
 class CommentsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index]
 
   def index
     @post = Post.find(params[:post_id])
-    @comments = @post.comments.order("created_at DESC")
-                              .page(params[:page] || 1).per(3)
+    @comments = @post.comments.includes(user: :avatar_attachment).order("created_at DESC")
+                     .page(params[:page] || 1).per(5)
     respond_to do |format|
       format.js
     end

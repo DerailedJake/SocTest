@@ -16,7 +16,6 @@ class ApplicationController < ActionController::Base
   end
   def set_user_posts
     @posts = @user.posts.with_attached_picture
-                  .includes({ comments: { user: { avatar_attachment: :blob } } })
                   .page(params[:page] || 1).per(3) || []
   end
 

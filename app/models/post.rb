@@ -4,7 +4,12 @@ class Post < ApplicationRecord
   validates :body, presence: true, length: { minimum: 10 }
   has_one_attached :picture
   has_many :comments, dependent: :destroy
+
   def short_description
     body.truncate(30)
+  end
+
+  def latest_comments
+    comments.order("created_at DESC").includes(user: :avatar_attachment).page(1).per(5)
   end
 end
