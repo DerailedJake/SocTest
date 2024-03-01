@@ -2,9 +2,12 @@
 <%= render partial: 'users/big', locals: { user: current_user } %>
 
 <div class="col-lg-6 col-md-8 mx-auto text-center">
-  <% if current_user %>
-    <%= link_to "Edit profile", edit_user_registration_path, class: "btn btn-primary my-2" %>
+  <% if current_user.description.empty? %>
+    <div class="text-center">
+      <p class="mb-3 fw-normal">Your profile seems empty, do something about it! </p>
+    </div>
   <% end %>
+  <%= link_to "Edit profile", edit_user_registration_path, class: "btn btn-primary my-2" %>
 </div>
 <hr class="featurette-divider">
 
