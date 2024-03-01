@@ -1,9 +1,12 @@
 <div class="col">
   <div id="post-<%= post.id %>" class="card" style="width: 18rem;">
     <% if post.picture.representable? %>
-      <%= image_tag post.picture.representation(resize_to_fill: [286, 120]), style: "height: 180px" %>
-    <% end %>
+      <%= image_tag post.picture.representation(resize_to_fill: [286, 180]), style: "height: 180px"%>
+      <div style="position: absolute; width: 286px; height: 180px;" data-bs-toggle="popover"
+           data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">
+      </div>
 
+  <% end %>
     <div class="card-body">
       <p class="card-text"><%= post.body %></p>
       <% if author != current_user %>
