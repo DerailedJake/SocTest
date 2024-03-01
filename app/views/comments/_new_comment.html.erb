@@ -1,6 +1,6 @@
 <div class="col form-div">
   <div class="input">
-    <%= form_with model: comment, id: 'comment-form', local: false do |f| %>
+    <%= form_with model: comment, id: "comment-form-#{comment.post.id}", local: false do |f| %>
       <div class="input-group">
         <%= f.hidden_field 'post_id', value: post.id %>
         <%= f.text_field :body, value: comment.body, class: "form-control rounded-corner", placeholder: "Write a comment..." %>
