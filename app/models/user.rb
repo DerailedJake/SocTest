@@ -8,6 +8,10 @@ class User < ApplicationRecord
   has_many :stories, dependent: :destroy
   has_many :comments, dependent: :destroy
 
+  validates :first_name, presence: true, length: { minimum: 1, maximum: 20 }
+  validates :last_name, presence: true, length: { minimum: 1, maximum: 20 }
+  validates :description, length: { minimum: 1, maximum: 240 }
+
   def full_name
     "#{first_name} #{last_name}"
   end
