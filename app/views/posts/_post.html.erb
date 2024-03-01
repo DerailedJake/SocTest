@@ -12,7 +12,7 @@
     </div>
     <div id="post-comments-<%= post.id %>">
       <% if post.comments.any? %>
-        <%= render partial: 'comments/comments', locals: { post: post, comments: post.comments.order("created_at DESC").page(1).per(3) } %>
+        <%= render partial: 'comments/comments', locals: { post: post, comments: post.latest_comments } %>
       <% end %>
     </div>
   </div>
