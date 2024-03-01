@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   def index
     @post = Post.find(params[:post_id])
     @comments = @post.comments.includes(user: :avatar_attachment).order("created_at DESC")
-                     .page(params[:page] || 1).per(5)
+                     .page(params[:page] || 1).per(3)
     respond_to do |format|
       format.js
     end
