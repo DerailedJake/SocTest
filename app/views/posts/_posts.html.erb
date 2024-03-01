@@ -1,10 +1,22 @@
 <div id="post-list" class="container">
-  <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
+  <% if posts.any? %>
+  <div id="post-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+    <%= paginate posts, params: { controller: :posts, action: :index, user_id: author.id }, window: 2, remote: true %>
+  </div>
+  <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3 justify-content-md-center">
     <% posts.each do |post| %>
       <%= render partial: 'posts/post', locals: { author: author, post: post } %>
     <% end %>
   </div>
-  <div id="post-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
-    <%= paginate posts, params: { controller: :posts, action: :index, user_id: author.id }, window: 2, remote: true %>
-  </div>
+  <% else %>
+    <div class="py-lg-4 col-lg-6 col-md-8 mx-auto">
+      <div class="text-center">
+        <h2 class="h3 mb-3 fw-normal">No posts here!</h2>
+        <% if current_user == author %>
+          <%= link_to "Make a new post", new_post_path, class: "btn btn-primary my-2" %>
+        <% end %>
+      </div><br />
+    </div>
+  <% end %>
 </div>
+

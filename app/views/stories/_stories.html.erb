@@ -1,10 +1,21 @@
 <div id="story-list" class="container">
-  <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
-    <% stories.each do |story| %>
-      <%= render partial: 'stories/story', locals: { author: author, story: story } %>
-    <% end %>
-  </div>
-  <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
-    <%= paginate stories, params: { controller: :stories, action: :user_stories, user_id: author.id }, window: 2, remote: true %>
-  </div>
+  <% if stories.any? %>
+    <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+      <%= paginate stories, params: { controller: :stories, action: :user_stories, user_id: author.id }, window: 2, remote: true %>
+    </div>
+    <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3 justify-content-md-center">
+      <% stories.each do |story| %>
+        <%= render partial: 'stories/story', locals: { author: author, story: story } %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="py-lg-4 col-lg-6 col-md-8 mx-auto">
+      <div class="text-center">
+        <h2 class="h3 mb-3 fw-normal">No stories here!</h2>
+        <% if current_user == author %>
+          <%= link_to "Make a story", new_story_path, class: "btn btn-primary my-2" %>
+        <% end %>
+      </div><br />
+    </div>
+  <% end %>
 </div>
