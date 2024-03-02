@@ -1,12 +1,20 @@
 <div class="col">
-  <div id="post-<%= post.id %>" class="card" style="width: 18rem;">
+  <div id="post-<%= post.id %>" class="card post-buttons-parent" style="width: 18rem; min-height: 8rem">
+    <div class="post-buttons-container justify-content-between align-items-center"
+         style="position: absolute; width: 18rem">
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-primary">View post</button>
+      </div>
+      <% if current_user == author %>
+        <div class="btn-group">
+          <button type="button" class="btn btn-sm btn-secondary">Edit</button>
+          <button type="button" class="btn btn-sm btn-secondary">Delete</button>
+        </div>
+      <% end %>
+    </div>
     <% if post.picture.representable? %>
       <%= image_tag post.picture.representation(resize_to_fill: [286, 180]), style: "height: 180px"%>
-      <div style="position: absolute; width: 286px; height: 180px;" data-bs-toggle="popover" data-bs-trigger="hover focus"
-           data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">
-      </div>
-
-  <% end %>
+    <% end %>
     <div class="card-body">
       <p class="card-text"><%= post.body %></p>
       <% if author != current_user %>
