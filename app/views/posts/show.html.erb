@@ -5,18 +5,6 @@
 
   <div class="col">
     <div id="post-<%= @post.id %>" class="card post-buttons-parent">
-      <div class="post-buttons-container justify-content-between align-items-center"
-           style="position: absolute; width: 18rem">
-        <div class="btn-group">
-          <%= link_to "View post", post_path(@post.id), class:"btn btn-sm btn-primary" %>
-        </div>
-        <% if current_user == @user %>
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-secondary">Edit</button>
-            <button type="button" class="btn btn-sm btn-secondary">Delete</button>
-          </div>
-        <% end %>
-      </div>
       <% if @post.picture.representable? %>
         <%= image_tag @post.picture %>
       <% end %>
