@@ -1,1 +1,2 @@
-$("#post-list").html("<%= escape_javascript(render partial: 'posts/posts', locals: { author: @user, posts: @posts } ) %>")[0].scrollIntoView();
+$("#post-list").replaceWith("<%= escape_javascript(render partial: 'posts/posts', locals: { author: @user, posts: @posts } ) %>");
+$("#post-list")[0].scrollIntoView();

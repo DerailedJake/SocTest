@@ -1,5 +1,5 @@
 <div id="user-list" class="px-lg-5 container">
-  <div class="px-lg-5 row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
+  <div class="px-lg-5 row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
     <% users.each do |user| %>
       <%= render partial: 'users/medium', locals: { user: user } %>
     <% end %>
