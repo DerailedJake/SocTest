@@ -1,6 +1,7 @@
+<% per_page ||= 3 %>
 <div class="pagination justify-content-center">
-  <%= link_to_previous_page comments, 'Newer comments', params: { controller: :comments, action: :index, post_id: post.id }, remote: true, class: 'page-link' %>
-  <%= link_to_next_page comments, 'Older comments', params: { controller: :comments, action: :index, post_id: post.id }, remote: true, class: 'page-link' %>
+  <%= link_to_previous_page comments, 'Newer comments', params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page }, remote: true, class: 'page-link' %>
+  <%= link_to_next_page comments, 'Older comments', params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page }, remote: true, class: 'page-link' %>
 </div>
 
 <% if current_user %>

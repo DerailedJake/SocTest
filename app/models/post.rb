@@ -9,7 +9,7 @@ class Post < ApplicationRecord
     body.truncate(30)
   end
 
-  def latest_comments
-    comments.order("created_at DESC").includes(user: :avatar_attachment).page(1).per(3)
+  def latest_comments(number_of_comm = 3)
+    comments.order("created_at DESC").includes(user: :avatar_attachment).page(1).per(number_of_comm)
   end
 end

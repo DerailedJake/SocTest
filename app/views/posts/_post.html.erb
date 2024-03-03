@@ -3,7 +3,7 @@
     <div class="post-buttons-container justify-content-between align-items-center"
          style="position: absolute; width: 18rem">
       <div class="btn-group">
-        <button type="button" class="btn btn-sm btn-primary">View post</button>
+        <%= link_to "View post", post_path(post.id), class:"btn btn-sm btn-primary" %>
       </div>
       <% if current_user == author %>
         <div class="btn-group">
@@ -22,7 +22,7 @@
       <% end %>
     </div>
     <div id="post-comments-<%= post.id %>">
-    <%= render partial: 'comments/comments', locals: { post: post, comments: post.latest_comments } %>
+      <%= render partial: 'comments/comments', locals: { post: post, comments: post.latest_comments } %>
     </div>
   </div>
 </div>

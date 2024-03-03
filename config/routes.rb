@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   get 'stories/user_stories'
 
-  resources :posts, only: [:new, :edit, :create, :index]
+  resources :posts, only: [:new, :edit, :create, :index, :show]
 
   resources :stories
 

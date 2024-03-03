@@ -1,0 +1,12 @@
+<div class="post-buttons-container justify-content-between align-items-center"
+     style="position: absolute;">
+  <div class="btn-group">
+    <%= link_to "View post", post_path(post.id), class:"btn btn-sm btn-primary" %>
+  </div>
+  <% if current_user == post.user %>
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-secondary">Edit</button>
+      <button type="button" class="btn btn-sm btn-secondary">Delete</button>
+    </div>
+  <% end %>
+</div>
