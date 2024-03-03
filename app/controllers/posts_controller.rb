@@ -14,6 +14,13 @@ class PostsController < ApplicationController
     end
   end
 
+  def show
+    @post = Post.find(params[:id])
+    @user = @post.user
+    @stories = @post.stories.page(1).per(3)
+    @comments = @post.comments.page(1).per(12)
+  end
+
   def create
     @post = current_user.posts.new(post_params)
     @story_to_redirect = params[:post][:story_to_redirect]

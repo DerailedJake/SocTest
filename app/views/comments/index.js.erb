@@ -1,1 +1,1 @@
-$("#post-comments-<%= @post.id %>").html("<%= escape_javascript(render partial: 'comments/comments', locals: { post: @post, comments: @comments } ) %>")[0].scrollIntoView();
+$("#post-comments-<%= @post.id %>").html("<%= escape_javascript(render partial: 'comments/comments', locals: { post: @post, comments: @comments, per_page: @per_page } ) %>")[0].scrollIntoView();
