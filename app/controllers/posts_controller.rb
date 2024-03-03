@@ -9,8 +9,26 @@ class PostsController < ApplicationController
   end
 
   def index
+    @page = params[:page] || 1
+    @page = @page.to_i
+    @story = Story.find(params[:story_id])
+    @total_pages = @story.posts.page(@page).per(1).total_pages
+    p '@total_pages'
+    p '@total_pages'
+    p '@total_pages'
+    p '@total_pages'
+    @posts = @story.posts.page(@page).per(1)
+    p @page
+    p @total_pages
+    p @story
+    p @posts
+    p '@total_pages'
+    p '@total_pages'
+    p '@total_pages'
+    p '@total_pages'
     respond_to do |format|
       format.js
+      format.html
     end
   end
 

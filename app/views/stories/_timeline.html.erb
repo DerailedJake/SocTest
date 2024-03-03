@@ -1,38 +1,15 @@
 <div class="container">
-  <ul class="timeline">
-    <% posts.each do |post| %>
+  <%= turbo_frame_tag(:timeline_posts_container, class: "timeline" ) do %>
+      <%= turbo_frame_tag([:posts, 1], class: "turbo-timeline timeline", target:"_top",
+                          src: posts_path(story_id: @story.id, page_size: 1, page: 1))  do %>
+        <!-- Skeleton Loading Indicator -->
       <li>
-        <!-- timeline-time -->
-        <div class="timeline-time">
-          <span class="date"><%= day_created(post) %></span>
-          <span class="time"><%= hour_created(post) %></span>
-        </div>
-        <!-- timeline-icon -->
-        <div class="timeline-icon">
-          <a href="javascript:;">&nbsp;</a>
-        </div>
-        <!-- timeline-body -->
         <div class="timeline-body post-buttons-parent">
-          <div class="post-button-offset">
-            <%= render partial: 'posts/buttons', locals: { post: post } %>
-          </div>
-          <% if post.picture.representable? %>
-            <div class="timeline-header">
-                <%= image_tag post.picture%>
-            </div>
-          <% end %>
           <div class="timeline-content">
-            <p style="margin-bottom: 0">
-              <%= post.body %>
-            </p>
-          </div>
-          <div id="post-comments-<%= post.id %>">
-            <% if post.comments.any? %>
-              <%= render partial: 'comments/comments', locals: { post: post, comments: post.latest_comments } %>
-            <% end %>
+            <h1 class="lead text-body-secondary">Posts loading...</h1>
           </div>
         </div>
       </li>
-    <% end %>
-  </ul>
+      <% end %>
+  <% end %>
 </div>

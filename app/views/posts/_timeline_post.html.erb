@@ -1,0 +1,32 @@
+<li>
+  <!-- timeline-time -->
+  <div class="timeline-time">
+    <span class="date"><%= day_created(post) %></span>
+    <span class="time"><%= hour_created(post) %></span>
+  </div>
+  <!-- timeline-icon -->
+  <div class="timeline-icon">
+    <a href="javascript:;">&nbsp;</a>
+  </div>
+  <!-- timeline-body -->
+  <div class="timeline-body post-buttons-parent">
+    <div class="post-button-offset">
+      <%= render partial: 'posts/buttons', locals: { post: post } %>
+    </div>
+    <% if post.picture.representable? %>
+      <div class="timeline-header">
+        <%= image_tag post.picture%>
+      </div>
+    <% end %>
+    <div class="timeline-content">
+      <p style="margin-bottom: 0">
+        <%= post.body %>
+      </p>
+    </div>
+    <div id="post-comments-<%= post.id %>">
+      <% if post.comments.any? %>
+        <%= render partial: 'comments/comments', locals: { post: post, comments: post.latest_comments } %>
+      <% end %>
+    </div>
+  </div>
+</li>

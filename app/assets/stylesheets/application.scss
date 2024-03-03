@@ -14,6 +14,9 @@
  *= require_self
  */
 @import "bootstrap";
+.turbo-timeline:before {
+  content: none !important;
+}
 .post-button-offset{
   position: absolute;
   width: calc(100% - 50px);
