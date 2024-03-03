@@ -14,7 +14,9 @@
         <!-- timeline-body -->
         <div class="timeline-body post-buttons-parent">
           <% if post.picture.representable? %>
-            <div class="mg"><%= render partial: 'posts/buttons', locals: { post: post } %></div>
+            <div class="post-button-offset">
+              <%= render partial: 'posts/buttons', locals: { post: post } %>
+            </div>
             <div class="timeline-header">
                 <%= image_tag post.picture%>
             </div>

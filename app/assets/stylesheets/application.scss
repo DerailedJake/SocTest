@@ -14,6 +14,10 @@
  *= require_self
  */
 @import "bootstrap";
+.post-button-offset{
+  position: absolute;
+  width: calc(100% - 50px);
+}
 .post-buttons-parent .post-buttons-container {
   display: none;
 }
