@@ -51,6 +51,17 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    @post = current_user.posts.find(params[:id])
+    if @post.destroy
+      flash[:success] = 'Post removed'
+      redirect_to root_path
+    else
+      flash[:danger] = @post.errors.full_messages.first
+      redirect_to edit_post_path(@post)
+    end
+  end
+
   private
 
   def post_params
