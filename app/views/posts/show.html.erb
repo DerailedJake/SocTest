@@ -2,6 +2,14 @@
   <%= render partial: 'users/big', locals: { user: @user } %>
 
   <hr class="featurette-divider">
+  <% if current_user == @user %>
+    <div class="d-flex justify-content-center">
+      <%= link_to 'Edit post', edit_post_path(@post), class: 'btn btn-primary', style: 'width: 50%' %>
+    </div><br />
+    <div class="d-flex justify-content-center">
+      <%= link_to 'Delete post', post_path(@post), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger', style: 'width: 50%' %>
+    </div><br />
+  <% end %>
 
   <div class="col">
     <div id="post-<%= @post.id %>" class="card post-buttons-parent">

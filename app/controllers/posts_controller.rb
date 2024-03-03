@@ -38,6 +38,17 @@ class PostsController < ApplicationController
   end
 
   def edit
+    @post = current_user.posts.find(params[:id])
+  end
+
+  def update
+    @post = current_user.posts.find(params[:id])
+    if @post.update(post_params)
+      redirect_to post_path(@post)
+    else
+      flash[:danger] = @post.errors.full_messages.first
+      redirect_to edit_post_path(@post)
+    end
   end
 
   private

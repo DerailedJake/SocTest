@@ -5,7 +5,7 @@
   </div>
   <% if current_user == post.user %>
     <div class="btn-group">
-      <button type="button" class="btn btn-sm btn-secondary">Edit</button>
+      <%= link_to "Edit", edit_post_path(post.id), class: "btn btn-sm btn-secondary" %>
       <button type="button" class="btn btn-sm btn-secondary">Delete</button>
     </div>
   <% end %>
