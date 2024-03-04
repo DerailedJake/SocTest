@@ -9,6 +9,9 @@ require 'rspec/rails'
 require 'spec_helper'
 require 'support/devise'
 require 'support/factory_bot'
+require 'capybara/rails'
+require 'simplecov'
+SimpleCov.start
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
