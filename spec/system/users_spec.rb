@@ -1,4 +1,11 @@
 require 'rails_helper'
+RSpec.shared_examples 'visit user page' do
+  it 'successfully renders user page' do
+    expect(page).to have_content(target_user.full_name)
+    expect(page).to have_content(target_user.stories.last.title)
+    expect(page).to have_content(target_user.posts.last.body)
+  end
+end
 
 RSpec.describe "Users", type: :system do
   before do
@@ -11,17 +18,14 @@ RSpec.describe "Users", type: :system do
         login_as(@current_user)
         @story = @current_user.stories.last
         @post = @current_user.posts.last
+        visit users_home_path
       end
 
-      it 'returns a success response' do
-        visit users_home_path
-        expect(page).to have_content(@current_user.full_name)
-        expect(page).to have_content(@story.title)
-        expect(page).to have_content(@post.body)
+      include_examples 'visit user page' do
+        let(:target_user) { @current_user }
       end
 
       it 'has working pagination of stories' do
-        visit users_home_path
         within('#story-pagination') do
           click_link('3')
         end
@@ -29,7 +33,6 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'has working pagination of posts' do
-        visit users_home_path
         within('#post-pagination') do
           click_link('3')
         end
@@ -49,7 +52,7 @@ RSpec.describe "Users", type: :system do
     end
 
     context 'when logged out' do
-      it 'returns a success response' do
+      it 'redirects to log in' do
         visit users_home_path
         expect(page).to have_content 'Log in'
       end
@@ -62,18 +65,15 @@ RSpec.describe "Users", type: :system do
       login_as(@current_user)
       @story = @user.stories.last
       @post = @user.posts.last
+      visit profile_path(@user)
     end
 
     context 'when logged in' do
-      it 'returns a success response' do
-        visit profile_path(@user)
-        expect(page).to have_content(@user.full_name)
-        expect(page).to have_content(@story.title)
-        expect(page).to have_content(@post.body)
+      include_examples 'visit user page' do
+        let(:target_user) { @user }
       end
 
       it 'has working pagination of stories' do
-        visit profile_path(@user)
         within('#story-pagination') do
           click_link('3')
         end
@@ -81,7 +81,6 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'has working pagination of posts' do
-        visit profile_path(@user)
         within('#post-pagination') do
           click_link('3')
         end
@@ -101,11 +100,11 @@ RSpec.describe "Users", type: :system do
     end
 
     context 'when logged out' do
-      it 'returns a success response' do
+      before do
         visit profile_path(@user)
-        expect(page).to have_content(@user.full_name)
-        expect(page).to have_content(@story.title)
-        expect(page).to have_content(@post.body)
+      end
+      include_examples 'visit user page' do
+        let(:target_user) { @user }
       end
     end
   end
@@ -115,10 +114,10 @@ RSpec.describe "Users", type: :system do
       before do
         login_as @current_user
         12.times { User.create!(attributes_for(:user)) }
+        visit users_index_path
       end
 
       it 'opens users list' do
-        visit users_index_path
         expect(page).to have_content(User.first.full_name)
         expect(page).to have_content(User.first.description)
         expect(page).to have_content(User.third.full_name)
@@ -126,7 +125,6 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'has working pagination of users' do
-        visit users_index_path
         within('#user-pagination') do
           click_link('3')
         end
@@ -135,7 +133,6 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'opens profile when clicked' do
-        visit users_index_path
         within('#user-pagination') do
           click_link('3')
         end
@@ -148,16 +145,15 @@ RSpec.describe "Users", type: :system do
     context 'when logged out' do
       before do
         12.times { User.create!(attributes_for(:user)) }
+        visit users_index_path
       end
 
       it 'opens users list' do
-        visit users_index_path
         expect(page).to have_content(User.first.full_name)
         expect(page).to have_content(User.first.description)
       end
 
       it 'has working pagination of users' do
-        visit users_index_path
         within('#user-pagination') do
           click_link('3')
         end
@@ -166,7 +162,6 @@ RSpec.describe "Users", type: :system do
       end
 
       it 'opens profile when clicked' do
-        visit users_index_path
         within('#user-pagination') do
           click_link('3')
         end
