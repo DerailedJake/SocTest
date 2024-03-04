@@ -8,7 +8,7 @@
     <% if @page < @total_pages %>
       <!-- Set up the next frame to load when it comes into view -->
       <%= turbo_frame_tag([:posts, @page + 1], class: "turbo-timeline timeline", target:"_top",
-                          src: posts_path(story_id: @story.id, page: @page + 1, page_size: 1), loading: :lazy) do %>
+                          src: stories_timeline_path(story_id: @story.id, page: @page + 1, page_size: 1), loading: :lazy) do %>
         <!-- Skeleton Loading Indicator -->
         <li>
           <div class="timeline-body post-buttons-parent">

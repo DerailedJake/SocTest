@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'stories/user_stories'
 
+  get 'stories/timeline'
+
   resources :posts
 
   resources :stories

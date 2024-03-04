@@ -11,6 +11,14 @@ class StoriesController < ApplicationController
     @story = Story.new(user: current_user)
   end
 
+  def timeline
+    @page = params[:page] || 1
+    @page = @page.to_i
+    @story = Story.find(params[:story_id])
+    @total_pages = @story.posts.page(@page).per(1).total_pages
+    @posts = @story.posts.page(@page).per(1)
+  end
+
   def user_stories
     respond_to do |format|
       format.js
