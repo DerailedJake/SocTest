@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :set_user_stories, only: [:profile, :home]
 
   def index
-    @users = User.all.with_attached_avatar.page(params[:page] || 1).per(6) || []
+    @users = User.all.order('created_at ASC').with_attached_avatar.page(params[:page] || 1).per(6) || []
     respond_to do |format|
       format.html
       format.js
