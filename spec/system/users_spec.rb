@@ -139,7 +139,9 @@ RSpec.describe "Users", type: :system do
         within('#user-pagination') do
           click_link('3')
         end
+        click_link('Open profile')
         expect(page).to have_content(User.last.full_name)
+        expect(page).to have_content('has no stories')
       end
     end
 
@@ -168,7 +170,9 @@ RSpec.describe "Users", type: :system do
         within('#user-pagination') do
           click_link('3')
         end
+        click_link('Open profile')
         expect(page).to have_content(User.last.full_name)
+        expect(page).to have_content('has no stories')
       end
     end
   end
