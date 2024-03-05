@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'show post' do
+  before do
+    visit post_path(target_post)
+  end
   it 'shows post' do
     if show_buttons
       expect(page).to have_content('Edit post')
@@ -12,7 +15,13 @@ RSpec.shared_examples 'show post' do
     expect(page).to have_content(target_post.user.full_name)
     expect(page).to have_content(target_post.body)
     if has_stories
+      expect(page).to have_content('Connected stories:')
       expect(page).to have_content(target_post.stories.first.title)
+      within('#story-pagination') do
+        click_link('3')
+      end
+      expect(page).to have_content('Connected stories:')
+      expect(page).to have_content(target_post.stories.last.title)
     else
       expect(page).to have_content('No connected stories!')
     end
@@ -40,9 +49,6 @@ RSpec.describe 'Posts', type: :system do
 
       context 'on owned post' do
         context 'without stories' do
-          before do
-            visit post_path(@post)
-          end
           include_examples 'show post' do
             let(:target_post) { @post }
             let(:show_buttons) { true }
@@ -50,9 +56,6 @@ RSpec.describe 'Posts', type: :system do
           end
         end
         context 'with stories' do
-          before do
-            visit post_path(@post_with_stories)
-          end
           include_examples 'show post' do
             let(:target_post) { @post_with_stories }
             let(:show_buttons) { true }
@@ -62,20 +65,14 @@ RSpec.describe 'Posts', type: :system do
       end
 
       context 'on someone elses post' do
-        context 'with stories' do
-          before do
-            visit post_path(@second_post)
-          end
+        context 'without stories' do
           include_examples 'show post' do
             let(:target_post) { @second_post }
             let(:show_buttons) { false }
             let(:has_stories) { false }
           end
         end
-        context 'without stories' do
-          before do
-            visit post_path(@another_post_with_stories)
-          end
+        context 'with stories' do
           include_examples 'show post' do
             let(:target_post) { @another_post_with_stories }
             let(:show_buttons) { false }
@@ -86,14 +83,19 @@ RSpec.describe 'Posts', type: :system do
     end
 
     context 'when logged out' do
-      before do
-        visit post_path(@post)
+      context 'without stories' do
+        include_examples 'show post' do
+          let(:target_post) { @post }
+          let(:show_buttons) { false }
+          let(:has_stories) { false }
+        end
       end
-      it 'shows post without buttons' do
-        expect(page).not_to have_content('Edit post')
-        expect(page).not_to have_content('Delete post')
-        expect(page).to have_content(@post.user.full_name)
-        expect(page).to have_content(@post.body)
+      context 'with stories' do
+        include_examples 'show post' do
+          let(:target_post) { @post_with_stories }
+          let(:show_buttons) { false }
+          let(:has_stories) { true }
+        end
       end
     end
   end
