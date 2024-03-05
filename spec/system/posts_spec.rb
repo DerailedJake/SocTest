@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'show post' do
+  # target_post show_buttons has_stories
   before do
     visit post_path(target_post)
   end
@@ -24,6 +25,29 @@ RSpec.shared_examples 'show post' do
       expect(page).to have_content(target_post.stories.last.title)
     else
       expect(page).to have_content('No connected stories!')
+    end
+  end
+end
+
+RSpec.shared_examples 'update post' do
+  # target_post has_stories stories[]
+  it 'shows updated post' do
+    click_on 'Update'
+    expect(page).to have_current_path(post_path(target_post))
+    if has_stories
+      expect(page).to have_content('Connected stories:')
+    else
+      expect(page).to have_content('No connected stories!')
+    end
+
+    if has_stories
+      expect(page).to have_content(stories[0].title)
+      expect(page).to have_content(stories[1].title)
+      expect(page).to have_content(stories[2].title)
+    else
+      expect(page).not_to have_content(stories[0].title)
+      expect(page).not_to have_content(stories[1].title)
+      expect(page).not_to have_content(stories[2].title)
     end
   end
 end
@@ -185,6 +209,86 @@ RSpec.describe 'Posts', type: :system do
       it 'should redirect to log in' do
         visit edit_post_path(@current_user.posts.last)
         expect(page).to have_content 'Log in'
+      end
+    end
+  end
+
+  describe 'Updating post' do
+    before do
+      login_as(@current_user)
+      @valid_post_body = 'New valid post body'
+      @post = @current_user.posts.last
+      @valid_post_picture = "#{Rails.root}/app/assets/images/post_pictures/Bamboo_Cloud_45_pic.jpeg"
+      @first_story = @current_user.stories.first
+      @second_story = @current_user.stories.second
+      @third_story = @current_user.stories.third
+    end
+    context 'with valid params' do
+      before do
+        visit edit_post_path(@post)
+      end
+      it 'updates picture' do
+        attach_file 'post[picture]', @valid_post_picture
+        click_on 'Update'
+        expect(page).to have_current_path(post_path(@post))
+        updated_image_src = @valid_post_picture.split('/').last
+        image_src = page.find("#post-#{@post.id} img")['src'].split('/').last
+        expect(image_src).to eql(updated_image_src)
+      end
+      it 'removes picture' do
+        attach_file 'post[picture]', @valid_post_picture
+        click_on 'Update'
+        expect(page).to have_current_path(post_path(@post))
+        expect(page).not_to have_selector("#post-#{@post.id} img")
+      end
+      it 'updates body' do
+        fill_in 'post[body]', with: @valid_post_body
+        click_on 'Update'
+        expect(page).to have_content(@valid_post_body)
+      end
+    end
+
+    context 'when post has stories' do
+      before do
+        @post.update!(story_ids: [@first_story.id, @second_story.id])
+        visit edit_post_path(@post)
+      end
+      context 'connects new stories' do
+        before do
+          check 'post[story_ids][]', id: "post_story_ids_#{@third_story.id}"
+        end
+        include_examples 'update post' do
+          let(:target_post) { @post }
+          let(:has_stories) { true }
+          let(:stories) { [@first_story, @second_story, @third_story] }
+        end
+
+      end
+      context 'removes connected stories' do
+        before do
+          uncheck 'post[story_ids][]', id: "post_story_ids_#{@first_story.id}"
+          uncheck 'post[story_ids][]', id: "post_story_ids_#{@second_story.id}"
+        end
+        include_examples 'update post' do
+          let(:target_post) { @post }
+          let(:has_stories) { false }
+          let(:stories) { [@first_story, @second_story, @third_story] }
+        end
+      end
+    end
+
+    context 'when post has no stories' do
+      before do
+        @post.update!(story_ids: [])
+        visit edit_post_path(@post)
+        check 'post[story_ids][]', id: "post_story_ids_#{@first_story.id}"
+        check 'post[story_ids][]', id: "post_story_ids_#{@second_story.id}"
+        check 'post[story_ids][]', id: "post_story_ids_#{@third_story.id}"
+      end
+      include_examples 'update post' do
+        let(:target_post) { @post }
+        let(:has_stories) { true }
+        let(:stories) { [@first_story, @second_story, @third_story] }
       end
     end
   end
