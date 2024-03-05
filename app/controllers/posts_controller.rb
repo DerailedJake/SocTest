@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
+  skip_before_action :authenticate_user!, only: [:show, :index]
   before_action :set_user, only: [:index]
   before_action :set_user_posts, only: [:index]
   def new
@@ -23,14 +23,10 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.new(post_params)
-    @story_to_redirect = params[:post][:story_to_redirect]
+    @story_to_redirect = params[:post][:story_to_redirect] # temporarily out of service
     if @post.save
       flash[:success] = "Post created!"
-      if @story_to_redirect
-        redirect_to story_path(current_user.stories.find(@story_to_redirect))
-      else
-        redirect_to root_path
-      end
+      redirect_to post_path(@post)
     else
       flash[:danger] = @post.errors.full_messages.first
       render 'new', status: 422

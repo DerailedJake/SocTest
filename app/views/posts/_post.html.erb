@@ -2,7 +2,7 @@
   <div id="post-<%= post.id %>" class="card post-buttons-parent" style="width: 18rem; min-height: 8rem">
     <%= render partial: 'posts/buttons', locals: { post: post } %>
     <% if post.picture.representable? %>
-      <%= image_tag post.picture.representation(resize_to_fill: [286, 180]), style: "height: 180px"%>
+      <%= image_tag post.picture.representation(resize_to_fill: [286, 180]), style: "height: 180px", class: 'post-image'%>
     <% end %>
     <div class="card-body">
       <p class="card-text"><%= post.body %></p>
