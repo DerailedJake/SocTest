@@ -10,12 +10,14 @@ RSpec.shared_examples 'check user pages' do
     within('#story-pagination') do
       click_link('3')
     end
+    expect(page).to have_content("#{target_user.full_name} posts:")
     expect(page).to have_content(target_user.stories.first.title)
   end
   it 'has working pagination of posts' do
     within('#post-pagination' ) do
       click_link('3')
     end
+    expect(page).to have_content("#{target_user.full_name} stories:")
     expect(page).to have_content(target_user.posts.first.body)
   end
 end
