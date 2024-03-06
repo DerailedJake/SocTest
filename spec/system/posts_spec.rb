@@ -49,9 +49,9 @@ RSpec.shared_examples 'update post' do
 end
 
 RSpec.shared_examples 'should be just view buttons' do
-  # target_user post post_selector
+  # post
+  let(:post_selector) { "#post-#{post.id}" }
   before do
-    visit profile_path(target_user)
     page.find(post_selector).hover
   end
   it 'has functional view button' do
@@ -68,7 +68,8 @@ RSpec.shared_examples 'should be just view buttons' do
 end
 
 RSpec.shared_examples 'should be all buttons' do
-  # target_user post post_selector
+  # post
+  let(:post_selector) { "#post-#{post.id}" }
   before do
     page.find(post_selector).hover
   end
@@ -333,17 +334,12 @@ RSpec.describe 'Posts', type: :system do
   end
 
   describe 'BUTTONS' do
-    before do
-      @post = @current_user.posts.last
-      @second_post = @second_user.posts.last
-      @post_selector = "#post-#{@post.id}"
-      @second_post_selector = "#post-#{@second_post.id}"
-    end
-
     context 'inside profile page' do
       context 'when logged in' do
         before do
           login_as(@current_user)
+          @post = @current_user.posts.last
+          @second_post = @second_user.posts.last
         end
 
         context 'on owned post' do
@@ -352,58 +348,68 @@ RSpec.describe 'Posts', type: :system do
           end
           include_examples 'should be all buttons' do
             let(:post) { @post }
-            let(:post_selector) { @post_selector }
           end
         end
 
         context 'on someone elses post' do
+          before do
+            visit profile_path(@second_user)
+          end
           include_examples 'should be just view buttons' do
-            let(:target_user) { @second_user }
             let(:post) { @second_post }
-            let(:post_selector) { @second_post_selector }
           end
         end
       end
 
       context 'when logged out' do
+        before do
+          @second_post = @second_user.posts.last
+          visit profile_path(@second_user)
+        end
         include_examples 'should be just view buttons' do
-          let(:target_user) { @second_user }
           let(:post) { @second_post }
-          let(:post_selector) { @second_post_selector }
         end
       end
     end
 
     context 'inside story view page' do
+      before do
+        @story = @current_user.stories.first
+        @story.update!(post_ids: @current_user.post_ids )
+        @second_story = @second_user.stories.first
+        @second_story.update!(post_ids: @second_user.post_ids )
+      end
+
       context 'when logged in' do
         before do
           login_as(@current_user)
         end
 
-        context 'on owned post' do
+        context 'on owned story' do
           before do
-            visit profile_path(@current_user)
+            visit story_path(@story)
           end
           include_examples 'should be all buttons' do
-            let(:post) { @post }
-            let(:post_selector) { @post_selector }
+            let(:post) { @story.posts.first }
           end
         end
 
-        context 'on someone elses post' do
+        context 'on someone elses story' do
+          before do
+            visit story_path(@second_story)
+          end
           include_examples 'should be just view buttons' do
-            let(:target_user) { @second_user }
-            let(:post) { @second_post }
-            let(:post_selector) { @second_post_selector }
+            let(:post) { @second_story.posts.first }
           end
         end
       end
 
       context 'when logged out' do
+        before do
+          visit story_path(@second_story)
+        end
         include_examples 'should be just view buttons' do
-          let(:target_user) { @second_user }
-          let(:post) { @second_post }
-          let(:post_selector) { @second_post_selector }
+          let(:post) { @second_story.posts.first }
         end
       end
     end
