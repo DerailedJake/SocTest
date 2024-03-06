@@ -36,19 +36,60 @@ RSpec.shared_examples 'update post' do
     expect(page).to have_current_path(post_path(target_post))
     if has_stories
       expect(page).to have_content('Connected stories:')
+      stories.each do |story|
+        expect(page).to have_content(story.title)
+      end
     else
       expect(page).to have_content('No connected stories!')
+      stories.each do |story|
+        expect(page).not_to have_content(story.title)
+      end
     end
+  end
+end
 
-    if has_stories
-      expect(page).to have_content(stories[0].title)
-      expect(page).to have_content(stories[1].title)
-      expect(page).to have_content(stories[2].title)
-    else
-      expect(page).not_to have_content(stories[0].title)
-      expect(page).not_to have_content(stories[1].title)
-      expect(page).not_to have_content(stories[2].title)
+RSpec.shared_examples 'should be just view buttons' do
+  # target_user post post_selector
+  before do
+    visit profile_path(target_user)
+    page.find(post_selector).hover
+  end
+  it 'has functional view button' do
+    within post_selector do
+      click_on 'View post'
     end
+    expect(page).to have_current_path(post_path(post))
+  end
+  it 'has no other buttons' do
+    buttons = page.find_all("#{post_selector} .post-buttons-container .btn")
+    expect(buttons.count).to eql(1)
+    expect(buttons[0].text).to have_content('View post')
+  end
+end
+
+RSpec.shared_examples 'should be all buttons' do
+  # target_user post post_selector
+  before do
+    page.find(post_selector).hover
+  end
+  it 'has functional view button' do
+    within post_selector do
+      click_on 'View post'
+    end
+    expect(page).to have_current_path(post_path(post))
+  end
+  it 'has functional edit button' do
+    within post_selector do
+      click_on 'Edit'
+    end
+    expect(page).to have_current_path(edit_post_path(post))
+  end
+  it 'has functional delete button' do
+    within post_selector do
+      click_on 'Delete'
+    end
+    expect(page).to have_current_path(root_path)
+    expect(page).to have_content 'Post removed'
   end
 end
 
@@ -213,15 +254,13 @@ RSpec.describe 'Posts', type: :system do
     end
   end
 
-  describe 'Updating post' do
+  describe 'PUT #update' do
     before do
       login_as(@current_user)
       @valid_post_body = 'New valid post body'
       @post = @current_user.posts.last
       @valid_post_picture = "#{Rails.root}/app/assets/images/post_pictures/Bamboo_Cloud_45_pic.jpeg"
-      @first_story = @current_user.stories.first
-      @second_story = @current_user.stories.second
-      @third_story = @current_user.stories.third
+      @stories = @current_user.stories[0..2]
     end
     context 'with valid params' do
       before do
@@ -250,29 +289,29 @@ RSpec.describe 'Posts', type: :system do
 
     context 'when post has stories' do
       before do
-        @post.update!(story_ids: [@first_story.id, @second_story.id])
+        @post.update!(story_ids: [@stories[0].id, @stories[1].id])
         visit edit_post_path(@post)
       end
       context 'connects new stories' do
         before do
-          check 'post[story_ids][]', id: "post_story_ids_#{@third_story.id}"
+          check 'post[story_ids][]', id: "post_story_ids_#{@stories[2].id}"
         end
         include_examples 'update post' do
           let(:target_post) { @post }
           let(:has_stories) { true }
-          let(:stories) { [@first_story, @second_story, @third_story] }
+          let(:stories) { @stories }
         end
 
       end
       context 'removes connected stories' do
         before do
-          uncheck 'post[story_ids][]', id: "post_story_ids_#{@first_story.id}"
-          uncheck 'post[story_ids][]', id: "post_story_ids_#{@second_story.id}"
+          uncheck 'post[story_ids][]', id: "post_story_ids_#{@stories[0].id}"
+          uncheck 'post[story_ids][]', id: "post_story_ids_#{@stories[1].id}"
         end
         include_examples 'update post' do
           let(:target_post) { @post }
           let(:has_stories) { false }
-          let(:stories) { [@first_story, @second_story, @third_story] }
+          let(:stories) { @stories }
         end
       end
     end
@@ -281,14 +320,91 @@ RSpec.describe 'Posts', type: :system do
       before do
         @post.update!(story_ids: [])
         visit edit_post_path(@post)
-        check 'post[story_ids][]', id: "post_story_ids_#{@first_story.id}"
-        check 'post[story_ids][]', id: "post_story_ids_#{@second_story.id}"
-        check 'post[story_ids][]', id: "post_story_ids_#{@third_story.id}"
+        @stories.each do |story|
+          check 'post[story_ids][]', id: "post_story_ids_#{story.id}"
+        end
       end
       include_examples 'update post' do
         let(:target_post) { @post }
         let(:has_stories) { true }
-        let(:stories) { [@first_story, @second_story, @third_story] }
+        let(:stories) { @stories }
+      end
+    end
+  end
+
+  describe 'BUTTONS' do
+    before do
+      @post = @current_user.posts.last
+      @second_post = @second_user.posts.last
+      @post_selector = "#post-#{@post.id}"
+      @second_post_selector = "#post-#{@second_post.id}"
+    end
+
+    context 'inside profile page' do
+      context 'when logged in' do
+        before do
+          login_as(@current_user)
+        end
+
+        context 'on owned post' do
+          before do
+            visit profile_path(@current_user)
+          end
+          include_examples 'should be all buttons' do
+            let(:post) { @post }
+            let(:post_selector) { @post_selector }
+          end
+        end
+
+        context 'on someone elses post' do
+          include_examples 'should be just view buttons' do
+            let(:target_user) { @second_user }
+            let(:post) { @second_post }
+            let(:post_selector) { @second_post_selector }
+          end
+        end
+      end
+
+      context 'when logged out' do
+        include_examples 'should be just view buttons' do
+          let(:target_user) { @second_user }
+          let(:post) { @second_post }
+          let(:post_selector) { @second_post_selector }
+        end
+      end
+    end
+
+    context 'inside story view page' do
+      context 'when logged in' do
+        before do
+          login_as(@current_user)
+        end
+
+        context 'on owned post' do
+          before do
+            visit profile_path(@current_user)
+          end
+          include_examples 'should be all buttons' do
+            let(:post) { @post }
+            let(:post_selector) { @post_selector }
+          end
+        end
+
+        context 'on someone elses post' do
+          include_examples 'should be just view buttons' do
+            let(:target_user) { @second_user }
+            let(:post) { @second_post }
+            let(:post_selector) { @second_post_selector }
+          end
+        end
+      end
+
+      context 'when logged out' do
+        include_examples 'should be just view buttons' do
+          let(:target_user) { @second_user }
+          let(:post) { @second_post }
+          let(:post_selector) { @second_post_selector }
+        end
       end
     end
   end
