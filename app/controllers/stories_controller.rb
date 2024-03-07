@@ -48,6 +48,7 @@ class StoriesController < ApplicationController
   def update
     @story = current_user.stories.find(params[:id])
     if @story.update(stories_params)
+      flash[:success] = 'Story updated!'
       redirect_to story_path(@story)
     else
       flash[:danger] = @story.errors.full_messages.first
