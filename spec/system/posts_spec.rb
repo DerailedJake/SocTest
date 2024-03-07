@@ -16,13 +16,13 @@ RSpec.shared_examples 'show post' do
     expect(page).to have_content(target_post.user.full_name)
     expect(page).to have_content(target_post.body)
     if has_stories
-      expect(page).to have_content('Connected stories:')
       expect(page).to have_content(target_post.stories.first.title)
+      expect(page).to have_content('Connected stories:')
       within('#story-pagination') do
         click_link('3')
       end
-      expect(page).to have_content('Connected stories:')
       expect(page).to have_content(target_post.stories.last.title)
+      expect(page).to have_content('Connected stories:')
     else
       expect(page).to have_content('No connected stories!')
     end
@@ -48,7 +48,7 @@ RSpec.shared_examples 'update post' do
   end
 end
 
-RSpec.shared_examples 'should be just view buttons' do
+RSpec.shared_examples 'should have just view buttons' do
   # post
   let(:post_selector) { "#post-#{post.id}" }
   before do
@@ -67,7 +67,7 @@ RSpec.shared_examples 'should be just view buttons' do
   end
 end
 
-RSpec.shared_examples 'should be all buttons' do
+RSpec.shared_examples 'should have all buttons' do
   # post
   let(:post_selector) { "#post-#{post.id}" }
   before do
@@ -284,6 +284,7 @@ RSpec.describe 'Posts', type: :system do
       it 'updates body' do
         fill_in 'post[body]', with: @valid_post_body
         click_on 'Update'
+        expect(page).to have_current_path(post_path(@post))
         expect(page).to have_content(@valid_post_body)
       end
     end
@@ -346,7 +347,7 @@ RSpec.describe 'Posts', type: :system do
           before do
             visit profile_path(@current_user)
           end
-          include_examples 'should be all buttons' do
+          include_examples 'should have all buttons' do
             let(:post) { @post }
           end
         end
@@ -355,7 +356,7 @@ RSpec.describe 'Posts', type: :system do
           before do
             visit profile_path(@second_user)
           end
-          include_examples 'should be just view buttons' do
+          include_examples 'should have just view buttons' do
             let(:post) { @second_post }
           end
         end
@@ -366,7 +367,7 @@ RSpec.describe 'Posts', type: :system do
           @second_post = @second_user.posts.last
           visit profile_path(@second_user)
         end
-        include_examples 'should be just view buttons' do
+        include_examples 'should have just view buttons' do
           let(:post) { @second_post }
         end
       end
@@ -389,7 +390,7 @@ RSpec.describe 'Posts', type: :system do
           before do
             visit story_path(@story)
           end
-          include_examples 'should be all buttons' do
+          include_examples 'should have all buttons' do
             let(:post) { @story.posts.first }
           end
         end
@@ -398,7 +399,7 @@ RSpec.describe 'Posts', type: :system do
           before do
             visit story_path(@second_story)
           end
-          include_examples 'should be just view buttons' do
+          include_examples 'should have just view buttons' do
             let(:post) { @second_story.posts.first }
           end
         end
@@ -408,7 +409,7 @@ RSpec.describe 'Posts', type: :system do
         before do
           visit story_path(@second_story)
         end
-        include_examples 'should be just view buttons' do
+        include_examples 'should have just view buttons' do
           let(:post) { @second_story.posts.first }
         end
       end
