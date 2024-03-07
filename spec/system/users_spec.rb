@@ -10,15 +10,15 @@ RSpec.shared_examples 'check user pages' do
     within('#story-pagination') do
       click_link('3')
     end
-    expect(page).to have_content("#{target_user.full_name} posts:")
     expect(page).to have_content(target_user.stories.first.title)
+    expect(page).to have_content("#{target_user.full_name} stories:")
   end
   it 'has working pagination of posts' do
     within('#post-pagination' ) do
       click_link('3')
     end
-    expect(page).to have_content("#{target_user.full_name} stories:")
     expect(page).to have_content(target_user.posts.first.body)
+    expect(page).to have_content("#{target_user.full_name} posts:")
   end
 end
 
@@ -52,8 +52,8 @@ RSpec.shared_examples 'check index page' do
       click_link('3')
     end
     click_link('Open profile')
-    expect(page).to have_content(User.last.full_name)
     expect(page).to have_content('has no stories')
+    expect(page).to have_content(User.last.full_name)
   end
 end
 
