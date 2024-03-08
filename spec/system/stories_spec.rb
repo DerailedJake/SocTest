@@ -55,7 +55,7 @@ RSpec.shared_examples 'update story' do
   end
 end
 
-RSpec.shared_examples 'should have all buttons' do
+RSpec.shared_examples 'should have all story buttons' do
   # story
   let(:story_selector) { '.container.my-5' }
   context 'edit button' do
@@ -326,7 +326,7 @@ RSpec.describe 'Stories', type: :system do
         before do
           visit story_path(@story)
         end
-        include_examples 'should have all buttons' do
+        include_examples 'should have all story buttons' do
           let(:story) { @story }
         end
       end
