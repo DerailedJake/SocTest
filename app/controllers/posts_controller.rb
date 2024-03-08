@@ -3,7 +3,6 @@ class PostsController < ApplicationController
   before_action :set_user, only: [:index]
   before_action :set_user_posts, only: [:index]
   def new
-    p params
     @post = params[:post] ? Post.new(post_params) : Post.new
     @story_to_redirect = params[:story_to_redirect]
   end

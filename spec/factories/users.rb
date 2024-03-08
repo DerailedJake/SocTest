@@ -9,7 +9,6 @@ FactoryBot.define do
   end
 end
 
-
 def user_with_posts_and_stories(object_count: 7)
   FactoryBot.create(:user) do |user|
     FactoryBot.create_list(:post, object_count, user: user)
