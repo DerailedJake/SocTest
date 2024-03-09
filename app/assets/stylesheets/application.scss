@@ -14,6 +14,9 @@
  *= require_self
  */
 @import "bootstrap";
+.pagination {
+  @extend .justify-content-md-center;
+}
 .turbo-timeline:before {
   content: none !important;
 }
