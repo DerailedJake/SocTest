@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true, length: { minimum: 1, maximum: 20 }
   validates :last_name, presence: true, length: { minimum: 1, maximum: 20 }
+  validates :avatar, presence: true
   validates :description, length: { maximum: 240 }
 
   def full_name
