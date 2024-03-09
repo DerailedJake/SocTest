@@ -3,9 +3,11 @@
 <%= form_with model: @story do |f| %>
 
   <div class="mb-3">
+    <i>Story title:</i>
     <%= f.text_field :title, value: @story.title, class: "form-control" %>
   </div>
   <div class="mb-3">
+    <i>Story description:</i>
     <%= f.text_area :description, value: @story.description, class: "form-control" %>
   </div>
 

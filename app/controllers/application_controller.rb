@@ -15,11 +15,11 @@ class ApplicationController < ActionController::Base
     @user = User.find(params[:user_id] || params[:id] || current_user.id)
   end
   def set_user_posts
-    @posts = @user.posts.with_attached_picture
+    @posts = @user.posts.order('created_at DESC').with_attached_picture
                   .page(params[:page] || 1).per(3) || []
   end
 
   def set_user_stories
-    @stories = @user.stories.page(params[:page] || 1).per(3) || []
+    @stories = @user.stories.order('created_at DESC').page(params[:page] || 1).per(3) || []
   end
 end

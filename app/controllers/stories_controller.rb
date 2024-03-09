@@ -1,5 +1,5 @@
 class StoriesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show, :index, :user_stories]
+  skip_before_action :authenticate_user!, only: %i[show index user_stories timeline]
   before_action :set_user, only: [:user_stories]
   before_action :set_user_stories, only: [:user_stories]
 
@@ -48,6 +48,7 @@ class StoriesController < ApplicationController
   def update
     @story = current_user.stories.find(params[:id])
     if @story.update(stories_params)
+      flash[:success] = 'Story updated!'
       redirect_to story_path(@story)
     else
       flash[:danger] = @story.errors.full_messages.first
