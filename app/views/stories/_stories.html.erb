@@ -1,15 +1,30 @@
-<div id="stories_list" class="container">
-<%= turbo_frame_tag 'turbo-stories' do %>
-  <div class="col-lg-6 col-md-8 mx-auto text-center">
-    <h2><%= "#{author.full_name} stories:" %></h2>
-  </div>
-  <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
-    <%== pagy_bootstrap_nav @pagy_stories %>
-  </div>
-  <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-md-center">
-    <% stories.each do |story| %>
-      <%= render partial: 'stories/story', locals: { author: author, story: story } %>
+<% partial_message ||= "#{author.full_name} stories:" %>
+<div id="story-list" class="container">
+  <%= turbo_frame_tag 'turbo-stories', target: "_top" do %>
+    <% if stories.any? %>
+      <div class="col-lg-6 col-md-8 mx-auto text-center">
+        <h2><%= partial_message %></h2>
+      </div>
+      <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+        <%== pagy_bootstrap_nav @pagy_stories, link_extra: 'data-turbo-frame="_self"' %>
+      </div>
+      <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-md-center">
+        <% stories.each do |story| %>
+          <%= render partial: 'stories/story', locals: { author: author, story: story } %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="col-lg-6 col-md-8 mx-auto text-center">
+        <h2><%= "#{author.full_name} has no stories" %></h2>
+      </div>
+      <div class="py-lg-4 col-lg-6 col-md-8 mx-auto">
+        <div class="text-center">
+          <h2 class="h3 mb-3 fw-normal">No connected stories!</h2>
+          <% if current_user == author %>
+            <%= link_to "Make a story", new_story_path, class: "btn btn-primary my-2" %>
+          <% end %>
+        </div><br />
+      </div>
     <% end %>
-  </div>
-<% end %>
+  <% end %>
 </div>

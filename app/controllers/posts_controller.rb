@@ -16,7 +16,7 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @user = @post.user
-    @stories = @post.stories.page(1).per(3)
+    @pagy_stories, @stories = pagy(@post.stories, items: 3)
     @comments = @post.comments.page(1).per(12)
   end
 

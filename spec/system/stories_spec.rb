@@ -21,7 +21,7 @@ RSpec.shared_examples 'show story' do
       target_story.posts.each do |post|
         expect(page).to have_content(post.body)
         # scroll is slow, needs some time
-        sleep(0.1)
+        sleep(0.2)
         page.scroll_to(0, 10000)
         sleep(0.4)
       end

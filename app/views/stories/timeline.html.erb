@@ -1,10 +1,10 @@
-<%= turbo_frame_tag([:posts, @pagy_posts.page]) do %>
+<%= turbo_frame_tag([:posts, @pagy_posts.page], target: "_top" ) do %>
   <% @posts.each do |post| %>
     <%= render partial: 'posts/timeline_post', locals: { post: post } %>
   <% end %>
   <%= turbo_stream.append :timeline_posts_container do %>
     <% if @pagy_posts.next.present? %>
-      <%= turbo_frame_tag [:posts, @pagy_posts.page + 1], class: 'turbo-timeline timeline',
+      <%= turbo_frame_tag [:posts, @pagy_posts.page + 1], class: 'turbo-timeline timeline', target: "_top" ,
                           src: stories_timeline_path(story_id: @story.id, page: @pagy_posts.next), loading: "lazy" %>
     <% else %>
       <li>

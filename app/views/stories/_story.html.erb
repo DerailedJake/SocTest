@@ -5,9 +5,9 @@
       <p class="card-text"><%= story.description %></p>
       <% if author != current_user %>
         <%=  story.posts.count %>
-        <p><%= link_to author.full_name, profile_path(author), target:"_top" %></p>
+        <p><%= link_to author.full_name, profile_path(author) %></p>
       <% end %>
-      <p><%= link_to "See story", story_path(story), class: "btn btn-primary", target:"_top" %></p>
+      <p><%= link_to "See story", story_path(story), class: "btn btn-primary" %></p>
     </div>
   </div>
 </div>
