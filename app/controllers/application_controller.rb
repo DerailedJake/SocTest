@@ -16,10 +16,12 @@ class ApplicationController < ActionController::Base
     @user = User.find(params[:user_id] || params[:id] || current_user.id)
   end
   def set_user_posts
-    @pagy_posts, @posts = pagy(@user.posts.order('created_at DESC').with_attached_picture, items: 3, page_param: :page_posts)
+    @pagy_posts, @posts = pagy(@user.posts.order('created_at DESC').with_attached_picture,
+                               items: 3, page_param: :page_posts)
   end
 
   def set_user_stories
-    @pagy_stories, @stories = pagy(@user.stories.order('created_at DESC'), items: 3, page_param: :page_stories)
+    @pagy_stories, @stories = pagy(@user.stories.order('created_at DESC'),
+                                   items: 3, page_param: :page_stories)
   end
 end

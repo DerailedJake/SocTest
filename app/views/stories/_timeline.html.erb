@@ -1,7 +1,7 @@
 <div class="container">
   <%= turbo_frame_tag(:timeline_posts_container, class: "timeline" ) do %>
       <%= turbo_frame_tag([:posts, 1], class: "turbo-timeline timeline", target:"_top",
-                          src: stories_timeline_path(story_id: @story.id, page_size: 1, page: 1))  do %>
+                          src: stories_timeline_path(story_id: @story.id))  do %>
         <!-- Skeleton Loading Indicator -->
       <li>
         <div class="timeline-body post-buttons-parent">
@@ -13,3 +13,4 @@
       <% end %>
   <% end %>
 </div>
+
