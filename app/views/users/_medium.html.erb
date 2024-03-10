@@ -9,6 +9,6 @@
     <p><%= user.description %></p>
   </div>
   <% if user != current_user %>
-    <%= link_to "Open profile", profile_path(user), class: "btn btn-secondary", style: "width: 50%" %>
+    <%= link_to "Open profile", profile_path(user), class: "btn btn-secondary", style: "width: 50%", target:"_top" %>
   <% end %>
 </div>

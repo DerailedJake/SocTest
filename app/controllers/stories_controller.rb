@@ -20,9 +20,6 @@ class StoriesController < ApplicationController
   end
 
   def user_stories
-    respond_to do |format|
-      format.js
-    end
   end
 
   def index
