@@ -9,8 +9,15 @@
       <%= render partial: 'users/small', locals: { user: @story.user } %>
     </p>
     <% if current_user == @story.user %>
-      <%= link_to 'Edit story', edit_story_path, class: "btn btn-primary my-2"  %>
-      <%= link_to 'Add post to story', new_post_path(post: {story_ids: [@story]}, story_to_redirect: @story), class: "btn btn-primary my-2"  %>
+      <div class="d-flex justify-content-center">
+        <%= link_to 'Edit story', edit_story_path, class: "btn btn-primary my-2", style: 'width: 50%'  %>
+      </div><br />
+      <div class="d-flex justify-content-center">
+        <%= link_to 'Add post to story', new_post_path(post: {story_ids: [@story]}, story_to_redirect: @story), class: "btn btn-primary my-2", style: 'width: 50%'  %>
+      </div><br />
+      <div class="d-flex justify-content-center">
+        <%= link_to 'Delete story', @story, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger', style: 'width: 50%' %>
+      </div><br />
     <% end %>
   </div>
 </div>

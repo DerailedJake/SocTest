@@ -74,7 +74,8 @@ RSpec.shared_examples 'should have all story buttons' do
       expect(page).to have_content 'New Post'
       fill_in 'post[body]', with: attributes_for(:post)[:body]
       click_on 'Create'
-      expect(page).to have_content 'Connected stories:'
+      expect(page).to have_content 'Post created!'
+      expect(page).to have_current_path story_path(story)
       expect(page).to have_content story.title
     end
   end
@@ -307,6 +308,28 @@ RSpec.describe 'Stories', type: :system do
         let(:target_story) { @story }
         let(:has_posts) { true }
         let(:posts) { @posts }
+      end
+    end
+  end
+
+  describe 'DELETE #delete' do
+    before do
+      login_as(@current_user)
+      @valid_story_data = attributes_for(:story)
+      @story = @current_user.stories.last
+      @number_of_stories = @current_user.stories.count
+      @posts = @current_user.posts[0..2]
+    end
+    context 'within story page' do
+      before do
+        visit story_path @story
+      end
+      it 'deletes the story' do
+        click_on 'Delete story'
+        accept_alert
+        expect(page).to have_content 'Story deleted!'
+        expect(page).to have_current_path root_path
+        expect(Story.exists?(@story.id)).to be_falsey
       end
     end
   end

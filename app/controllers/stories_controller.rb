@@ -51,7 +51,16 @@ class StoriesController < ApplicationController
     end
   end
 
-  def delete; end
+  def destroy
+    @story = current_user.stories.find(params[:id])
+    if @story.destroy
+      flash[:success] = 'Story deleted!'
+      redirect_to root_path
+    else
+      flash[:danger] = @story.errors.full_messages.first
+      redirect_to story_path(@story)
+    end
+  end
 
   private
 
