@@ -11,7 +11,7 @@
       <% end %>
     </div>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<%= post.id %>">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentsModal-<%= post.id %>">
       <%= "Show comments!(#{post.comments.count})" %>
     </button>
   </div>
