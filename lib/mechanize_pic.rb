@@ -1,7 +1,8 @@
 
-fuck_off_from_this_code = true
+architecture_scraper = false
+food_scraper = false
 
-unless fuck_off_from_this_code
+if architecture_scraper
   require 'rubygems'
   require 'mechanize'
   agent = Mechanize.new
@@ -38,6 +39,45 @@ unless fuck_off_from_this_code
       title = titles[i - 1].gsub(/\s+/, "_")
 
       agent.get(images_links[i - 1]).save "app/assets/images/post_pictures/#{title}_#{image_count}_pic.jpeg"
+      image_count += 1
+    end
+  end
+end
+
+if food_scraper
+  require 'rubygems'
+  require 'mechanize'
+  agent = Mechanize.new
+
+  website_pages = [
+    'https://picography.co/category/food/',
+    'https://picography.co/category/food/page/2',
+    'https://picography.co/category/food/page/3',
+    'https://picography.co/category/food/page/4',
+    'https://picography.co/category/food/page/5',
+    'https://picography.co/category/food/page/6',
+    'https://picography.co/category/food/page/7',
+    'https://picography.co/category/food/page/8',
+    'https://picography.co/category/food/page/9'
+    # 'https://unsplash.com/s/photos/delicious-food'
+  ]
+
+  image_count = 1
+
+  website_pages.each do |single_page|
+    page = agent.get(single_page)
+
+    images = []
+    raw_images = page.images
+
+    raw_images.each { |i| images << i if i.src.include?('600x400') }
+
+    p images.count
+
+    images.each do |image|
+      p 'kurwa :)'
+      sleep 0.2
+      agent.get(image).save "app/assets/images/post_pics_food/#{image.text}_#{image_count}_pic.jpeg"
       image_count += 1
     end
   end

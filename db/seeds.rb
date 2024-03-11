@@ -14,27 +14,54 @@ def user_descriptions
   @all_user_descriptions.sample
 end
 
+# Posts
+# arch
 @pos_post_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/post_descriptions.txt").map! { |l| l.strip }
 @neg_post_descriptions = File.readlines("#{Rails.root}/app/assets/text_files/p_desc_neg.txt").map! { |l| l.strip }
+# food
+@p_desc_pos_food = File.readlines("#{Rails.root}/app/assets/text_files/p_desc_pos_food.txt").map! { |l| l.strip }
+@p_desc_neg_food = File.readlines("#{Rails.root}/app/assets/text_files/p_desc_neg_food.txt").map! { |l| l.strip }
 
-def pos_post_descriptions
-  @pos_post_descriptions.sample
+def get_post_body(is_positive, type)
+  if is_positive
+    if type == 'arch'
+      @pos_post_descriptions.sample
+    else
+      @p_desc_pos_food.sample
+    end
+  else
+    if type == 'arch'
+      @neg_post_descriptions.sample
+    else
+      @p_desc_neg_food.sample
+    end
+  end
 end
 
-def neg_post_descriptions
-  @neg_post_descriptions.sample
-end
-
+# Comments
+# arch
 @pos_post_comments = File.readlines("#{Rails.root}/app/assets/text_files/post_comments.txt").map! { |l| l.strip }
 @neg_post_comments = File.readlines("#{Rails.root}/app/assets/text_files/p_com_neg.txt").map! { |l| l.strip }
+# food
+@p_comms_pos_food = File.readlines("#{Rails.root}/app/assets/text_files/p_comms_pos_food.txt").map! { |l| l.strip }
+@p_comms_neg_food = File.readlines("#{Rails.root}/app/assets/text_files/p_comms_neg_food.txt").map! { |l| l.strip }
 
-def pos_post_comment
-  @pos_post_comments.sample
+def get_comment_body(is_positive, type)
+  if is_positive
+    if type == 'arch'
+      @pos_post_comments.sample
+    else
+      @p_comms_pos_food.sample
+    end
+  else
+    if type == 'arch'
+      @neg_post_comments.sample
+    else
+      @p_comms_neg_food.sample
+    end
+  end
 end
 
-def neg_post_comment
-  @neg_post_comments.sample
-end
 
 def random_avatar
   Rack::Test::UploadedFile.new(
@@ -42,21 +69,27 @@ def random_avatar
     'jpeg')
 end
 
-def random_picture
-  Rack::Test::UploadedFile.new(
-    Dir.glob("#{Rails.root}/app/assets/images/post_pictures/*.jpeg").sample,
-    'jpeg')
+def random_picture(type)
+  if type == 'arch'
+    path = Dir.glob("#{Rails.root}/app/assets/images/post_pictures/*.jpeg").sample
+  else
+    path = Dir.glob("#{Rails.root}/app/assets/images/post_pics_food/*.jpeg").sample
+  end
+  title = path.split('/')[-1].split('_')[0..-3].join(' ')
+  [
+    Rack::Test::UploadedFile.new(path, 'jpeg'),
+    title
+  ]
 end
 
 def create_stories(user)
   min = 3
   max = 15
   rand(min..max).times do
-    picture = random_picture
-    title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
+    title = random_picture('arch')[1]
     user.stories.create!(
       title: title,
-      description: pos_post_descriptions
+      description: @pos_post_descriptions.sample
     )
   end
 end
@@ -65,28 +98,23 @@ def create_posts(user)
   post_count = rand(24..60)
   p "number of posts - #{post_count}"
   post_count.times do
-    if rand(1..10) > 3
-      p_body = pos_post_descriptions
-      is_positive = true
-    else
-      p_body = neg_post_descriptions
-      is_positive = false
-    end
-    picture = random_picture
-    title = random_picture.original_filename.split('/')[-1].split('_')[0..-3].join(' ')
+    is_positive = rand(1..10) > 3
+    type = ['arch', 'food'].sample
+    picture = random_picture(type)
+    body = get_post_body(is_positive, type)
     post = user.posts.create!(
-      body: "#{title} #{p_body}",
-      picture: picture
+      body: "#{picture[1]} #{body}",
+      picture: picture[0]
     )
-    create_comments(post, is_positive)
+    create_comments(post, is_positive, type)
   end
 end
 
-def create_comments(post, is_positive)
+def create_comments(post, is_positive, type)
   min = 0
   max = 15
   rand(min..max).times do
-    c_body = is_positive ? pos_post_comment : neg_post_comment
+    c_body = get_comment_body(is_positive, type)
     post.comments.create!(
       body: c_body,
       user: @all_users.sample
