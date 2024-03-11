@@ -37,3 +37,8 @@
 /.idea/*
 
 /coverage/*
+
+/app/assets/images/post_pics_food/*
+/app/assets/images/post_pictures/*
+/app/assets/images/user_avatars/*
+/app/assets/text_file/*
