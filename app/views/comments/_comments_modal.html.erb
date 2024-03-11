@@ -1,0 +1,36 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal<%= post.id %>" tabindex="-1" aria-labelledby="exampleModalLabel<%= post.id %>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel<%= post.id %>">Comments</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div id="post-comments-<%= post.id %>">
+          <% per_page ||= 3 %>
+          <div class="pagination justify-content-center">
+            <%= link_to_previous_page comments, 'Newer comments', params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page }, remote: true, class: 'page-link' %>
+            <%= link_to_next_page comments, 'Older comments', params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page }, remote: true, class: 'page-link' %>
+          </div>
+
+          <% if current_user %>
+            <%= render partial: 'comments/new_comment', locals: { post: post, comment: comments.new } %>
+          <% end %>
+
+          <% comments.each do |com| %>
+            <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
