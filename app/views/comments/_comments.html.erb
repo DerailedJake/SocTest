@@ -1,14 +1,27 @@
-<% per_page ||= 3 %>
-<div class="pagination justify-content-center">
-  <%= link_to_previous_page comments, 'Newer comments', params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page }, remote: true, class: 'page-link' %>
-  <%= link_to_next_page comments, 'Older comments', params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page }, remote: true, class: 'page-link' %>
+<div id="post-comments-<%= post.id %>">
+    <% if current_user %>
+      <%= render partial: 'comments/new_comment', locals: { post: post, comment: comments.new } %>
+    <% end %>
+    <% if comments.any? %>
+      <% per_page ||= 3 %>
+      <div class="pagination justify-content-center">
+        <% # link_to_previous_page comments, 'Newer comments',
+           #                      params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page },
+           #                      remote: true, class: 'page-link' %>
+        <% # link_to_next_page comments, 'Older comments',
+           #                  params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page },
+           #                  remote: true, class: 'page-link' %>
+
+      </div>
+
+      <% comments.each do |com| %>
+        <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
+      <% end %>
+    <% else %>
+      <div class="justify-content-center">
+        <br />
+        <h1> No comments here! </h1>
+      </div>
+    <% end %>
+
 </div>
-
-<% if current_user %>
-  <%= render partial: 'comments/new_comment', locals: { post: post, comment: comments.new } %>
-<% end %>
-
-<% comments.each do |com| %>
-  <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
-<% end %>
-

@@ -11,10 +11,6 @@
       <% end %>
     </div>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentsModal-<%= post.id %>">
-      <%= "Show comments!(#{post.comments.count})" %>
-    </button>
+    <%= render partial: 'comments/comments_modal', locals: { post: post } %>
   </div>
 </div>
-
-<%= render partial: 'comments/comments_modal', locals: { post: post, comments: post.latest_comments } %>

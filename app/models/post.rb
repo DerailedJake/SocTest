@@ -11,7 +11,7 @@ class Post < ApplicationRecord
   end
 
   def latest_comments(number_of_comm = 3)
-    comments.order("created_at DESC").includes(user: :avatar_attachment).page(1).per(number_of_comm)
+    comments.order("created_at DESC").includes(user: :avatar_attachment).limit(number_of_comm)
   end
 
   def stories_belong_to_user

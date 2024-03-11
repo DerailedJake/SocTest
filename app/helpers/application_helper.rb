@@ -1,6 +1,7 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  include Pagy::Backend
   def resource_name
     :user
   end
