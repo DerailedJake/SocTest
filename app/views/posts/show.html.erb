@@ -31,24 +31,6 @@
 
   <hr class="featurette-divider">
 
-  <div id="story-list" class="container">
-    <% if @stories.any? %>
-      <div class="col-lg-6 col-md-8 mx-auto text-center">
-        <h2>Connected stories:</h2>
-      </div>
-      <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
-        <%= paginate @stories, params: { controller: :stories, action: :user_stories, user_id: @user.id }, window: 2, remote: true %>
-      </div>
-      <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3 justify-content-md-center">
-        <% @stories.each do |story| %>
-          <%= render partial: 'stories/story', locals: { author: @user, story: story } %>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="col-lg-6 col-md-8 mx-auto text-center">
-        <h2>No connected stories!</h2>
-      </div>
-    <% end %>
-  </div>
+  <%= render partial: 'stories/stories', locals: { author: @post.user, stories: @stories, partial_message: 'Connected stories:' } %>
 
 </div>

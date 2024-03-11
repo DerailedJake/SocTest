@@ -33,6 +33,7 @@ RSpec.shared_examples 'update post' do
   # target_post has_stories stories[]
   it 'shows updated post' do
     click_on 'Update'
+    expect(page).to have_content('Post updated!')
     expect(page).to have_current_path(post_path(target_post))
     if has_stories
       expect(page).to have_content('Connected stories:')
@@ -104,8 +105,8 @@ RSpec.describe 'Posts', type: :system do
     before do
       @post = @current_user.posts.last
       @second_post = @second_user.posts.last
-      @post_with_stories = @current_user.posts.create(attributes_for(:post, story_ids: @current_user.story_ids))
-      @another_post_with_stories = @second_user.posts.create(attributes_for(:post, story_ids: @current_user.story_ids))
+      @post_with_stories = @current_user.posts.create!(attributes_for(:post, story_ids: @current_user.story_ids))
+      @another_post_with_stories = @second_user.posts.create!(attributes_for(:post, story_ids: @second_user.story_ids))
     end
 
     context 'when logged in' do
@@ -199,10 +200,11 @@ RSpec.describe 'Posts', type: :system do
       end
 
       it 'creates post picture and stories' do
-        attach_file 'post[picture]', "#{Rails.root}/app/assets/images/post_pictures/25_Pavilion_92_pic.jpeg"
+        attach_file 'post[picture]', "#{Rails.root}/app/assets/images/test_avt.jpeg"
         check 'post[story_ids][]', id: "post_story_ids_#{@first_story.id}"
         check 'post[story_ids][]', id: "post_story_ids_#{@second_story.id}"
         click_on 'Create'
+        expect(page).to have_content('Post created!')
         expect(page).to have_content(@valid_post_data[:body])
         expect(page).to have_content(@first_story.title)
         expect(page).to have_content(@second_story.title)
@@ -211,6 +213,7 @@ RSpec.describe 'Posts', type: :system do
 
       it 'creates post without picture and stories' do
         click_on 'Create'
+        expect(page).to have_content('Post created!')
         expect(page).to have_content(@valid_post_data[:body])
         expect(page).to have_content('No connected stories!')
         expect(page).not_to have_css(@image_css)
@@ -260,7 +263,7 @@ RSpec.describe 'Posts', type: :system do
       login_as(@current_user)
       @valid_post_body = 'New valid post body'
       @post = @current_user.posts.last
-      @valid_post_picture = "#{Rails.root}/app/assets/images/post_pictures/Bamboo_Cloud_45_pic.jpeg"
+      @valid_post_picture = "#{Rails.root}/app/assets/images/test_avt.jpeg"
       @stories = @current_user.stories[0..2]
     end
     context 'with valid params' do
@@ -270,6 +273,7 @@ RSpec.describe 'Posts', type: :system do
       it 'updates picture' do
         attach_file 'post[picture]', @valid_post_picture
         click_on 'Update'
+        expect(page).to have_content('Post updated!')
         expect(page).to have_current_path(post_path(@post))
         updated_image_src = @valid_post_picture.split('/').last
         image_src = page.find("#post-#{@post.id} img")['src'].split('/').last
@@ -278,12 +282,14 @@ RSpec.describe 'Posts', type: :system do
       it 'removes picture' do
         attach_file 'post[picture]', @valid_post_picture
         click_on 'Update'
+        expect(page).to have_content('Post updated!')
         expect(page).to have_current_path(post_path(@post))
         expect(page).not_to have_selector("#post-#{@post.id} img")
       end
       it 'updates body' do
         fill_in 'post[body]', with: @valid_post_body
         click_on 'Update'
+        expect(page).to have_content('Post updated!')
         expect(page).to have_current_path(post_path(@post))
         expect(page).to have_content(@valid_post_body)
       end
