@@ -13,4 +13,8 @@ module ApplicationHelper
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
   end
+
+  def render_turbo_flashes
+    turbo_stream.update "flashes", partial: "shared/flashes"
+  end
 end

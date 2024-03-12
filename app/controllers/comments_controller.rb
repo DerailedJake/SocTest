@@ -37,15 +37,12 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = current_user.comments.find(params[:id])
-    respond_to do |format|
-      if @comment.destroy
-        flash.now[:success] = 'Comment deleted!'
-        comment_selector = "comment-#{@comment.id}"
-        format.turbo_stream { render turbo_stream: turbo_stream.remove(comment_selector) }
-      else
-        flash.now[:danger] = @post.errors.full_messages.first
-      end
+    if @comment.destroy
+      flash.now[:success] = 'Comment deleted!'
+    else
+      flash.now[:danger] = @post.errors.full_messages.first
     end
+    respond_to(&:turbo_stream)
   end
 
   private

@@ -13,7 +13,9 @@
   <body>
     <%= render 'layouts/header' %>
 
-    <%= render 'shared/flashes' %>
+    <div id='flashes'>
+      <%= render 'shared/flashes' %>
+    </div>
 
     <div id="main-body" class="container text-break justify-content-md-center">
       <%= yield %>
