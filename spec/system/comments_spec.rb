@@ -11,10 +11,10 @@ RSpec.shared_examples 'comments modal' do
       expect(page).to have_content('Close')
       if has_comments
         expect(page).to have_content(target_post.comments.last.body)
-        click_on('Older comments')
+        click_on('Show more comments')
         expect(page).to have_content(target_post.comments.first.body)
       else
-        expect(page).to have_content('No comments here!')
+        expect(page).to have_content('End of comments!')
       end
     end
   end
@@ -24,13 +24,17 @@ RSpec.shared_examples 'comments on post' do
   # path target_post has_comments
   it 'shows comments' do
     visit path
+    page.scroll_to(0, 10000)
+    sleep(0.2)
     within "#post-#{target_post.id}" do
       if has_comments
         expect(page).to have_content(target_post.comments.last.body)
-        click_on('Older comments')
+        click_on('Show more comments')
+        page.scroll_to(0, 10000)
+        sleep(0.2)
         expect(page).to have_content(target_post.comments.first.body)
       else
-        expect(page).to have_content('No comments here!')
+        expect(page).to have_content('End of comments!')
       end
     end
   end
