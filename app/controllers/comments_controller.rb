@@ -22,10 +22,26 @@ class CommentsController < ApplicationController
     end
   end
 
+  def edit
+    @comment = current_user.comments.find(params[:id])
+  end
+
   def update
+    @comment = current_user.comments.find(params[:id])
+    if @comment.update(comment_params)
+      flash.now[:success] = 'Comment updated!'
+    else
+      flash.now[:danger] = @post.errors.full_messages.first
+    end
   end
 
   def destroy
+    @comment = current_user.comments.find(params[:id])
+    if @comment.destroy
+      flash.now[:success] = 'Comment deleted!'
+    else
+      flash.now[:danger] = @post.errors.full_messages.first
+    end
   end
 
   private

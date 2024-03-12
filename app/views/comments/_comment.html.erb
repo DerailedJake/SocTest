@@ -6,10 +6,19 @@
       <% else %>
         <svg class="bd-placeholder-img rounded-circle" width="48" height="48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
       <% end %>
-      <div class="ms-2 me-auto">
-        <div class="fw-bold"><%= link_to author.full_name, profile_path(author) %></div>
-        <p><%= comment.body %></p>
-      </div>
+      <%= turbo_frame_tag "edit-comment-#{comment.id}", class: "ms-2 me-auto" do %>
+        <div class="ms-2 me-auto">
+          <div>
+            <%= link_to author.full_name, profile_path(author), class: 'fw-bold' %>
+            <%= formatted_comment_time(comment) %>
+            <% if author == current_user %>
+                <%= link_to 'Edit', edit_comment_path(comment), class: 'fw-bold' %>
+              <%= link_to 'Delete', comment_path(comment), method: :delete, class: 'fw-bold' %>
+            <% end %>
+          </div>
+          <p><%= comment.body %></p>
+        </div>
+      <% end %>
     </li>
   </ul>
 </div>
