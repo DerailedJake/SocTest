@@ -1,11 +1,3 @@
-<%= turbo_frame_tag "edit-comment-#{@comment.id}" do %>
-  <div class="ms-2 me-auto">
-    <div>
-      <%= link_to current_user.full_name, profile_path(current_user), class: 'fw-bold' %>
-      <%= formatted_comment_time(@comment) %>
-      <%= link_to 'Edit', edit_comment_path(@comment), class: 'fw-bold' %>
-      <%= link_to 'Delete', comment_path(@comment), method: :delete, class: 'fw-bold' %>
-    </div>
-    <p><%= @comment.body %></p>
-  </div>
+<%= turbo_frame_tag "comment-#{@comment.id}" do %>
+  <%= render partial: 'comments/comment', locals: { comment: @comment, author: @comment.user } %>
 <% end %>
