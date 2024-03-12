@@ -24,7 +24,11 @@
       </div>
 
       <div id="post-comments-<%= @post.id %>">
-        <%= render partial: 'comments/comments', locals: { post: @post, comments: @post.latest_comments(12), per_page: 12 } %>
+        <%= turbo_frame_tag([:turbo_comments_container, @post.id], class: "", target: "_top") do %>
+          <%= turbo_frame_tag([:comments, "1_#{@post.id}"], class: "", target:"_top",
+                              src: comments_path(post_id: @post.id, items: 12), loading: 'lazy')  do %>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>

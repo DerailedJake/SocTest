@@ -1,4 +1,4 @@
-<div class="col form-div">
+<div id="comment-form-container-<%= comment.post.id %>" class="col form-div">
   <div class="input">
     <%= form_with model: comment, id: "comment-form-#{comment.post.id}", local: false do |f| %>
       <div class="input-group">

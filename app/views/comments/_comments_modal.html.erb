@@ -12,9 +12,13 @@
       </div>
 
       <div class="modal-body">
+        <% if current_user %>
+          <%= render partial: 'comments/new_comment', locals: { post: post, comment: post.comments.new } %>
+        <% end %>
+
         <%= turbo_frame_tag([:turbo_comments_container, post.id], class: "", target: "_top") do %>
           <%= turbo_frame_tag([:comments, "1_#{post.id}"], class: "", target:"_top",
-                              src: comments_path(post_id: post.id))  do %>
+                              src: comments_path(post_id: post.id), loading: 'lazy')  do %>
           <% end %>
         <% end %>
       </div>

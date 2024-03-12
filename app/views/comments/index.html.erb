@@ -4,12 +4,18 @@
   <% end %>
   <%= turbo_stream.append("turbo_comments_container_#{@post.id}", class: "", target: "_top") do %>
     <% if @pagy_comments.next.present? %>
-      <%= turbo_frame_tag [:comments, "#{@pagy_comments.page + 1}_#{@post.id}"], class: '', target: "_top" ,
-                          src: comments_path(post_id: @post.id, page: @pagy_comments.next), loading: "lazy" %>
+      <%= turbo_frame_tag [:comments, "#{@pagy_comments.page + 1}_#{@post.id}"], class: '', target: "_top" do %>
+        <br/>
+        <div class="text-center">
+          <%  %>
+          <%= link_to "Show more comments", comments_path(post_id: @post.id, page: @pagy_comments.next, items: @items),
+                      data: { turbo_frame: "#turbo_comments_container_#{@post.id}"}, class: 'btn btn-primary' %>
+        </div>
+      <% end %>
     <% else %>
-      <div class="justify-content-center">
-        <br />
-        <h1> No comments here! </h1>
+      <div class="py-md-3 justify-content-center text-center">
+        <br/>
+        <h3> End of comments! </h3>
       </div>
     <% end %>
   <% end %>
