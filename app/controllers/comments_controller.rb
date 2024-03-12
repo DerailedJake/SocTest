@@ -3,13 +3,8 @@ class CommentsController < ApplicationController
 
   def index
     @post = Post.find(params[:post_id])
-    @items = params[:items] || 3
-    @pagy_comments, @comments = pagy(@post.comments.includes(user: :avatar_attachment).order("created_at DESC"), items: @items)
-    @page ||= 1
-    respond_to do |format|
-      format.js
-      format.html
-    end
+    @pagy_comments, @comments = pagy(@post.comments.includes(user: :avatar_attachment)
+                                          .order("created_at DESC"), items: 5)
   end
 
   def create

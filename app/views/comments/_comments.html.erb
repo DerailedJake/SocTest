@@ -1,13 +1,10 @@
 <div id="post-comments-<%= post.id %>">
-    <% if comments.any? %>
-      <% comments.each do |com| %>
-        <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
+      <% if current_user %>
+            <%= render partial: 'comments/new_comment', locals: { post: post, comment: post.comments.new } %>
       <% end %>
-    <% else %>
-      <div class="justify-content-center">
-        <br />
-        <h1> No comments here! </h1>
-      </div>
-    <% end %>
-
+      <%= turbo_frame_tag([:turbo_comments_container, post.id], class: "", target: "_top") do %>
+            <%= turbo_frame_tag([:comments, "1_#{post.id}"], class: "", target:"_top",
+                              src: comments_path(post_id: post.id), loading: 'lazy')  do %>
+            <% end %>
+      <% end %>
 </div>

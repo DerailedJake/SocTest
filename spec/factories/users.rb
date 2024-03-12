@@ -16,8 +16,8 @@ def user_with_posts_and_stories(object_count: 7)
   end
 end
 
-def user_with_commented_posts_and_story(object_count: 4)
-  FactoryBot.create_list(:user, 3)
+def user_with_commented_posts_and_story(object_count: 6)
+  FactoryBot.create_list(:user, 2)
   FactoryBot.create(:user) do |user|
     FactoryBot.create_list(:story, 1, user: user) do |story|
       FactoryBot.create_list(:post, 1, story_ids: [story.id], user: user) do |post|
