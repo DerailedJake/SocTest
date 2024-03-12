@@ -29,6 +29,6 @@
 
   <hr class="featurette-divider">
 
-  <%= render partial: 'stories/stories', locals: { author: @post.user, stories: @stories, partial_message: 'Connected stories:' } %>
+  <%= render partial: 'stories/stories', locals: { author: @post.user, stories: @stories, in_post_view: true } %>
 
 </div>
