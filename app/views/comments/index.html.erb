@@ -1,15 +1,16 @@
-<%= turbo_frame_tag'turbo-comments', target: "_top" do %>
-  <div class="modal-body">
-    <%== pagy_bootstrap_nav @pagy_comments, link_extra: 'data-turbo-frame="_self"' %>
-    <div id="post-comments-<%= @post.id %>">
-      <% if @comments.any? %>
-        <%= render partial: 'comments/comments', locals: { post: @post, comments: @comments } %>
-      <% else %>
-        <div class="justify-content-center">
-          <br />
-          <h1> No comments here! </h1>
-        </div>
-      <% end %>
-    </div>
-  </div>
+<%= turbo_frame_tag([:comments, "#{@pagy_comments.page}_#{@post.id}"], target: "_top" ) do %>
+  <% if @comments.any? %>
+    <%= render partial: 'comments/comments', locals: { post: @post, comments: @comments } %>
+  <% end %>
+  <%= turbo_stream.append("turbo_comments_container_#{@post.id}", class: "", target: "_top") do %>
+    <% if @pagy_comments.next.present? %>
+      <%= turbo_frame_tag [:comments, "#{@pagy_comments.page + 1}_#{@post.id}"], class: '', target: "_top" ,
+                          src: comments_path(post_id: @post.id, page: @pagy_comments.next), loading: "lazy" %>
+    <% else %>
+      <div class="justify-content-center">
+        <br />
+        <h1> No comments here! </h1>
+      </div>
+    <% end %>
+  <% end %>
 <% end %>
