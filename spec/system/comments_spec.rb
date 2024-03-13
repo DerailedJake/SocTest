@@ -99,6 +99,31 @@ RSpec.shared_examples 'update comment' do
   end
 end
 
+RSpec.shared_examples 'delete comment' do
+  it 'deletes comment' do
+    visit path
+    if inside_of_modal
+      container_selector = "#commentsModal-#{target_post.id}"
+      within "#post-#{target_post.id}" do
+        click_on 'Show comments!'
+      end
+    else
+      container_selector = "#post-#{target_post.id}"
+      scroll_page
+    end
+    within container_selector do
+      within "#comment-#{target_comment.id}" do
+        expect(page).to have_content('Delete')
+        expect(page).to have_content(@comment.body)
+        click_on 'Delete'
+      end
+      accept_alert
+      expect(page).not_to have_content(@comment.body)
+    end
+    expect(page).to have_content('Comment deleted!')
+  end
+end
+
 RSpec.describe 'Comments', type: :system do
   before do
     @second_user = user_with_commented_posts_and_story
@@ -380,43 +405,25 @@ RSpec.describe 'Comments', type: :system do
       @comment = @post.comments.last
     end
     context 'in modal' do
-      it 'deletes comment' do
-        visit profile_path(@current_user)
-        within "#post-#{@post.id}" do
-          click_on 'Show comments!'
-        end
-        within "#commentsModal-#{@post.id}" do
-          within "#comment-#{@comment.id}" do
-            expect(page).to have_content('Delete')
-            expect(page).to have_content(@comment.body)
-            click_on 'Delete'
-          end
-          accept_alert
-          expect(page).not_to have_content(@comment.body)
-        end
-        expect(page).to have_content('Comment deleted!')
+      include_examples 'delete comment' do
+        let(:path)            { profile_path(@current_user) }
+        let(:target_post)     { @post }
+        let(:target_comment)  { @comment }
+        let(:inside_of_modal) { true }
       end
     end
     context 'in post page' do
-      it 'deletes comment' do
-        visit post_path(@post)
-        scroll_page
-        within "#post-#{@post.id}" do
-          within "#comment-#{@comment.id}" do
-            expect(page).to have_content('Delete')
-            expect(page).to have_content(@comment.body)
-            click_on 'Delete'
-          end
-          accept_alert
-          expect(page).not_to have_content(@comment.body)
-        end
-        expect(page).to have_content('Comment deleted!')
+      include_examples 'delete comment' do
+        let(:path)            { post_path(@post) }
+        let(:target_post)     { @post }
+        let(:target_comment)  { @comment }
+        let(:inside_of_modal) { false }
       end
     end
   end
-end
 
-def scroll_page
-  page.scroll_to(0, 10000)
-  sleep(0.4)
+  def scroll_page
+    page.scroll_to(0, 10000)
+    sleep(0.6)
+  end
 end
