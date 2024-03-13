@@ -10,10 +10,6 @@ class Post < ApplicationRecord
     body.truncate(30)
   end
 
-  def latest_comments(number_of_comm = 3)
-    comments.order("created_at DESC").includes(user: :avatar_attachment).limit(number_of_comm)
-  end
-
   def stories_belong_to_user
     (return if stories.all? { |story| story.user == user })
     errors.add(:base, 'Stories must belong to the same user as the post')
