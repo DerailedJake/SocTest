@@ -3,7 +3,8 @@
     <%= form_with model: comment, id: "comment-form-#{comment.post.id}", local: false do |f| %>
       <div class="input-group">
         <%= f.hidden_field 'post_id', value: post.id %>
-        <%= f.text_field :body, value: comment.body, class: "form-control rounded-corner", placeholder: "Write a comment..." %>
+        <%= f.text_field :body, value: comment.body, class: "form-control rounded-corner",
+                         placeholder: "Write a comment...", autocomplete: "off" %>
         <span class="input-group-btn p-l-10">
           <%= f.submit "Comment", class: "btn btn-primary f-s-12" %>
         </span>
