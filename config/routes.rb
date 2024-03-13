@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   get 'users/profile/(:id)'=> 'users#profile', as: 'profile'
   get 'users/index'
 
-  get 'stories/user_stories'
+  get 'stories/display_stories', as: 'display_stories'
+  get 'posts/display_posts', as: 'display_posts'
 
   get 'stories/timeline'
 

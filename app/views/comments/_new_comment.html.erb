@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "new-comment-form--#{post.id}" do %>
+<%= turbo_frame_tag "new-comment-form-#{post.id}" do %>
   <div class="col form-div">
     <div class="input">
       <%= form_with model: comment, id: "comment-form-#{post.id}", local: false do |f| %>

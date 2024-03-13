@@ -1,0 +1,35 @@
+<% in_post_view ||= false %>
+<%= turbo_frame_tag 'turbo-stories', target: "_top" do %>
+  <% if @stories.any? %>
+    <div class="col-lg-6 col-md-8 mx-auto text-center">
+      <% if in_post_view %>
+        <h2>Connected stories:</h2>
+      <% else %>
+        <h2><%= "#{@user.full_name} stories:"  %></h2>
+      <% end %>
+    </div>
+    <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+      <%== pagy_bootstrap_nav @pagy_stories, link_extra: 'data-turbo-frame="_self"' %>
+    </div>
+    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-md-center">
+      <% @stories.each do |story| %>
+        <%= render partial: 'stories/story', locals: { author: @user, story: story } %>
+      <% end %>
+    </div>
+  <% else %>
+    <% if in_post_view %>
+      <div class="py-lg-4 col-lg-6 col-md-8 mx-auto">
+        <div class="text-center">
+          <h2 class="h3 mb-3 fw-normal">No connected stories!</h2>
+          <% if current_user == @user %>
+            <%= link_to "Make a story", new_story_path, class: "btn btn-primary my-2" %>
+          <% end %>
+        </div><br />
+      </div>
+    <% else %>
+      <div class="col-lg-6 col-md-8 mx-auto text-center">
+        <h2><%= "#{@user.full_name} has no stories" %></h2>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

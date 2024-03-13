@@ -3,7 +3,7 @@
     <%= render partial: 'comments/comment', locals: { comment: @comment, author: @comment.user } %>
   <% end %>
 <% end %>
-<%= turbo_stream.replace "new-comment-form--#{@post.id}" do %>
+<%= turbo_stream.replace "new-comment-form-#{@post.id}" do %>
   <%= render partial: 'comments/new_comment', locals: { post: @post, comment: @post.comments.new } %>
 <% end %>
 <%= render_turbo_flashes %>

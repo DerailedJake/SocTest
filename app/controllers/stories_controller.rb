@@ -1,8 +1,8 @@
 class StoriesController < ApplicationController
   include Pagy::Backend
-  skip_before_action :authenticate_user!, only: %i[show index user_stories timeline]
-  before_action :set_user, only: [:user_stories]
-  before_action :set_user_stories, only: [:user_stories]
+  skip_before_action :authenticate_user!, only: %i[show index display_stories timeline]
+  before_action :set_user, only: [:display_stories]
+  before_action :set_user_stories, only: [:display_stories]
 
   def show
     @story = Story.includes(user: :avatar_attachment).find(params[:id])
@@ -17,7 +17,8 @@ class StoriesController < ApplicationController
     @pagy_posts, @posts = pagy(@story.posts, items: 1)
   end
 
-  def user_stories
+  def display_stories
+    @in_post_view = params[:in_post_view]
   end
 
   def index

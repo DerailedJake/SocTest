@@ -1,17 +1,13 @@
 class PostsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show, :index]
-  before_action :set_user, only: [:index]
-  before_action :set_user_posts, only: [:index]
+  skip_before_action :authenticate_user!, only: %i[show display_posts]
+  before_action :set_user, only: [:display_posts]
+  before_action :set_user_posts, only: [:display_posts]
   def new
     @post = params[:post] ? Post.new(post_params) : Post.new
     @story_to_redirect = params[:story_to_redirect]
   end
 
-  def index
-    respond_to do |format|
-      format.js
-    end
-  end
+  def display_posts; end
 
   def show
     @post = Post.find(params[:id])
