@@ -14,7 +14,7 @@
                 <%= f.hidden_field 'post_id', value: @comment.post.id %>
                 <%= f.text_field :body, value: @comment.body, class: "form-control rounded-corner", placeholder: "Write a comment..." %>
                 <span class="input-group-btn p-l-10">
-                  <%= f.submit "Edit", class: "btn btn-primary f-s-12" %>
+                  <%= f.submit "Update", class: "btn btn-primary f-s-12" %>
                 </span>
               </div>
             <% end %>

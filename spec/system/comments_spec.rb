@@ -24,14 +24,12 @@ RSpec.shared_examples 'comments on post' do
   # path target_post has_comments
   it 'shows comments' do
     visit path
-    page.scroll_to(0, 10000)
-    sleep(0.2)
+    scroll_page
     within "#post-comments-#{target_post.id}" do
       if has_comments
         expect(page).to have_content(target_post.comments.last.body)
         click_on('Show more comments')
-        page.scroll_to(0, 10000)
-        sleep(0.2)
+        scroll_page
         expect(page).to have_content(target_post.comments.first.body)
       else
         expect(page).to have_content('No comments here!')
@@ -45,8 +43,7 @@ RSpec.shared_examples 'create comment' do
   before do
     visit path
     if defined?(scroll)
-      page.scroll_to(0, 10000)
-      sleep(0.2)
+      scroll_page
     else
       within "#post-#{target_post.id}" do
         click_on 'Show comments!'
@@ -75,34 +72,30 @@ RSpec.shared_examples 'create comment' do
 end
 
 RSpec.shared_examples 'update comment' do
-  # target_post has_stories stories[]
-  before do
-    @valid_comment_body = 'A perfectly fine comment.'
-  end
-  it 'shows updated post' do
-    click_on 'Update'
-    expect(page).to have_content('Post updated!')
-    expect(page).to have_current_path(post_path(target_post))
-    if has_stories
-      expect(page).to have_content('Connected stories:')
-      stories.each do |story|
-        expect(page).to have_content(story.title)
+  # path target_post target_comment inside_of_modal
+  it 'updates comment' do
+    visit path
+    if inside_of_modal
+      container_selector = "#commentsModal-#{target_post.id}"
+      within "#post-#{target_post.id}" do
+        click_on 'Show comments!'
       end
     else
-      expect(page).to have_content('No connected stories!')
-      stories.each do |story|
-        expect(page).not_to have_content(story.title)
+      container_selector = "#post-#{target_post.id}"
+      scroll_page
+    end
+    within container_selector do
+      within "#comment-#{target_comment.id}" do
+        expect(page).to have_content('Edit')
+        expect(page).to have_content(target_comment.body)
+        click_on 'Edit'
+        fill_in 'comment[body]', with: 'New comment body'
+        click_on 'Update'
       end
+      expect(page).to have_content('New comment body')
+      expect(target_comment.reload.body).to eq('New comment body')
     end
-  end
-  it 'can create new comments' do
-    within modal_name do
-      expect(page).to have_content('Write a comment...')
-      fill_in 'comment[body]', with: @valid_comment_body
-      click_on('Comment')
-      expect(page).to have_content('Comment created!')
-      expect(page).to have_content(@valid_comment_body)
-    end
+    expect(page).to have_content('Comment updated!')
   end
 end
 
@@ -358,36 +351,23 @@ RSpec.describe 'Comments', type: :system do
     before do
       @post = @current_user.posts.last
       login_as(@current_user)
-      @post.comments.update_all(user: @current_user)
+      @post.comments.update_all(user_id: @current_user.id)
+      @comment = @post.comments.last
     end
     context 'in modal' do
-      it 'updates comment' do
-        visit profile_path(@current_user)
-        within "#post-#{@post.id}" do
-          click_on 'Show comments!'
-        end
-        within "#commentsModal-#{@post.id}" do
-          expect(page).to have_content('Update')
-          expect(page).to have_content(@post.comments.last.body)
-          click_on 'Update'
-          expect(page).to have_content('Comment updated!')
-          expect(page).not_to have_content(@post.comments.last.body)
-        end
+      include_examples 'update comment' do
+        let(:path)            { profile_path(@current_user) }
+        let(:target_post)     { @post }
+        let(:target_comment)  { @comment }
+        let(:inside_of_modal) { true }
       end
     end
     context 'in post page' do
-      it 'updates comment' do
-        visit post_path(@post)
-        within "#post-#{@post.id}" do
-          click_on 'Show comments!'
-        end
-        within "#commentsModal-#{@post.id}" do
-          expect(page).to have_content('Update')
-          expect(page).to have_content(@post.comments.last.body)
-          click_on 'Update'
-          expect(page).to have_content('Comment updated!')
-          expect(page).not_to have_content(@post.comments.last.body)
-        end
+      include_examples 'update comment' do
+        let(:path)            { post_path(@post) }
+        let(:target_post)     { @post }
+        let(:target_comment)  { @comment }
+        let(:inside_of_modal) { false }
       end
     end
   end
@@ -396,37 +376,47 @@ RSpec.describe 'Comments', type: :system do
     before do
       @post = @current_user.posts.last
       login_as(@current_user)
-      @post.comments.update_all(user: @current_user)
+      @post.comments.update_all(user_id: @current_user.id)
+      @comment = @post.comments.last
     end
     context 'in modal' do
-      it 'delete comment' do
+      it 'deletes comment' do
         visit profile_path(@current_user)
         within "#post-#{@post.id}" do
           click_on 'Show comments!'
         end
         within "#commentsModal-#{@post.id}" do
-          expect(page).to have_content('Delete')
-          expect(page).to have_content(@post.comments.last.body)
-          click_on 'Delete'
-          expect(page).to have_content('Comment deleted!')
-          expect(page).not_to have_content(@post.comments.last.body)
+          within "#comment-#{@comment.id}" do
+            expect(page).to have_content('Delete')
+            expect(page).to have_content(@comment.body)
+            click_on 'Delete'
+          end
+          accept_alert
+          expect(page).not_to have_content(@comment.body)
         end
+        expect(page).to have_content('Comment deleted!')
       end
     end
     context 'in post page' do
-      it 'delete comment' do
+      it 'deletes comment' do
         visit post_path(@post)
+        scroll_page
         within "#post-#{@post.id}" do
-          click_on 'Show comments!'
+          within "#comment-#{@comment.id}" do
+            expect(page).to have_content('Delete')
+            expect(page).to have_content(@comment.body)
+            click_on 'Delete'
+          end
+          accept_alert
+          expect(page).not_to have_content(@comment.body)
         end
-        within "#commentsModal-#{@post.id}" do
-          expect(page).to have_content('Delete')
-          expect(page).to have_content(@post.comments.last.body)
-          click_on 'Delete'
-          expect(page).to have_content('Comment deleted!')
-          expect(page).not_to have_content(@post.comments.last.body)
-        end
+        expect(page).to have_content('Comment deleted!')
       end
     end
   end
+end
+
+def scroll_page
+  page.scroll_to(0, 10000)
+  sleep(0.4)
 end
