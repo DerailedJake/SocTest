@@ -9,6 +9,7 @@ class User < ApplicationRecord
   end
   has_many :stories, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   validates :first_name, presence: true, length: { minimum: 1, maximum: 20 }
   validates :last_name, presence: true, length: { minimum: 1, maximum: 20 }

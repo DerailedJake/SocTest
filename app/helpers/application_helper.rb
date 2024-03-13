@@ -17,4 +17,12 @@ module ApplicationHelper
   def render_turbo_flashes
     turbo_stream.update "flashes", partial: "shared/flashes"
   end
+
+  def render_heart(whatever)
+    if whatever
+      render partial: 'shared/heart_icon_full'
+    else
+      render partial: 'shared/heart_icon_empty'
+    end
+  end
 end

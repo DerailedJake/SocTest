@@ -16,6 +16,8 @@
               <%= link_to 'Delete', comment_path(comment), class: 'fw-bold',
                           data: { turbo_method: 'delete', turbo_confirm: 'Really?' } %>
             <% end %>
+            <%= comment.likes.count %>
+            <%= render_heart(false) %>
           </div>
           <p><%= comment.body %></p>
         </div>
