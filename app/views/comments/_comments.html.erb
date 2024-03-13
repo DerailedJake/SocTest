@@ -1,14 +1,10 @@
-<% per_page ||= 3 %>
-<div class="pagination justify-content-center">
-  <%= link_to_previous_page comments, 'Newer comments', params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page }, remote: true, class: 'page-link' %>
-  <%= link_to_next_page comments, 'Older comments', params: { controller: :comments, action: :index, post_id: post.id, per_page: per_page }, remote: true, class: 'page-link' %>
+<div id="post-comments-<%= post.id %>">
+      <% if current_user %>
+            <%= render partial: 'comments/new_comment', locals: { post: post, comment: post.comments.new } %>
+      <% end %>
+      <%= turbo_frame_tag([:turbo_comments_container, post.id], class: "", target: "_top") do %>
+            <%= turbo_frame_tag([:comments, "1_#{post.id}"], class: "", target:"_top",
+                              src: comments_path(post_id: post.id), loading: 'lazy')  do %>
+            <% end %>
+      <% end %>
 </div>
-
-<% if current_user %>
-  <%= render partial: 'comments/new_comment', locals: { post: post, comment: comments.new } %>
-<% end %>
-
-<% comments.each do |com| %>
-  <%= render partial: 'comments/comment', locals: { comment: com, author: com.user } %>
-<% end %>
-

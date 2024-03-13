@@ -6,7 +6,7 @@
   <% if current_user == post.user %>
     <div class="btn-group">
       <%= link_to "Edit", edit_post_path(post.id), class: "btn btn-sm btn-secondary" %>
-      <%= link_to "Delete", post_path(post.id), method: :delete, class: "btn btn-sm btn-secondary" %>
+      <%= link_to "Delete", post_path(post.id), method: :delete, class: "btn btn-sm btn-secondary", data: { confirm: 'Are you sure?' } %>
     </div>
   <% end %>
 </div>

@@ -6,7 +6,7 @@
   </div>
   <!-- timeline-icon -->
   <div class="timeline-icon">
-    <a href="javascript:;">&nbsp;</a>
+    <a href="javascript:">&nbsp;</a>
   </div>
   <!-- timeline-body -->
   <div class="timeline-body post-buttons-parent">
@@ -23,10 +23,8 @@
         <%= post.body %>
       </p>
     </div>
-    <div id="post-comments-<%= post.id %>">
-      <% if post.comments.any? %>
-        <%= render partial: 'comments/comments', locals: { post: post, comments: post.latest_comments } %>
-      <% end %>
+    <div class="py-md-4 justify-content-center text-center">
+      <%= render partial: 'comments/comments_modal', locals: { post: post } %>
     </div>
   </div>
 </li>

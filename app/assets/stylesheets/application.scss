@@ -39,6 +39,11 @@
   --bs-popover-body-padding-y: .5rem;
 }
 
+.alert {
+  z-index: 1100;
+  width: 30%;
+  margin: 0 auto !important;
+}
 .alert-alert { @extend .alert-warning; }
 .alert-error { @extend .alert-danger;  }
 .alert-notice{ @extend .alert-info;    }

@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "comment-#{@comment.id}" do %>
+  <%= render partial: 'comments/comment', locals: { comment: @comment, author: @comment.user } %>
+  <%= render_turbo_flashes %>
+<% end %>

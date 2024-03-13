@@ -10,8 +10,7 @@
         <%= link_to author.full_name, profile_path(author) %>
       <% end %>
     </div>
-    <div id="post-comments-<%= post.id %>">
-      <%= render partial: 'comments/comments', locals: { post: post, comments: post.latest_comments } %>
-    </div>
+    <!-- Button trigger modal -->
+    <%= render partial: 'comments/comments_modal', locals: { post: post } %>
   </div>
 </div>

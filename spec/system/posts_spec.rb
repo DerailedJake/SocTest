@@ -89,6 +89,7 @@ RSpec.shared_examples 'should have all buttons' do
   it 'has functional delete button' do
     within post_selector do
       click_on 'Delete'
+      accept_alert
     end
     expect(page).to have_current_path(root_path)
     expect(page).to have_content 'Post removed'
