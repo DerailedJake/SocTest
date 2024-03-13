@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index]
+  before_action :set_comment, only: %i[edit update destroy]
 
   def index
     @post = Post.find(params[:post_id])
@@ -18,12 +19,9 @@ class CommentsController < ApplicationController
     respond_to(&:turbo_stream)
   end
 
-  def edit
-    @comment = current_user.comments.find(params[:id])
-  end
+  def edit; end
 
   def update
-    @comment = current_user.comments.find(params[:id])
     if @comment.update(comment_params)
       flash.now[:success] = 'Comment updated!'
     else
@@ -33,7 +31,6 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = current_user.comments.find(params[:id])
     if @comment.destroy
       flash.now[:success] = 'Comment deleted!'
     else
@@ -46,5 +43,9 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:body, :post_id)
+  end
+
+  def set_comment
+    @comment = current_user.comments.find(params[:id])
   end
 end
