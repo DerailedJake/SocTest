@@ -1,5 +1,0 @@
-$("<%= escape_javascript(render 'shared/flashes') %>").insertBefore("#main-body");
-<% if @comment.errors.empty? %>
-  $("<%= escape_javascript(render @comment, author: current_user) %>").insertAfter("#comment-form-container-<%= @comment.post.id %>");
-  $(':input',"#comment-form-<%= @comment.post.id %>")[2].value = '';
-<% end %>

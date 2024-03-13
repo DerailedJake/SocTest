@@ -9,17 +9,13 @@ class CommentsController < ApplicationController
 
   def create
     @comment = current_user.comments.new(comment_params)
-    respond_to do |format|
-      if @comment.save
-        flash.now[:success] = "Comment created!"
-        format.js   {}
-        format.json { render json: @comment, status: :created, location: @comment }
-      else
-        flash.now[:danger] = @comment.errors.full_messages.first
-        format.js   {}
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    @post = @comment.post
+    if @comment.save
+      flash.now[:success] = "Comment created!"
+    else
+      flash.now[:danger] = @comment.errors.full_messages.first
     end
+    respond_to(&:turbo_stream)
   end
 
   def edit
@@ -31,7 +27,8 @@ class CommentsController < ApplicationController
     if @comment.update(comment_params)
       flash.now[:success] = 'Comment updated!'
     else
-      flash.now[:danger] = @post.errors.full_messages.first
+      @comment.reload
+      flash.now[:danger] = @comment.errors.full_messages.first
     end
   end
 
