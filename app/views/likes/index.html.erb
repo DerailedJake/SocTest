@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "turbo-like-#{@like.likeable_type}-#{@like.likeable_id}", loading: 'lazy', target: '_top' do %>
+  <%= @likeable.likes.count %>
+  <%= link_to(likes_path(like: { likeable_id: @like.likeable_id, likeable_type: @like.likeable_type }),
+              data: { turbo_method: 'post' }) do %>
+    <%= render_heart(@likeable) %>
+  <% end %>
+<% end %>
