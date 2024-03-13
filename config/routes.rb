@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'static_pages/legal'
 
   get 'users/home'
-  get 'users/profile/(:id)'=> 'users#profile', as: 'profile'
+  get 'users/profile/(:id)' => 'users#profile', as: 'profile'
   get 'users/index'
 
   get 'stories/display_stories', as: 'display_stories'
@@ -13,13 +13,13 @@ Rails.application.routes.draw do
 
   get 'stories/timeline'
 
+  post 'like' => 'likes#like', as: 'like'
+
   resources :posts
 
   resources :stories
 
   resources :comments, only: [:index, :create, :edit, :update, :destroy]
-
-  resources :likes
 
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

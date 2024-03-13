@@ -1,15 +1,8 @@
 class LikesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
 
-  def index
-    @like = Like.new(like_params)
-    @likeable = @like.likeable
-    @liked = current_user && current_user.likes.find_by(like_params) ? false : true
-  end
-
-  def create
-    if current_user.likes.find_by(like_params)
-      @like = current_user.likes.find_by(like_params)
+  def like
+    @like = current_user.likes.find_by(like_params)
+    if @like
       @like.destroy
     else
       @like = current_user.likes.new(like_params)
