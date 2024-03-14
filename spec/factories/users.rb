@@ -36,12 +36,12 @@ def users_with_stories_posts_comments_and_likes
   FactoryBot.create(:story, user: first_user) do |story|
     FactoryBot.create(:post, story_ids: [story.id], user: first_user) do |post|
       FactoryBot.create(:comment, post: post, user: first_user) do |comment|
-        User.all.each do |user|
+        [first_user, second_user, third_user].each do |user|
           FactoryBot.create(:like, likeable: comment, user: user)
         end
       end
       FactoryBot.create(:comment, post: post, user: second_user) do |comment|
-        User.all.each do |user|
+        [first_user, second_user, third_user].each do |user|
           FactoryBot.create(:like, likeable: comment, user: user)
         end
       end

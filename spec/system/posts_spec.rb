@@ -4,6 +4,8 @@ RSpec.shared_examples 'show post' do
   # target_post show_buttons has_stories
   before do
     visit post_path(target_post)
+    page.scroll_to(0, 10000)
+    sleep(0.5)
   end
   it 'shows post' do
     if show_buttons
@@ -353,6 +355,8 @@ RSpec.describe 'Posts', type: :system do
         context 'on owned post' do
           before do
             visit profile_path(@current_user)
+            page.scroll_to(0, 10000)
+            sleep(0.5)
           end
           include_examples 'should have all buttons' do
             let(:post) { @post }
@@ -362,6 +366,8 @@ RSpec.describe 'Posts', type: :system do
         context 'on someone elses post' do
           before do
             visit profile_path(@second_user)
+            page.scroll_to(0, 10000)
+            sleep(0.5)
           end
           include_examples 'should have just view buttons' do
             let(:post) { @second_post }
@@ -373,6 +379,8 @@ RSpec.describe 'Posts', type: :system do
         before do
           @second_post = @second_user.posts.last
           visit profile_path(@second_user)
+          page.scroll_to(0, 10000)
+          sleep(0.5)
         end
         include_examples 'should have just view buttons' do
           let(:post) { @second_post }

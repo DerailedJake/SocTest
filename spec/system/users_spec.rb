@@ -31,7 +31,7 @@ end
 
 RSpec.shared_examples 'check index page' do
   before do
-    12.times { User.create!(attributes_for(:user)) }
+    4.times { User.create!(attributes_for(:user)) }
     visit users_index_path
   end
   it 'opens users list' do
@@ -41,7 +41,7 @@ RSpec.shared_examples 'check index page' do
 
   it 'has working pagination of users' do
     within('#user-pagination') do
-      click_link('3')
+      click_link('2')
     end
     expect(page).to have_content(User.last.full_name)
     expect(page).to have_content(User.last.description)
@@ -49,7 +49,7 @@ RSpec.shared_examples 'check index page' do
 
   it 'opens profile when clicked' do
     within('#user-pagination') do
-      click_link('3')
+      click_link('2')
     end
     click_link('Open profile')
     expect(page).to have_content('has no stories')
