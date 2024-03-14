@@ -11,11 +11,11 @@ class LikesController < ApplicationController
     respond_to(&:turbo_stream)
   end
 
-  def liked
+  def liked_things
     @likes = current_user.likes
   end
 
-  def liked_things
+  def liked
     @thing = params[:thing]
     @pagy_likeable, @likeables = pagy(current_user.likes.includes(:likeable).where(likeable_type: @thing), items: 3)
     @likeables = @likeables.map(&:likeable)

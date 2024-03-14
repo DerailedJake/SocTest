@@ -196,6 +196,37 @@ RSpec.describe 'Like', type: :system do
     end
   end
 
+  describe 'Liked display' do
+    context 'with things' do
+      it 'shows likes' do
+        visit liked_path(@current_user)
+        check_likes_display(@story.id, 'Story')
+      end
+    end
+    context 'without things' do
+      it 'shows likes' do
+        visit profile_path(@current_user)
+        check_likes_display(@story.id, 'Story')
+      end
+    end
+    context 'on posts' do
+      it 'shows likes' do
+        visit post_path(@post)
+        page.scroll_to(0, 10000)
+        sleep(0.7)
+        page.scroll_to(0, 10000)
+        sleep(0.4)
+        check_likes_display(@story.id, 'Story')
+      end
+    end
+    context 'on stories' do
+      it 'shows likes' do
+        visit story_path(@story)
+        check_likes_display(@story.id, 'Story')
+      end
+    end
+  end
+
   def check_liking_comment(target_id, type, likes_count = 3)
     within "#turbo-like-#{type}-#{target_id}" do
       expect(page).to have_selector('a')
