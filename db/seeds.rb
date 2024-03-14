@@ -83,8 +83,8 @@ def random_picture(type)
 end
 
 def create_stories(user)
-  min = 3
-  max = 15
+  min = 1
+  max = 7
   rand(min..max).times do
     title = random_picture('arch')[1]
     user.stories.create!(
@@ -95,7 +95,7 @@ def create_stories(user)
 end
 
 def create_posts(user)
-  post_count = rand(24..60)
+  post_count = rand(4..12)
   p "number of posts - #{post_count}"
   post_count.times do
     is_positive = rand(1..10) > 3
@@ -112,7 +112,7 @@ end
 
 def create_comments(post, is_positive, type)
   min = 0
-  max = 15
+  max = 8
   rand(min..max).times do
     c_body = get_comment_body(is_positive, type)
     post.comments.create!(
@@ -133,23 +133,16 @@ end
 
 def like_everything
   User.all.each do |user|
-    Story.all.each do |story|
-      next if rand(100) > 60
-      story.likes.create(user: user)
-    end
-    Post.all.each do |post|
-      next if rand(100) > 20
-      post.likes.create(user: user)
-    end
-    Comment.all.each do |comment|
-      next if rand(100) > 5
-      comment.likes.create(user: user)
-    end
+    p user.first_name
+    user.likes.create!(Story.all.map{|c| {likeable: c} if rand(100)>50}.compact) rescue nil
+    user.likes.create!(Post.all.map{|c| {likeable: c} if rand(100)>80}.compact) rescue nil
+    user.likes.create!(Comment.all.map{|c| {likeable: c} if rand(100)>95}.compact) rescue nil
   end
 end
 
 def create_users
-  rand(50..80).times do
+  rand(500..600).times do |i|
+    p i if i%100 == 0
     User.create!(
       email: Faker::Internet.email,
       password: 'qwerqwer',
@@ -174,7 +167,7 @@ User.create!(
 
 create_users
 
-@all_users = User.all
+@all_users = User.all[0..50]
 
 # comments made during post creation
 @all_users.each do |user|
