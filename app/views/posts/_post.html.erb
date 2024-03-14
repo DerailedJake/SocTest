@@ -10,7 +10,7 @@
         <%= link_to author.full_name, profile_path(author) %>
       <% end %>
       <span>
-        <%= render partial: 'likes/likes_for_likeable', locals: { likeable: Comment.first } %>
+        <%= render partial: 'likes/likes_for_likeable', locals: { likeable: post } %>
       </span>
     </div>
     <!-- Button trigger modal -->

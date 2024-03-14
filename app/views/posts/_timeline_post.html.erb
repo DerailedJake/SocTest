@@ -22,6 +22,9 @@
       <p style="margin-bottom: 0">
         <%= post.body %>
       </p>
+      <div class="text-center">
+        <%= render partial: 'likes/likes_for_likeable', locals: { likeable: post } %>
+      </div>
     </div>
     <div class="py-md-4 justify-content-center text-center">
       <%= render partial: 'comments/comments_modal', locals: { post: post } %>

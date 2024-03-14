@@ -8,7 +8,7 @@
         <p><%= link_to author.full_name, profile_path(author) %></p>
       <% end %>
       <p>
-        <%= render partial: 'likes/likes_for_likeable', locals: { likeable: Comment.first } %>
+        <%= render partial: 'likes/likes_for_likeable', locals: { likeable: story } %>
       </p>
       <p><%= link_to "See story", story_path(story), class: "btn btn-primary" %></p>
     </div>

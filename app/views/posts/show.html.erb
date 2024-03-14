@@ -21,6 +21,9 @@
         <% if @user != current_user %>
           <%= link_to @user.full_name, profile_path(@user) %>
         <% end %>
+        <div class="text-center">
+          <%= render partial: 'likes/likes_for_likeable', locals: { likeable: @post } %>
+        </div>
       </div>
 
       <%= render partial: 'comments/comments', locals: { post: @post } %>
