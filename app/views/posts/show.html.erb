@@ -32,6 +32,6 @@
 
   <hr class="featurette-divider">
 
-  <%= render partial: 'stories/stories', locals: { author: @post.user, in_post_view: true } %>
+  <%= render partial: 'stories/stories', locals: { author: @post.user, post_id: @post.id } %>
 
 </div>
