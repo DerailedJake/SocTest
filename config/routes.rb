@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get 'stories/timeline'
 
   post 'like' => 'likes#like', as: 'like'
+  get 'liked' => 'likes#liked', as: 'liked'
+  get 'liked_things' => 'likes#liked_things'
 
   resources :posts
 
