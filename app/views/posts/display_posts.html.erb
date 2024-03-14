@@ -18,7 +18,7 @@
     <div class="py-lg-4 col-lg-6 col-md-8 mx-auto">
       <div class="text-center">
         <h2 class="h3 mb-3 fw-normal">No posts here!</h2>
-        <% if current_user == author %>
+        <% if current_user == @user %>
           <%= link_to "Make a new post", new_post_path, class: "btn btn-primary my-2" %>
         <% end %>
       </div><br />
