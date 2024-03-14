@@ -1,18 +1,24 @@
-<main>
-  <div class="py-5 col-lg-6 col-md-8 mx-auto text-center">
-    <h1>
-      Things you liked!
-    </h1>
-    <hr class="featurette-divider">
-  </div>
-
-  <%= turbo_frame_tag 'turbo-stories',src: liked_things_path(thing: 'Story'), loading: 'lazy', target: '_top' %>
-
-  <hr class="featurette-divider">
-
-  <%= turbo_frame_tag 'turbo-posts', src: liked_things_path(thing: 'Post'), loading: 'lazy', target: '_top' %>
-
-  <hr class="featurette-divider">
-</main>
-
-
+<% thing_name = @thing.underscore.pluralize %>
+<%= turbo_frame_tag "turbo-#{thing_name}", target: "_top" do %>
+  <% if @likeables.any? %>
+    <div class="col-lg-6 col-md-8 mx-auto text-center">
+      <h2><%= "Liked #{thing_name}:" %></h2>
+    </div>
+    <div id="post-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+      <%== pagy_bootstrap_nav @pagy_likeable, link_extra: 'data-turbo-frame="_self"' %>
+    </div>
+    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-md-center">
+      <% @likeables.each do |likeable| %>
+        <% if @thing == 'Story' %>
+            <%= render partial: 'stories/story', locals: { author: current_user, story: likeable } %>
+        <% elsif @thing == 'Post' %>
+            <%= render partial: 'posts/post', locals: { author: current_user, post: likeable } %>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="col-lg-6 col-md-8 mx-auto text-center">
+      <h2><%= "You have no liked #{thing_name}" %></h2>
+    </div>
+  <% end %>
+<% end %>
