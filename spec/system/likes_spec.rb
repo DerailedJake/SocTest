@@ -197,32 +197,28 @@ RSpec.describe 'Like', type: :system do
   end
 
   describe 'Liked display' do
+    before do
+      login_as @current_user
+    end
     context 'with things' do
       it 'shows likes' do
-        visit liked_path(@current_user)
-        check_likes_display(@story.id, 'Story')
+        visit liked_things_path
+        expect(page).to have_content 'Things you liked!'
+        expect(page).to have_content 'Liked stories'
+        expect(page).to have_content 'Liked posts'
+        expect(page).to have_content @post.body
+        expect(page).to have_content @story.description
       end
     end
     context 'without things' do
       it 'shows likes' do
-        visit profile_path(@current_user)
-        check_likes_display(@story.id, 'Story')
-      end
-    end
-    context 'on posts' do
-      it 'shows likes' do
-        visit post_path(@post)
-        page.scroll_to(0, 10000)
-        sleep(0.7)
-        page.scroll_to(0, 10000)
-        sleep(0.4)
-        check_likes_display(@story.id, 'Story')
-      end
-    end
-    context 'on stories' do
-      it 'shows likes' do
-        visit story_path(@story)
-        check_likes_display(@story.id, 'Story')
+        @current_user.likes.delete_all
+        visit liked_things_path
+        expect(page).to have_content 'Things you liked!'
+        expect(page).to have_content 'You have no liked stories'
+        expect(page).to have_content 'You have no liked posts'
+        expect(page).not_to have_content @post.body
+        expect(page).not_to have_content @story.description
       end
     end
   end
