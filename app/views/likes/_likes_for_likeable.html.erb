@@ -1,9 +1,9 @@
 <%= turbo_frame_tag "turbo-like-#{likeable.class.name}-#{likeable.id}", loading: 'lazy', target: '_top' do %>
-  <%= likeable.likes.count %>
+  <%= likeable.likes_count %>
   <% if current_user %>
     <%= link_to(like_path(like: { likeable_id: likeable.id, likeable_type: likeable.class.name }),
                 data: { turbo_method: 'post' }) do %>
-      <% heart_empty = likeable.likes.find_by(user_id: current_user.id) ? false : true %>
+      <% heart_empty = current_user.likes.find_by(likeable_id: likeable.id, likeable_type: likeable.class.name) ? false : true %>
       <%= render_heart(heart_empty) %>
     <% end %>
   <% else %>
