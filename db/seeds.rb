@@ -131,6 +131,23 @@ def randomly_attach(user)
   end
 end
 
+def like_everything
+  User.all.each do |user|
+    Story.all.each do |story|
+      next if rand(100) > 60
+      story.likes.create(user: user)
+    end
+    Post.all.each do |post|
+      next if rand(100) > 20
+      post.likes.create(user: user)
+    end
+    Comment.all.each do |comment|
+      next if rand(100) > 5
+      comment.likes.create(user: user)
+    end
+  end
+end
+
 def create_users
   rand(50..80).times do
     User.create!(
@@ -166,3 +183,5 @@ create_users
   create_stories(user)
   randomly_attach(user)
 end
+
+like_everything
