@@ -6,11 +6,9 @@
     <hr class="featurette-divider">
   </div>
   <div id="tag-list" class="px-lg-5 container">
-    <div class="d-flex gap-2 justify-content-center">
-      <% @tags.each do |tag| %>
-        <%= render tag %>
-      <% end %>
-    </div>
+    <% @tags.each do |tag| %>
+      <a class="btn btn-info rounded-pill px-3 m-1" type="button"><%= tag.name %></a>
+  <% end %>
   </div>
   <hr class="featurette-divider">
 </main>
