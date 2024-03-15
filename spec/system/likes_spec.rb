@@ -1,19 +1,5 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'like comment' do
-  # target_comment likes_count
-  it 'shows comments' do
-    within "#turbo-like-Comment-#{target_comment.id}" do
-      expect(page).to have_selector('a')
-      expect(page).to have_content(likes_count)
-      click_on ''
-      expect(page).to have_content(likes_count + 1)
-      click_on ''
-      expect(page).to have_content(likes_count)
-    end
-  end
-end
-
 RSpec.describe 'Like', type: :system do
   before do
     @current_user = users_with_stories_posts_comments_and_likes

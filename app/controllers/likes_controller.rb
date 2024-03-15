@@ -11,9 +11,7 @@ class LikesController < ApplicationController
     respond_to(&:turbo_stream)
   end
 
-  def liked_things
-    @likes = current_user.likes
-  end
+  def liked_things; end
 
   def liked
     @thing = params[:thing]
