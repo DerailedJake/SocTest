@@ -12,17 +12,15 @@
   </div>
 
   <div class="input-group mb-3">
-    <span class="input-group-text">#</span>
-    <%= f.text_field 'ewf', value: @story.description, class: "form-control", placeholder: "Tag 1", aria_label: 'Tag 1' %>
-    <span class="input-group-text">#</span>
-    <%= f.text_field 'ewf', value: @story.description, class: "form-control", placeholder: "Tag 2", aria_label: 'Tag 2'  %>
-    <span class="input-group-text">#</span>
-    <%= f.text_field 'ewf', value: @story.description, class: "form-control", placeholder: "Tag 3", aria_label: 'Tag 3'  %>
-    <span class="input-group-text">#</span>
-    <%= f.text_field 'ewf', value: @story.description, class: "form-control", placeholder: "Tag 4", aria_label: 'Tag 4' %>
+    <%= f.text_field :tags, class: "form-control", onchange: "this.form.requestSubmit()" %>
   </div>
 
   <div class="actions col-auto text-center">
     <%= f.submit "Create", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<%= form_with url: search_tags_url, method: :post do |f| %>
+  <% f.text_field :tags, class: "form-control", oninput: "debounce(this.form.requestSubmit(),250)" %>
+<% end %>
+window.handleInput = debounce(getValue, 250); and in your html, oninput="debouncedSubmit() ()"

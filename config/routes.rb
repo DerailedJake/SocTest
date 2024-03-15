@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get 'liked_things' => 'likes#liked_things'
 
   get 'tags' => 'tags#index'
+  post 'search_tags' => 'tags#search'
 
   resources :posts
 
