@@ -5,13 +5,17 @@ Rails.application.routes.draw do
   get 'static_pages/legal'
 
   get 'users/home'
-  get 'users/profile/(:id)'=> 'users#profile', as: 'profile'
+  get 'users/profile/(:id)' => 'users#profile', as: 'profile'
   get 'users/index'
 
   get 'stories/display_stories', as: 'display_stories'
   get 'posts/display_posts', as: 'display_posts'
 
   get 'stories/timeline'
+
+  post 'like' => 'likes#like', as: 'like'
+  get 'liked' => 'likes#liked', as: 'liked'
+  get 'liked_things' => 'likes#liked_things'
 
   resources :posts
 

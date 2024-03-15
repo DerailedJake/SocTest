@@ -4,6 +4,9 @@
     <p class="lead">
       <%= @story.description %>
     </p>
+    <p>
+      <%= render partial: 'likes/likes_for_likeable', locals: { likeable: @story } %>
+    </p>
     <h3>By:</h3>
     <p>
       <%= render partial: 'users/small', locals: { user: @story.user } %>

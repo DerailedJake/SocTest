@@ -1,6 +1,7 @@
 class Story < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :posts
+  has_many :likes, as: :likeable, dependent: :destroy
   validates :title, presence: true, length: { minimum: 1, maximum: 80 }
   validate :validate_posts_belong_to_user
 

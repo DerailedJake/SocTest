@@ -1,4 +1,4 @@
 <div id="story-list" class="container">
-  <% in_post_view ||= false %>
-  <%= turbo_frame_tag 'turbo-stories',src: display_stories_path(user_id: author.id, in_post_view: in_post_view), loading: 'lazy', target: '_top' %>
+  <% post_id ||= nil %>
+  <%= turbo_frame_tag 'turbo-stories',src: display_stories_path(user_id: author.id, post_id: post_id), loading: 'lazy', target: '_top' %>
 </div>

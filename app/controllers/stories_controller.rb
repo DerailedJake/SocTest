@@ -18,7 +18,12 @@ class StoriesController < ApplicationController
   end
 
   def display_stories
-    @in_post_view = params[:in_post_view]
+    return unless params[:post_id]
+
+    @post = Post.find(params[:post_id])
+    @in_post_view = true
+    @pagy_stories, @stories = pagy(@post.stories.order('created_at ASC'),
+                                   items: 3, page_param: :page_stories)
   end
 
   def index

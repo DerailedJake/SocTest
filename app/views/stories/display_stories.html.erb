@@ -1,8 +1,7 @@
-<% in_post_view ||= false %>
 <%= turbo_frame_tag 'turbo-stories', target: "_top" do %>
   <% if @stories.any? %>
     <div class="col-lg-6 col-md-8 mx-auto text-center">
-      <% if in_post_view %>
+      <% if @in_post_view %>
         <h2>Connected stories:</h2>
       <% else %>
         <h2><%= "#{@user.full_name} stories:"  %></h2>
@@ -17,7 +16,7 @@
       <% end %>
     </div>
   <% else %>
-    <% if in_post_view %>
+    <% if @in_post_view %>
       <div class="py-lg-4 col-lg-6 col-md-8 mx-auto">
         <div class="text-center">
           <h2 class="h3 mb-3 fw-normal">No connected stories!</h2>

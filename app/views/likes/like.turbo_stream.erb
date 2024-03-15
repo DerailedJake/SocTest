@@ -1,0 +1,4 @@
+<%= turbo_stream.replace "turbo-like-#{@like.likeable_type}-#{@like.likeable_id}", target: '_top' do %>
+  <%= render partial: 'likes/likes_for_likeable', locals: { likeable: @like.likeable } %>
+  <%= render_turbo_flashes %>
+<% end %>
