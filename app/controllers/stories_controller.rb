@@ -1,5 +1,4 @@
 class StoriesController < ApplicationController
-  include Pagy::Backend
   skip_before_action :authenticate_user!, only: %i[show index display_stories timeline]
   before_action :set_user, only: [:display_stories]
   before_action :set_user_stories, only: [:display_stories]
