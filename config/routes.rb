@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get 'liked' => 'likes#liked', as: 'liked'
   get 'liked_things' => 'likes#liked_things'
 
+  get 'tags' => 'tags#index'
+
   resources :posts
 
   resources :stories
