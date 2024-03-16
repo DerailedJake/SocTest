@@ -7,6 +7,11 @@
         <%=  story.posts.count %>
         <p><%= link_to author.full_name, profile_path(author) %></p>
       <% end %>
+      <div class="my-3">
+        <% story.tags.each do |tag| %>
+            <span class="badge text-bg-info rounded-pill"><%= tag.name %></span>
+        <% end %>
+      </div>
       <p>
         <%= render partial: 'likes/likes_for_likeable', locals: { likeable: story } %>
       </p>
