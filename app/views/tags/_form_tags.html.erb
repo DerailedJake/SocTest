@@ -1,0 +1,7 @@
+<div class="d-flex gap-2 justify-content-center py-5">
+  <%= turbo_frame_tag 'tags-in-form' do %>
+    <% tags.each do |tag| %>
+      <%= render partial: 'tags/form_tag', locals: { tag: tag } %>
+    <% end %>
+  <% end %>
+</div>

@@ -8,10 +8,9 @@ class StoriesController < ApplicationController
     @pagy_posts, @posts = pagy(@story.posts.with_attached_picture, items: 1)
   end
   def new
-    @story = Story.new(user: current_user)
-    @tags = @story.tags
+    @story = current_user.stories.new
+    @posts = current_user.posts
   end
-
   def timeline
     @story = Story.find(params[:story_id])
     @pagy_posts, @posts = pagy(@story.posts, items: 1)
