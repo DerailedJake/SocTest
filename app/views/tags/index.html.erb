@@ -6,9 +6,7 @@
     <hr class="featurette-divider">
   </div>
   <div id="tag-list" class="px-lg-5 container">
-    <% @tags.each do |tag| %>
-      <%= render tag %>
-  <% end %>
+    <%= render @tags, show_count: true %>
   </div>
   <hr class="featurette-divider">
 </main>

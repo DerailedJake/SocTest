@@ -2,7 +2,7 @@ class TagsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
-    @tags = Tag.all.order('name ASC')
+    @tags = Tag.all.order('taggable_count DESC')
   end
 
   def show
