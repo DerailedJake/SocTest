@@ -7,8 +7,6 @@ class Story < ApplicationRecord
   validates :title, presence: true, length: { minimum: 1, maximum: 80 }
   validate :validate_posts_belong_to_user
 
-  accepts_nested_attributes_for :tags
-
   private
 
   def validate_posts_belong_to_user

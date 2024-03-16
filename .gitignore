@@ -31,6 +31,8 @@
 
 /public/assets
 
+/node_modules/*
+
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
@@ -41,4 +43,4 @@
 /app/assets/images/post_pics_food/*
 /app/assets/images/post_pictures/*
 /app/assets/images/user_avatars/*
-/app/assets/text_file/*
+/app/assets/text_files/*

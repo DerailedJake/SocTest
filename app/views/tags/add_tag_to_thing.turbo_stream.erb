@@ -1,0 +1,24 @@
+<%= turbo_stream.append 'tags-in-form' do %>
+  <%= turbo_frame_tag "tag-in-form-#{@tag.name}" do %>
+    <input type="hidden" value="<%= @tag.id %>" name="story[tag_ids][]" >
+    <div class="btn btn-info rounded-pill px-3">
+      <%= @tag.name %>
+      <a>
+        <svg onclick="document.getElementById('tag-in-form-<%=@tag.name%>').remove()" xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16" style="margin-top: -4px; margin-right: -9px">
+          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+        </svg>
+      </a>
+    </div>
+  <% end %>
+<% end %>
+<%= turbo_stream.replace 'tags-list' do %>
+  <%= turbo_frame_tag 'tags-list' do %>
+    <div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 shadow overflow-hidden w-280px" data-bs-theme="light">
+      <%= form_with url: search_tags_url, method: :post, data: { controller: 'debounce', debounce_target: 'form' }, class: 'p-2 mb-2 bg-body-tertiary border-bottom' do |f| %>
+        <% f.text_field :tag_name, class: "form-control", data: { action: "input->debounce#search" }, placeholder: "Type to pick tags", autocomplete: 'off' %>
+      <% end %>
+      <ul class="list-unstyled mb-0">
+      </ul>
+    </div>
+  <% end %>
+<% end %>

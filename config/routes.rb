@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   get 'tags' => 'tags#index'
   post 'search_tags' => 'tags#search'
+  post 'add_tag_to_thing' => 'tags#add_tag_to_thing'
 
   resources :posts
 
