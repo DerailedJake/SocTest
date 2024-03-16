@@ -1,1 +1,12 @@
-<div class="btn btn-info rounded-pill px-3 m-1"><%= tag.name %></div>
+<% small_pill ||= false %>
+<% if small_pill %>
+  <%= link_to show_tag_path(tag.name) do %>
+    <span class="badge text-bg-info rounded-pill">
+      <%= tag.name %>
+    </span>
+  <% end %>
+<% else %>
+  <%= link_to show_tag_path(tag.name), class: "btn btn-info rounded-pill px-3 m-1" do %>
+    <%= tag.name %>
+  <% end %>
+<% end %>

@@ -9,9 +9,10 @@
       <% if author != current_user %>
         <%= link_to author.full_name, profile_path(author) %>
       <% end %>
-      <span>
+      <%= render post.tags, small_pill: true %>
+      <p>
         <%= render partial: 'likes/likes_for_likeable', locals: { likeable: post } %>
-      </span>
+      </p>
     </div>
     <!-- Button trigger modal -->
     <%= render partial: 'comments/comments_modal', locals: { post: post } %>
