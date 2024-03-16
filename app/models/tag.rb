@@ -1,5 +1,5 @@
 class Tag < ApplicationRecord
-  has_many :taggings, as: :taggable
+  has_many :taggings
   has_many :posts, through: :taggings, source: :taggable, source_type: 'Post'
   has_many :stories, through: :taggings, source: :taggable, source_type: 'Story'
 
