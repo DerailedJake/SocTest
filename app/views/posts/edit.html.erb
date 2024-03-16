@@ -12,16 +12,33 @@
   </div>
 
   <div class="list-group">
-    <div class="list-group">
-      <i>Connected stories:</i>
+    <i>Connected stories:</i>
+    <div class="list-group" style="overflow-y: scroll; max-height: 300px">
       <%= f.collection_check_boxes :story_ids, current_user.stories, :id, :title do |b|%>
         <%= b.label(class: 'list-group-item d-flex gap-2') {
           b.check_box(class: 'form-check-input flex-shrink-0') + b.text  } %>
       <% end %>
     </div>
   </div><br />
+
+  <%= render @post.tags %>
+  <div class="d-flex gap-2 justify-content-center py-5">
+    <%= turbo_frame_tag 'tags-in-form' %>
+  </div>
+
   <%= f.hidden_field 'story_to_redirect', value: @story_to_redirect %>
   <div class="actions col-auto text-center">
     <%= f.submit "Update", class: "btn btn-primary w-50" %>
   </div>
 <% end %>
+
+<div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+  <div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 shadow overflow-hidden w-280px" data-bs-theme="light">
+    <%= form_with url: search_tags_url, method: :post, data: { controller: 'debounce', debounce_target: 'form' }, id: 'search-tag-form',class: 'p-2 mb-2 bg-body-tertiary border-bottom' do |f| %>
+      <% f.text_field :tag_name, class: "form-control", data: { action: "input->debounce#search" }, placeholder: "Type to pick tags", autocomplete: 'off' %>
+    <% end %>
+    <ul class="list-unstyled mb-0">
+      <%= turbo_frame_tag 'tags-list' %>
+    </ul>
+  </div>
+</div>

@@ -4,13 +4,7 @@
     <p class="lead">
       <%= @story.description %>
     </p>
-    <div class="my-3">
-      <% @story.tags.each do |tag| %>
-        <div class="btn btn-info rounded-pill px-3">
-          <%= tag.name %>
-        </div>
-      <% end %>
-    </div>
+    <%= render @story.tags %>
     <p>
       <%= render partial: 'likes/likes_for_likeable', locals: { likeable: @story } %>
     </p>

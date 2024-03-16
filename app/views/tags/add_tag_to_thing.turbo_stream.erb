@@ -1,6 +1,6 @@
 <%= turbo_stream.append 'tags-in-form' do %>
   <%= turbo_frame_tag "tag-in-form-#{@tag.name}" do %>
-    <input type="hidden" value="<%= @tag.id %>" name="story[tag_ids][]" >
+    <input type="hidden" value="<%= @tag.id %>" name="tag_ids[]" >
     <div class="btn btn-info rounded-pill px-3">
       <%= @tag.name %>
       <a>

@@ -71,6 +71,6 @@ class StoriesController < ApplicationController
   private
 
   def stories_params
-    params.require(:story).permit(:title, :description, { post_ids: [] }, { tag_ids: [] })
+    params.require(:story).permit(:title, :description, { post_ids: [] }).merge({ tag_ids: params[:tag_ids] })
   end
 end
