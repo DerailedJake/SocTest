@@ -7,8 +7,8 @@ class TagsController < ApplicationController
 
   def show
     @tag = Tag.find_by(name: params[:name])
-    @pagy_posts, @posts = pagy(@tag.posts, items: 3)
-    @pagy_stories, @stories = pagy(@tag.stories, items: 3)
+    @pagy_posts, @posts = pagy(@tag.posts, items: 3, page_param: :post_page)
+    @pagy_stories, @stories = pagy(@tag.stories, items: 3, page_param: :story_page)
   end
 
   def search

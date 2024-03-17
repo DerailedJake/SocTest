@@ -5,6 +5,6 @@ class Tag < ApplicationRecord
 
   scope :filter_by_name, ->(name) { where('name ILIKE ?', "%#{name}%").limit(6) }
 
-  validates :name, presence: true, length: { minimum: 1, maximum: 20 }, uniqueness: true
+  validates :name, presence: true, length: { minimum: 1, maximum: 60 }, uniqueness: true
 
 end
