@@ -27,7 +27,7 @@
 
   <hr class="featurette-divider">
 
-  <%= turbo_frame_tag 'turbo-stories', target: "_top" do %>
+  <%= turbo_frame_tag 'turbo-posts', target: "_top" do %>
     <% if @posts.any? %>
       <div class="col-lg-6 col-md-8 mx-auto text-center">
         <h2>Tagged posts:</h2>
@@ -42,7 +42,7 @@
       </div>
     <% else %>
       <div class="col-lg-6 col-md-8 mx-auto text-center">
-        <h2><%= "No tagged stories" %></h2>
+        <h2><%= "No tagged posts" %></h2>
       </div>
     <% end %>
   <% end %>
