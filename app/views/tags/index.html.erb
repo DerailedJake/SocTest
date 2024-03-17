@@ -4,6 +4,8 @@
       LifeBook Tags
     </h1>
     <hr class="featurette-divider">
+    <%= link_to 'Sort by popularity',  tags_path(sort_by: 'popularity'), class: 'btn btn-primary' %>
+    <%= link_to 'Sort alphabetically', tags_path(sort_by: 'alphabetically'), class: 'btn btn-primary' %>
   </div>
   <div id="tag-list" class="px-lg-5 container">
     <%= render @tags, show_count: true %>
