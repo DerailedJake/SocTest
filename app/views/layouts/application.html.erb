@@ -17,7 +17,10 @@
       <%= render 'shared/flashes' %>
     </div>
 
-    <div id="main-body" class="container text-break justify-content-md-center">
+    <div id="side-panel" class="float-start col-md-12 col-lg-2" style="height:300px; overflow-y: scroll">
+      <%= render 'contacts/side_panel' %>
+    </div>
+    <div id="main-body" class=" container text-break justify-content-md-center">
       <%= yield %>
     </div>
 

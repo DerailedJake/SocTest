@@ -1,0 +1,5 @@
+<div class="list-group">
+  <% current_user.contacts.each do |contact| %>
+    <%= render 'users/small', user: contact.acquaintance %>
+  <% end %>
+</div>
