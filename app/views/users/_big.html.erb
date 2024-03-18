@@ -6,7 +6,12 @@
       <% else %>
         <svg class="bd-placeholder-img rounded-circle" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
       <% end %>
-      <h1 class="fw-light"><%= user.full_name %></h1>
+      <h1 class="fw-light">
+        <%= user.full_name %>
+        <% if current_user != user %>
+          <%= render partial: 'contacts/observe', locals: { user: user } %>
+        <% end %>
+      </h1>
       <p class="lead text-body-secondary"><%= user.description %></p>
       <p>
         <% if current_user != user %>

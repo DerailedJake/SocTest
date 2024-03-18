@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   post 'search_tags' => 'tags#search'
   post 'add_tag_to_thing' => 'tags#add_tag_to_thing'
 
+  post 'observe' => 'contacts#observe'
+
   resources :posts
 
   resources :stories
