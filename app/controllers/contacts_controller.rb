@@ -1,5 +1,8 @@
 class ContactsController < ApplicationController
 
+  def index
+    @pagy_users, @users = pagy(current_user.acquaintances, items: 6)
+  end
   def observe
     @user = User.find(params[:user_id])
     @contact = current_user.contacts.find_by(acquaintance: @user)

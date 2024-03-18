@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   post 'add_tag_to_thing' => 'tags#add_tag_to_thing'
 
   post 'observe' => 'contacts#observe'
+  get 'observed' => 'contacts#index'
 
   resources :posts
 
