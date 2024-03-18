@@ -4,6 +4,7 @@
     <p class="lead">
       <%= @story.description %>
     </p>
+    <%= render @story.tags %>
     <p>
       <%= render partial: 'likes/likes_for_likeable', locals: { likeable: @story } %>
     </p>

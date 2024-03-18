@@ -61,6 +61,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:picture, :body, { story_ids: []})
+    params.require(:post).permit(:picture, :body, { story_ids: []}).merge({ tag_ids: params[:tag_ids] })
   end
 end

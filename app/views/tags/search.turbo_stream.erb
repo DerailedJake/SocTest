@@ -1,0 +1,12 @@
+<%= turbo_stream.replace 'tags-list' do %>
+  <%= turbo_frame_tag 'tags-list' do %>
+    <% @tags.each do |tag| %>
+      <li onclick="document.getElementById('search-tag-form')[1].value=''">
+        <%= link_to(add_tag_to_thing_path(name: tag.name), data: { turbo_method: 'post' }, class: "dropdown-item d-flex align-items-center gap-2 py-2") do %>
+          <span class="d-inline-block bg-success rounded-circle p-1 m-1"></span>
+          <%= tag.name %>
+        <% end %>
+      </li>
+    <% end %>
+  <% end %>
+<% end %>

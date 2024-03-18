@@ -14,6 +14,9 @@
  *= require_self
  */
 @import "bootstrap";
+.pagy-float-left ul{
+  float: left;
+}
 .pagination {
   @extend .justify-content-md-center;
 }

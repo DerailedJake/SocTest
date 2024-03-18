@@ -1,5 +1,4 @@
 class StoriesController < ApplicationController
-  include Pagy::Backend
   skip_before_action :authenticate_user!, only: %i[show index display_stories timeline]
   before_action :set_user, only: [:display_stories]
   before_action :set_user_stories, only: [:display_stories]
@@ -9,9 +8,9 @@ class StoriesController < ApplicationController
     @pagy_posts, @posts = pagy(@story.posts.with_attached_picture, items: 1)
   end
   def new
-    @story = Story.new(user: current_user)
+    @story = current_user.stories.new
+    @posts = current_user.posts
   end
-
   def timeline
     @story = Story.find(params[:story_id])
     @pagy_posts, @posts = pagy(@story.posts, items: 1)
@@ -71,6 +70,6 @@ class StoriesController < ApplicationController
   private
 
   def stories_params
-    params.require(:story).permit(:title, :description, { post_ids: [] })
+    params.require(:story).permit(:title, :description, { post_ids: [] }).merge({ tag_ids: params[:tag_ids] })
   end
 end

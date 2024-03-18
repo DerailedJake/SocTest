@@ -1,0 +1,6 @@
+<%= turbo_stream.append 'tags-in-form' do %>
+  <% render partial: 'tags/form_tag', locals: { tag: @tag } %>
+<% end %>
+<%= turbo_stream.replace 'tags-list' do %>
+  <%= turbo_frame_tag 'tags-list' %>
+<% end %>

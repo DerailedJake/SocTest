@@ -62,6 +62,23 @@ def get_comment_body(is_positive, type)
   end
 end
 
+@tags_architecture = File.readlines("#{Rails.root}/app/assets/text_files/tags_architecture.txt").map! { |l| l.strip }
+@tags_food = File.readlines("#{Rails.root}/app/assets/text_files/tags_food.txt").map! { |l| l.strip }
+@tags_travel = File.readlines("#{Rails.root}/app/assets/text_files/tags_travel.txt").map! { |l| l.strip }
+
+def create_tags
+  @tags_architecture = @tags_architecture.map!{ |tag| Tag.create(name: tag).id }
+  @tags_food = @tags_food.map!{ |tag| Tag.create(name: tag).id }
+  @tags_travel = @tags_travel.map!{ |tag| Tag.create(name: tag).id }
+end
+
+def get_tags(type)
+  if type == 'food'
+    @tags_food.sample(rand(4)) + @tags_travel.sample(rand(2))
+  else
+    @tags_architecture.sample(rand(4)) + @tags_travel.sample(rand(2))
+  end
+end
 
 def random_avatar
   Rack::Test::UploadedFile.new(
@@ -83,28 +100,31 @@ def random_picture(type)
 end
 
 def create_stories(user)
-  min = 1
-  max = 7
-  rand(min..max).times do
+  loop do
+    break if rand(100) > 60
     title = random_picture('arch')[1]
+    tag_ids = get_tags('arch')
     user.stories.create!(
       title: title,
-      description: @pos_post_descriptions.sample
+      description: @pos_post_descriptions.sample,
+      tag_ids: tag_ids
     )
   end
 end
 
 def create_posts(user)
-  post_count = rand(4..12)
-  p "number of posts - #{post_count}"
-  post_count.times do
+  loop do
+    break if rand(100) > 70
+
     is_positive = rand(1..10) > 3
     type = ['arch', 'food'].sample
+    tag_ids = get_tags(type)
     picture = random_picture(type)
     body = get_post_body(is_positive, type)
     post = user.posts.create!(
       body: "#{picture[1]} #{body}",
-      picture: picture[0]
+      picture: picture[0],
+      tag_ids: tag_ids
     )
     create_comments(post, is_positive, type)
   end
@@ -112,7 +132,7 @@ end
 
 def create_comments(post, is_positive, type)
   min = 0
-  max = 8
+  max = 15
   rand(min..max).times do
     c_body = get_comment_body(is_positive, type)
     post.comments.create!(
@@ -134,9 +154,9 @@ end
 def like_everything
   User.all.each do |user|
     p user.first_name
-    user.likes.create!(Story.all.map{|c| {likeable: c} if rand(100)>50}.compact) rescue nil
-    user.likes.create!(Post.all.map{|c| {likeable: c} if rand(100)>80}.compact) rescue nil
-    user.likes.create!(Comment.all.map{|c| {likeable: c} if rand(100)>95}.compact) rescue nil
+    user.likes.create!(Story.all.map{|c| {likeable: c} if rand(100)>70}.compact) rescue nil
+    user.likes.create!(Post.all.map{|c| {likeable: c} if rand(100)>87}.compact) rescue nil
+    user.likes.create!(Comment.all.map{|c| {likeable: c} if rand(100)>97}.compact) rescue nil
   end
 end
 
@@ -167,7 +187,9 @@ User.create!(
 
 create_users
 
-@all_users = User.all[0..50]
+@all_users = User.all
+
+create_tags
 
 # comments made during post creation
 @all_users.each do |user|

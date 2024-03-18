@@ -7,6 +7,8 @@
         <%=  story.posts.count %>
         <p><%= link_to author.full_name, profile_path(author) %></p>
       <% end %>
+
+      <%= render story.tags, small_pill: true %>
       <p>
         <%= render partial: 'likes/likes_for_likeable', locals: { likeable: story } %>
       </p>

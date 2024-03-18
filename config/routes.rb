@@ -17,6 +17,14 @@ Rails.application.routes.draw do
   get 'liked' => 'likes#liked', as: 'liked'
   get 'liked_things' => 'likes#liked_things'
 
+  get 'tags' => 'tags#index'
+  get 'tags/:name' => 'tags#show', as: 'show_tag'
+  post 'search_tags' => 'tags#search'
+  post 'add_tag_to_thing' => 'tags#add_tag_to_thing'
+
+  post 'observe' => 'contacts#observe'
+  get 'observed' => 'contacts#index'
+
   resources :posts
 
   resources :stories

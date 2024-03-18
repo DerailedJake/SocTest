@@ -1,0 +1,36 @@
+<% edit_form ||= false %>
+<% title = edit_form ? 'Edit Story' : 'New Story' %>
+<% button_name = edit_form ? 'Update' : 'Create' %>
+<h2 class="text-center"><%= title %></h2>
+
+<%= form_with model: story do |f| %>
+
+  <div class="mb-3">
+    <i>Story title:</i>
+    <%= f.text_field :title, value: story.title, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <i>Story description:</i>
+    <%= f.text_area :description, value: story.description, class: "form-control" %>
+  </div>
+
+  <div class="list-group">
+    <i>Connected posts:</i>
+    <div class="list-group" style="overflow-y: scroll; max-height: 300px">
+      <%= f.collection_check_boxes :post_ids, posts, :id, :short_description do |b|%>
+        <%= b.label(class: 'list-group-item d-flex gap-2') {
+          b.check_box(class: 'form-check-input flex-shrink-0') + b.text  } %>
+      <% end %>
+    </div>
+  </div>
+
+  <%= render partial: 'tags/form_tags', locals: { tags: story.tags } %>
+
+  <div class="actions col-auto text-center">
+    <%= f.submit button_name, class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<%= render partial: 'tags/search_tag_form' %>
+
+

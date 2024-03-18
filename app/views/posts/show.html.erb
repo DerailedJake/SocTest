@@ -21,6 +21,7 @@
         <% if @user != current_user %>
           <%= link_to @user.full_name, profile_path(@user) %>
         <% end %>
+        <%= render @post.tags %>
         <div class="text-center">
           <%= render partial: 'likes/likes_for_likeable', locals: { likeable: @post } %>
         </div>

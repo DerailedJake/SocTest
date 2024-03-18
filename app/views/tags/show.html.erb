@@ -1,0 +1,50 @@
+<main>
+  <div class="py-5 col-lg-6 col-md-8 mx-auto text-center">
+    <h1>
+      <%= @tag.name %>:
+    </h1>
+    <hr class="featurette-divider">
+  </div>
+  <%= turbo_frame_tag 'turbo-stories', target: "_top" do %>
+    <% if @stories.any? %>
+      <div class="col-lg-6 col-md-8 mx-auto text-center">
+        <h2>Tagged stories:</h2>
+      </div>
+      <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+        <%== pagy_bootstrap_nav @pagy_stories, link_extra: 'data-turbo-frame="_self"' %>
+      </div>
+      <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-md-center">
+        <% @stories.each do |story| %>
+          <%= render partial: 'stories/story', locals: { author: story.user, story: story } %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="col-lg-6 col-md-8 mx-auto text-center">
+        <h2><%= "No tagged stories" %></h2>
+      </div>
+    <% end %>
+  <% end %>
+
+  <hr class="featurette-divider">
+
+  <%= turbo_frame_tag 'turbo-posts', target: "_top" do %>
+    <% if @posts.any? %>
+      <div class="col-lg-6 col-md-8 mx-auto text-center">
+        <h2>Tagged posts:</h2>
+      </div>
+      <div id="story-pagination" class="py-lg-5 col-lg-6 col-md-8 mx-auto text-center">
+        <%== pagy_bootstrap_nav @pagy_posts, link_extra: 'data-turbo-frame="_self"' %>
+      </div>
+      <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-md-center">
+        <% @posts.each do |post| %>
+          <%= render partial: 'posts/post', locals: { author: post.user, post: post } %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="col-lg-6 col-md-8 mx-auto text-center">
+        <h2><%= "No tagged posts" %></h2>
+      </div>
+    <% end %>
+  <% end %>
+  <hr class="featurette-divider">
+</main>
