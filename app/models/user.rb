@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :posts, dependent: :destroy
+  has_many :contacts
+  has_many :acquaintances, through: :contacts
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [200, 200], preprocessed: true
   end
