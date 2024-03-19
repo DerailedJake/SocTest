@@ -1,7 +1,8 @@
 class ChatsController < ApplicationController
 
   def index
-
+    @chats = current_user.chats
+    respond_to(&:turbo_stream)
   end
 
   def direct_chat

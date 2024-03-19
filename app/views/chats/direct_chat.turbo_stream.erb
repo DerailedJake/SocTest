@@ -1,16 +1,29 @@
-<%= turbo_stream.update 'turbo-chat-inside' do %>
-  <%= render @chat %>
-  <div class="list-group-item list-group-item-action d-flex gap-3 py-2">
-    <div class="d-flex gap-2 w-100 justify-content-between">
-      <div>
-        <h6 class="mb-0">
-        </h6>
-        <p class="mb-0 opacity-75">
-          <% # chat message placeholder %>
-        </p>
+<%= turbo_stream.update 'turbo-chat-container', style: 'position:fixed; right: 0; bottom: 0;' do %>
+  <div class="shadow float-end d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary" style="width: 380px; height: 500px">
+    <div class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+      <div onclick="collapseDiv('turbo-chat-container')" class="link-body-emphasis text-decoration-none">
+        <%= render 'shared/chevron_down', size: 30 %>
       </div>
+      <%= turbo_frame_tag 'turbo-chat-header' do %>
+        <%= link_to chats_path, data: { turbo_stream: true }, class: 'link-body-emphasis text-decoration-none' do %>
+          <span class="fs-5 fw-semibold"><%= "Chat with #{(@chat.users.to_a-[current_user]).first.full_name}" %></span>
+        <% end %>
+      <% end %>
     </div>
-    <small class="opacity-50 text-nowrap">
-    </small>
+    <div class="list-group list-group-flush border-bottom">
+      <div style="margin-bottom: 40px; overflow-y: scroll; height: 400px">
+        <%= turbo_frame_tag 'turbo-chat-inside', 'data-autoscroll-block': 'end',  'data-autoscroll-behavior': 'smooth', autoscroll: true, data: { autoscroll_block: "end" }  do %>
+          <% if @chat.messages.any? %>
+            <%= render @chat.messages %>
+          <% else %>
+            Send your first message!
+          <% end %>
+        <% end %>
+      </div>
+      <%= form_with url: send_message_path(chat_id: @chat.id), id: 'turbo-chat-message-field', html: { style: 'position: fixed; bottom: 0' }, local: false do |f| %>
+        <%= f.text_field :content, class: 'form-control', autocomplete: 'off', style: 'width:300px; display: inline-block' %>
+        <%= f.submit 'Send', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
   </div>
 <% end %>

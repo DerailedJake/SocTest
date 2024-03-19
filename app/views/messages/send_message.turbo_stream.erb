@@ -1,0 +1,4 @@
+<%= turbo_stream.append 'turbo-chat-inside', 'data-autoscroll-block': 'end',  'data-autoscroll-behavior': 'smooth', autoscroll: true, data: { autoscroll_block: "end" }   do %>
+  <%= render @message %>
+<% end %>
+<%= turbo_stream.action(:add_message, "turbo-chat-inside") %>

@@ -23,7 +23,7 @@
       <%= yield %>
     </div>
 
-    <%= render 'chats/chat_window' %>
+    <%= turbo_frame_tag 'turbo-chat-container' %>
 
     <%= render 'layouts/footer' %>
 
