@@ -9,7 +9,10 @@ class ChatsController < ApplicationController
     @user = User.find(params[:user_id])
     # nil if current_user == @user
     @chat = current_user.chats.joins(:users).where(users: @user.id).first
-    unless @chat
+    @messages = nil
+    if @chat
+      @pagy_messages, @messages = pagy(@chat.messages, items: 8)
+    else
       @chat = Chat.create(title: 'Direct chat', user_ids: [current_user.id, @user.id])
     end
     respond_to(&:turbo_stream)

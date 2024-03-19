@@ -15,12 +15,14 @@ Turbo.StreamActions.add_message = function () {
     target.scrollIntoView({block: "end", behavior: "smooth"});
 };
 
-window.collapseDiv = function collapseDiv(divId) {
-    var div = document.getElementById(divId);
+window.collapseChat = function collapseChat() {
+    var div = document.getElementById('turbo-chat-container');
+    var div_inner = document.getElementById('turbo-chat-inside');
     if (div.style.bottom === "0px") {
         div.style.bottom = "-440px";
+        div_inner.style.display = "none";
     } else {
         div.style.bottom = "0px";
+        div_inner.style.display = "block";
     }
 }
-console.log('fe2')
