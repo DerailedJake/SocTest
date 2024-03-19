@@ -1,0 +1,14 @@
+<%= turbo_frame_tag 'chat-window-container', style: 'position:fixed; right: 0; bottom: 0;' do %>
+  <div class="shadow float-end d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary" style="width: 380px; height: 500px">
+    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+      <%= render 'shared/chevron_down', size: 30 %>
+      <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-5 fw-semibold">Chats</span>
+    </a>
+    <div class="list-group list-group-flush border-bottom scrollarea">
+      <% 3.times do %>
+        <%= render 'chats/chat' %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

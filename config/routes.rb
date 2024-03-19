@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   post 'observe' => 'contacts#observe'
   get 'observed' => 'contacts#index'
 
+  get 'direct_chat' => 'chats#direct_chat'
+
   resources :posts
 
   resources :stories
