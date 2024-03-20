@@ -73,18 +73,22 @@ RSpec.describe 'Chat', type: :system do
         expect(page).to have_selector('div', text: 'New message')
       end
     end
-    context 'showing' do
+    context 'display' do
       before do
         12.times do |i|
           @chat.messages.create(user_id: @current_user.id, content: "Message nr-#{i}")
         end
       end
-      it 'is successful' do
+      it 'shows and scroll messages' do
         visit root_path
         click_on 'Chats'
         find('a', text: "Chat with #{@another_user.full_name}").click
-        expect(page).to have_content 'Message nr-0'
+        expect(page).to have_content 'Message nr-4'
         expect(page).to have_content 'Message nr-11'
+        expect(page).not_to have_content 'Message nr-0'
+        page.find('#chat-messages-container').scroll_to(:top)
+        sleep(0.3)
+        expect(page).to have_content 'Message nr-0'
         fill_in 'content', with: 'New message'
         click_on 'Send'
         expect(page).to have_content 'New message'
