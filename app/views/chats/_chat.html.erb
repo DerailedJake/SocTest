@@ -10,7 +10,7 @@
   </div>
   <div class="col-10 mb-1 small">
     <% if chat.messages.any? %>
-      <%= chat.messages.last.content %>
+      <%= chat.messages.last.content.truncate(150) %>
     <% else %>
       Send your first message!
     <% end %>

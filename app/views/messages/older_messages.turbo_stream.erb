@@ -3,7 +3,17 @@
 <%= turbo_stream.prepend 'turbo-chat-inside' do %>
   <% if @pagy_messages.next %>
     <%= turbo_frame_tag "turbo-chat-older-#{@pagy_messages.page + 1}",
-                        src: older_messages_path(chat_id: @chat.id, page: @pagy_messages.next, format: :turbo_stream) , loading: 'lazy' %>
+                        src: older_messages_path(chat_id: @chat.id, page: @pagy_messages.next, format: :turbo_stream) , loading: 'lazy' do %>
+      <div class="list-group-item list-group-item-action d-flex gap-3 py-2">
+        <div class="d-flex gap-2 w-100">
+          <div>
+            <p>
+              Loading messages...
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
   <% end %>
   <%= render @messages %>
 <% end %>
