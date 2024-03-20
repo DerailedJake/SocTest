@@ -1,4 +1,4 @@
-<%= turbo_frame_tag 'turbo-chat-container', style: 'position:fixed; right: 0; bottom: 0;' do %>
+<%= turbo_frame_tag 'turbo-chat-container', style: 'position:fixed; right: 0; bottom: 0; display: none' do %>
   <div class="shadow float-end d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary" style="width: 380px; height: 500px">
     <div class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
       <div onclick="collapseChat()" id="minimize-chat" class="link-body-emphasis text-decoration-none">
@@ -9,15 +9,7 @@
       <% end %>
     </div>
     <div class="list-group list-group-flush border-bottom" style="margin-bottom: 40px; overflow-y: scroll; height: 400px">
-      <%= turbo_frame_tag 'turbo-chat-inside' do %>
-        <% if current_user.chats.any? %>
-          <%= render current_user.chats %>
-        <% else %>
-          <div class="text-center my-3">
-            <h5>You have no active chats!</h5>
-          </div>
-        <% end %>
-      <% end %>
+      <%= turbo_frame_tag 'turbo-chat-inside' %>
     </div>
   </div>
 <% end %>

@@ -1,17 +1,3 @@
-<%= turbo_stream.update 'turbo-chat-container', style: 'position:fixed; right: 0; bottom: 0;' do %>
-  <div class="shadow float-end d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary" style="width: 380px; height: 500px">
-    <div class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
-      <div onclick="collapseChat()" id="minimize-chat" class="link-body-emphasis text-decoration-none">
-        <%= render 'shared/chevron_down', size: 30 %>
-      </div>
-      <%= turbo_frame_tag 'turbo-chat-header' %>
-    </div>
-    <div class="list-group list-group-flush border-bottom" style="margin-bottom: 40px; overflow-y: scroll; height: 400px">
-      <%= turbo_frame_tag 'turbo-chat-inside' %>
-    </div>
-  </div>
-<% end %>
-
 <%= turbo_stream.action(:show_chat, "turbo-chat-container") %>
 
 <%= turbo_stream.update 'turbo-chat-header' do %>

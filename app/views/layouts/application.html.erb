@@ -26,7 +26,7 @@
     </div>
 
     <% if current_user %>
-      <%= turbo_frame_tag 'turbo-chat-container', style: 'position:fixed; right: 0; bottom: 0;' %>
+      <%= render 'chats/chat_window' %>
     <% end %>
 
     <%= render 'layouts/footer' %>
