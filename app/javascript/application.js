@@ -10,12 +10,17 @@ const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 
 Turbo.StreamActions.add_message = function () {
-    const target = this.targetElements[0];
     document.getElementById('turbo-chat-message-field').reset()
-    target.scrollIntoView({block: "end", behavior: "smooth"});
+    this.targetElements[0].scrollIntoView({block: "end", behavior: "smooth"});
 };
 Turbo.StreamActions.show_chat = function () {
     this.targetElements[0].style.bottom = "0px";
+};
+Turbo.StreamActions.retain_scroll = function () {
+    this.targetElements[0].parentNode.scrollBy(0, 1); // xD retain scroll on prepend
+};
+Turbo.StreamActions.scroll_messages = function () {
+    this.targetElements[0].scrollIntoView({block: "end"});
 };
 
 window.collapseChat = function collapseChat() {

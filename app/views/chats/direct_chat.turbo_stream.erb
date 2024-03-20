@@ -21,11 +21,15 @@
 <% end %>
 
 <%= turbo_stream.update 'turbo-chat-inside' do %>
+  <%= turbo_frame_tag "turbo-chat-older-#{@pagy_messages.page + 1}",
+                      src: older_messages_path(chat_id: @chat.id, page: @pagy_messages.next, format: :turbo_stream), loading: 'lazy' %>
   <% if @messages && @messages.any? %>
     <%= render @messages %>
   <% end %>
   <%= form_with url: send_message_path(chat_id: @chat.id), id: 'turbo-chat-message-field', html: { style: 'position: fixed; bottom: 0' }, local: false do |f| %>
-    <%= f.text_field :content, class: 'form-control', autocomplete: 'off', style: 'width:300px; display: inline-block' %>
+    <%= f.text_field :content, class: 'form-control', autocomplete: 'off', style: 'width:300px; display: inline-block', required: true %>
     <%= f.submit 'Send', class: 'btn btn-primary' %>
   <% end %>
 <% end %>
+
+<%= turbo_stream.action(:scroll_messages, "turbo-chat-inside") %>

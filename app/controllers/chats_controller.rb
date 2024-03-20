@@ -11,7 +11,8 @@ class ChatsController < ApplicationController
     @chat = current_user.chats.joins(:users).where(users: @user.id).first
     @messages = nil
     if @chat
-      @pagy_messages, @messages = pagy(@chat.messages, items: 8)
+      @pagy_messages, @messages = pagy(@chat.messages.reverse_order, items: 8)
+      @messages = @messages.reverse
     else
       @chat = Chat.create(title: 'Direct chat', user_ids: [current_user.id, @user.id])
     end
