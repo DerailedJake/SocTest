@@ -14,6 +14,9 @@ Turbo.StreamActions.add_message = function () {
     document.getElementById('turbo-chat-message-field').reset()
     target.scrollIntoView({block: "end", behavior: "smooth"});
 };
+Turbo.StreamActions.show_chat = function () {
+    this.targetElements[0].style.bottom = "0px";
+};
 
 window.collapseChat = function collapseChat() {
     var div = document.getElementById('turbo-chat-container');

@@ -17,13 +17,17 @@
       <%= render 'shared/flashes' %>
     </div>
 
-    <%= render 'contacts/side_panel' %>
+    <% if current_user %>
+      <%= render 'contacts/side_panel' %>
+    <% end %>
 
     <div id="main-body" class=" container text-break justify-content-md-center">
       <%= yield %>
     </div>
 
-    <%= turbo_frame_tag 'turbo-chat-container' %>
+    <% if current_user %>
+      <%= turbo_frame_tag 'turbo-chat-container', style: 'position:fixed; right: 0; bottom: 0;' %>
+    <% end %>
 
     <%= render 'layouts/footer' %>
 
