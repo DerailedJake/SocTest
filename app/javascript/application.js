@@ -23,7 +23,7 @@ Turbo.StreamActions.retain_scroll = function () {
     this.targetElements[0].parentNode.scrollBy(0, 1); // xD retain scroll on prepend
 };
 Turbo.StreamActions.scroll_messages = function () {
-    this.targetElements[0].scrollIntoView({block: "end"});
+    this.targetElements[0].scrollIntoView({block: "end", behavior: "smooth"});
 };
 
 window.collapseChat = function collapseChat() {

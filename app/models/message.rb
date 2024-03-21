@@ -8,6 +8,7 @@ class Message < ApplicationRecord
   private
 
   def broadcast_message
-    broadcast_prepend_to("chat-#{chat.id}", target: "chat-#{chat.id}", partial: 'messages/message')
+    broadcast_append_to("chat-#{chat.id}", target: "turbo-chat-inside",
+                        partial: 'messages/message', locals: { scroll_down: true })
   end
 end

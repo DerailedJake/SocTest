@@ -14,10 +14,8 @@ class MessagesController < ApplicationController
     @chat = current_user.chats.find(params[:chat_id])
     @message = current_user.messages.new(chat: @chat, content: params[:content])
     unless @message.save
-      flash.now[:danger] = 'Failed to send message'
-      render nil
+      flash.now[:danger] = "Failed to send message: #{ @message.errors.full_messages.first }"
     end
-    render nil
     respond_to(&:turbo_stream)
   end
 end

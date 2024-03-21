@@ -13,3 +13,8 @@
     <%= message.created_at.strftime('%H:%M') %>
   </small>
 </div>
+
+<% scroll_down ||= false %>
+<% if scroll_down %>
+  <%= turbo_stream.action(:scroll_messages, "turbo-chat-inside") %>
+<% end %>
