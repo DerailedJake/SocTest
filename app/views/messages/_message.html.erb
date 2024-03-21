@@ -16,5 +16,5 @@
 
 <% scroll_down ||= false %>
 <% if scroll_down %>
-  <%= turbo_stream.action(:scroll_messages, "turbo-chat-inside") %>
+  <%= turbo_stream.action(:slow_scroll_messages, "turbo-chat-inside") %>
 <% end %>

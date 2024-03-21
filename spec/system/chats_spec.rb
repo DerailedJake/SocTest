@@ -5,6 +5,7 @@ RSpec.describe 'Chat', type: :system do
     @current_user = user_with_posts_and_stories
     @users = create_list(:user, 3)
     @second_user = @users.first
+    @third_user = @users.second
     @selector_chat_window = '#turbo-chat-container'
     @selector_min_chat = '#minimize-chat'
     login_as @current_user
@@ -15,7 +16,7 @@ RSpec.describe 'Chat', type: :system do
       before do
         @users = create_list(:user, 9)
         @users.each do |user|
-          create(:chat, user_ids: [@current_user.id, user.id])
+          create(:chat, title: 'Direct chat', user_ids: [@current_user.id, user.id])
         end
         visit root_path
       end
@@ -43,7 +44,7 @@ RSpec.describe 'Chat', type: :system do
       before do
         @users = create_list(:user, 9)
         @users.each do |user|
-          create(:chat, user_ids: [@current_user.id, user.id])
+          create(:chat, title: 'Direct chat', user_ids: [@current_user.id, user.id])
         end
         @another_user = create(:user)
       end
@@ -60,7 +61,7 @@ RSpec.describe 'Chat', type: :system do
   describe 'messages' do
     before do
       @another_user = create(:user)
-      @chat = create(:chat, user_ids: [@current_user.id, @another_user.id])
+      @chat = create(:chat, title: 'Direct chat', user_ids: [@current_user.id, @another_user.id])
     end
     context 'sending' do
       it 'is successful' do
@@ -93,6 +94,34 @@ RSpec.describe 'Chat', type: :system do
         click_on 'Send'
         expect(page).to have_content 'New message'
         expect(page).to have_selector('div', text: 'New message')
+      end
+    end
+    context 'receiving' do
+      context 'when user is a member of chat' do
+        it 'shows and scroll messages' do
+          visit root_path
+          click_on 'Chats'
+          find('a', text: "Chat with #{@another_user.full_name}").click
+          sleep(0.5) # some time for subscribe to work
+          expect(@chat.messages.count).to eq(0)
+          @chat.messages.create!(user_id: @another_user.id, content: 'New message')
+          expect(@chat.messages.count).to eq(1)
+          expect(page).to have_content 'New message'
+        end
+      end
+      context 'when user is not a member of chat' do
+        before do
+          @second_chat = create(:chat, title: 'Direct chat', user_ids: [@second_user.id, @third_user.id])
+        end
+        it 'does not show anything' do
+          visit root_path
+          click_on 'Chats'
+          find('a', text: "Chat with #{@another_user.full_name}").click
+          @second_chat.messages.create!(user_id: @second_user.id, content: 'New message')
+          sleep(0.5)
+          expect(page).not_to have_content 'New message'
+          expect(page).not_to have_selector('div', text: 'New message')
+        end
       end
     end
   end

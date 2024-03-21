@@ -8,7 +8,7 @@
 <% end %>
 
 <%= turbo_stream.update 'turbo-chat-inside' do %>
-  <% if @pagy_messages.next %>
+  <% if @pagy_messages && @pagy_messages.next %>
     <%= turbo_frame_tag "turbo-chat-older-#{@pagy_messages.page + 1}", loading: 'lazy',
                         src: older_messages_path(chat_id: @chat.id, page: @pagy_messages.next, format: :turbo_stream) %>
   <% end %>
