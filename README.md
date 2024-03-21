@@ -1,11 +1,9 @@
 # Project #1
 # LifeBook
 
-### At the moment I'm ~60% done with first phase.
-### Currently I'm focused on expanding test coverage before adding more features
+### At the moment I'm ~75% done with first phase.
 ### Once everything is tested and missing features added, first phase will be complete
 ### Second phase are mostly improvements, optimization
-#
 
 ## Website address:
 
@@ -20,8 +18,11 @@
 * Users can create posts with description and optional picture
 * Users can create stories and attach posts to them
 * Users can comment on posts
-* Tests are currently basic, often incomplete, will be expanded in following days
+* Users can give likes to all above
+* Users can send messages to each other
+* Tests cover most features, will be improved and expanded in future
 * Mechanize used to scrape pictures from internet
-* ChatGPT used to create lots of text on website, posts and users descriptions 
+* ChatGPT used to create lots of text on website 
 
-More features in progress: liking, following, mailing services, notifications for users
+More features are coming: mailing services, following and observing 
+users and content, notifications when stuff appears or there are new messages in chats
