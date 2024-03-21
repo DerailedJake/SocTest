@@ -17,9 +17,17 @@
       <%= render 'shared/flashes' %>
     </div>
 
-    <div id="main-body" class="container text-break justify-content-md-center">
+    <% if current_user %>
+      <%= render 'contacts/side_panel' %>
+    <% end %>
+
+    <div id="main-body" class=" container text-break justify-content-md-center">
       <%= yield %>
     </div>
+
+    <% if current_user %>
+      <%= render 'chats/chat_window' %>
+    <% end %>
 
     <%= render 'layouts/footer' %>
 

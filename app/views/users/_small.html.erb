@@ -1,7 +1,20 @@
-
-<% if user.avatar.representable? %>
-  <%= image_tag user.avatar.representation(resize_to_limit: [70, 70]), class: "bd-placeholder-img rounded-circle" %>
-<% else %>
-  <svg class="bd-placeholder-img rounded-circle" width="70" height="70" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
-<% end %>
-<%= link_to user.full_name, profile_path(user) %>
+<div class="list-group-item list-group-item-action d-flex gap-3 py-2">
+  <%= render partial: 'users/avatar', locals: { avatar: user.avatar, size: 50 } %>
+  <div class="d-flex gap-2 w-100 justify-content-between">
+    <div>
+      <h6 class="mb-0">
+        <%= link_to profile_path(user), class: 'link-body-emphasis text-decoration-none' do %>
+          <%= user.full_name %>
+        <% end %>
+      </h6>
+      <p class="mb-0 opacity-75">
+        <% # chat message placeholder %>
+      </p>
+    </div>
+  </div>
+  <small class="opacity-50 text-nowrap">
+    <%= link_to direct_chat_path(user_id: user.id), data: { turbo_stream: true }, class: 'link-body-emphasis text-decoration-none' do %>
+      <%= render 'shared/envelope_empty' %>
+    <% end %>
+  </small>
+</div>

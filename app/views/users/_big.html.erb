@@ -10,6 +10,9 @@
         <%= user.full_name %>
         <% if current_user != user %>
           <%= render partial: 'contacts/observe', locals: { user: user } %>
+          <%= link_to direct_chat_path(user_id: user.id), data: { turbo_stream: true }, id: "direct-message-#{user.id}", class: 'link-body-emphasis text-decoration-none' do %>
+            <%= render 'shared/envelope_empty', size: 24 %>
+          <% end %>
         <% end %>
       </h1>
       <p class="lead text-body-secondary"><%= user.description %></p>

@@ -1,0 +1,18 @@
+<% user = chat.users.where.not(id: current_user.id).first %>
+<%= link_to direct_chat_path(user_id: user.id), data: { turbo_stream: true }, class: 'list-group-item list-group-item-action py-3 lh-sm' do %>
+  <div class="d-flex w-100 align-items-center justify-content-between">
+    <strong class="mb-1"><%= "Chat with #{user.full_name}" %></strong>
+    <small class="text-body-secondary">
+      <% if chat.messages.any? %>
+        <%= chat.messages.last.created_at.strftime('%H:%M') %>
+      <% end %>
+    </small>
+  </div>
+  <div class="col-10 mb-1 small">
+    <% if chat.messages.any? %>
+      <%= chat.messages.last.content.truncate(150) %>
+    <% else %>
+      Send your first message!
+    <% end %>
+  </div>
+<% end %>

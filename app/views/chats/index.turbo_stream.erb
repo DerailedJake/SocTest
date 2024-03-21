@@ -1,0 +1,17 @@
+<%= turbo_stream.action(:show_chat, "turbo-chat-container") %>
+
+<%= turbo_stream.update 'turbo-chat-header' do %>
+  <span class="fs-5 fw-semibold">Chats</span>
+<% end %>
+
+<%= turbo_stream.update 'turbo-chat-inside' do %>
+  <%= turbo_frame_tag 'turbo-chat-inside' do %>
+    <% if current_user.chats.any? %>
+      <%= render current_user.chats %>
+    <% else %>
+      <div class="text-center my-3">
+        <h5>You have no active chats!</h5>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

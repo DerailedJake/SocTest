@@ -1,0 +1,24 @@
+<%= turbo_stream.action(:show_chat, "turbo-chat-container") %>
+
+<%= turbo_stream.update 'turbo-chat-header' do %>
+  <%= link_to chats_path, data: { turbo_stream: true }, class: 'link-body-emphasis text-decoration-none' do %>
+    <span class="fs-5 fw-semibold"><%= "Chat with #{(@chat.users.to_a-[current_user]).first.full_name}" %></span>
+  <% end %>
+  <%= turbo_stream_from "chat-#{@chat.id}", channel: 'ChatsChannel', data: { chat_id: @chat.id } %>
+<% end %>
+
+<%= turbo_stream.update 'turbo-chat-inside' do %>
+  <% if @pagy_messages && @pagy_messages.next %>
+    <%= turbo_frame_tag "turbo-chat-older-#{@pagy_messages.page + 1}", loading: 'lazy',
+                        src: older_messages_path(chat_id: @chat.id, page: @pagy_messages.next, format: :turbo_stream) %>
+  <% end %>
+  <% if @messages %>
+    <%= render @messages %>
+  <% end %>
+  <%= form_with url: send_message_path(chat_id: @chat.id), id: 'turbo-chat-message-field', html: { style: 'position: fixed; bottom: 0' }, local: false do |f| %>
+    <%= f.text_field :content, class: 'form-control', autocomplete: 'off', style: 'width:300px; display: inline-block', required: true %>
+    <%= f.submit 'Send', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.action(:scroll_messages, "turbo-chat-inside") %>
