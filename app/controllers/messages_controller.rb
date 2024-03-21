@@ -17,6 +17,7 @@ class MessagesController < ApplicationController
       flash.now[:danger] = 'Failed to send message'
       render nil
     end
+    render nil
     respond_to(&:turbo_stream)
   end
 end

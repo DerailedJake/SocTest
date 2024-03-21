@@ -7,8 +7,10 @@
 <% end %>
 
 <%= turbo_stream.update 'turbo-chat-inside' do %>
-  <%= turbo_frame_tag "turbo-chat-older-#{@pagy_messages.page + 1}",
-                      src: older_messages_path(chat_id: @chat.id, page: @pagy_messages.next, format: :turbo_stream), loading: 'lazy' %>
+  <% if @pagy_messages.next %>
+    <%= turbo_frame_tag "turbo-chat-older-#{@pagy_messages.page + 1}", loading: 'lazy',
+                        src: older_messages_path(chat_id: @chat.id, page: @pagy_messages.next, format: :turbo_stream) %>
+  <% end %>
   <% if @messages && @messages.any? %>
     <%= render @messages %>
   <% end %>
@@ -16,6 +18,7 @@
     <%= f.text_field :content, class: 'form-control', autocomplete: 'off', style: 'width:300px; display: inline-block', required: true %>
     <%= f.submit 'Send', class: 'btn btn-primary' %>
   <% end %>
+  <%= turbo_stream_from "chat-#{@chat.id}", channel: 'ChatsChannel', id: "chat-#{@chat.id}", data: { chat_id: @chat.id } %>
 <% end %>
 
 <%= turbo_stream.action(:scroll_messages, "turbo-chat-inside") %>
