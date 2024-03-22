@@ -17,7 +17,7 @@
 <hr class="featurette-divider">
 
 <div class="container">
-  <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 g-3">
+  <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
     <% @stories.each do |story| %>
       <%= render partial: 'stories/story', locals: { author: story.user, story: story } %>
     <% end %>

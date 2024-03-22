@@ -17,9 +17,7 @@
       <%= render 'shared/flashes' %>
     </div>
 
-    <% if current_user %>
-      <%= render 'contacts/side_panel' %>
-    <% end %>
+    <%= render 'contacts/side_panel' %>
 
     <div id="main-body" class=" container text-break justify-content-md-center">
       <%= yield %>

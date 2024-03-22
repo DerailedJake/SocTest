@@ -1,7 +1,10 @@
-<div id="side-panel" class="float-start col-md-12 col-lg-2" style="height:300px; overflow-y: scroll">
-  <div class="list-group">
-    <% current_user.contacts.each do |contact| %>
-      <%= render 'users/small', user: contact.acquaintance %>
+<% if current_user %>
+  <%= turbo_frame_tag 'contact-side-panel', style: 'position: fixed; float: left; z-index:100' do %>
+    <%= link_to contacts_panel_path, class: 'link-body-emphasis text-decoration-none' do %>
+      <div class="d-flex align-items-center flex-shrink-0 p-3" style=" background-color: #3CF">
+        <span class="fs-5 fw-semibold">Contacts</span>
+        <%= render 'shared/chevron_down', size: 24 %>
+      </div>
     <% end %>
-  </div>
-</div>
+  <% end %>
+<% end %>

@@ -26,7 +26,7 @@ class StoriesController < ApplicationController
   end
 
   def index
-    @stories = Story.order('RANDOM()').limit(9)
+    @stories = Story.order('RANDOM()').includes(:user, :tags).limit(9)
   end
 
   def create
