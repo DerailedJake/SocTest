@@ -1,0 +1,21 @@
+<% if params[:collapse] %>
+  <%= render 'contacts/side_panel' %>
+<% else %>
+  <%= turbo_frame_tag 'contact-side-panel', style: 'float: left' do %>
+    <div id="side-panel" class="float-start d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary"
+         style="height:600px;">
+      <%= link_to contacts_panel_path(collapse: true), class: 'link-body-emphasis text-decoration-none' do %>
+        <div class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom" style="background-color: #3CF">
+          <span class="fs-5 fw-semibold">Contacts</span>
+          <%= render 'shared/chevron_up', size: 24 %>
+        </div>
+      <% end %>
+
+      <div class="list-group list-group-flush border-bottom scrollarea" style="overflow-y: scroll">
+        <% @contacts.each do |contact| %>
+          <%= render 'users/small', user: contact.acquaintance %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
