@@ -1,21 +1,31 @@
 <% if params[:collapse] %>
   <%= render 'contacts/side_panel' %>
 <% else %>
-  <%= turbo_frame_tag 'contact-side-panel', style: 'float: left' do %>
+  <%= turbo_frame_tag 'contact-side-panel', style: 'float: left', target: '_top' do %>
     <div id="side-panel" class="float-start d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary"
          style="height:600px;">
-      <%= link_to contacts_panel_path(collapse: true), class: 'link-body-emphasis text-decoration-none' do %>
+      <%= link_to contacts_panel_path(collapse: true), data: { turbo_stream: true }, class: 'link-body-emphasis text-decoration-none' do %>
         <div class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom" style="background-color: #3CF">
           <span class="fs-5 fw-semibold">Contacts</span>
           <%= render 'shared/chevron_up', size: 24 %>
         </div>
       <% end %>
 
-      <div class="list-group list-group-flush border-bottom scrollarea" style="overflow-y: scroll">
-        <% @contacts.each do |contact| %>
-          <%= render 'users/small', user: contact.acquaintance %>
-        <% end %>
-      </div>
+      <% if @contacts.any? %>
+        <div class="list-group list-group-flush border-bottom scrollarea" style="overflow-y: scroll">
+          <% @contacts.each do |contact| %>
+            <%= render 'users/small', user: contact.acquaintance %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="list-group list-group-flush border-bottom scrollarea">
+          <div class="list-group-item list-group-item-action d-flex gap-3 py-2">
+            <h6 class="mb-0">
+              You have no contacts yet!
+            </h6>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% end %>
 <% end %>

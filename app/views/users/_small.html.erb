@@ -3,7 +3,7 @@
   <div class="d-flex gap-2 w-100 justify-content-between">
     <div>
       <h6 class="mb-0">
-        <%= link_to profile_path(user), class: 'link-body-emphasis text-decoration-none' do %>
+        <%= link_to profile_path(user), class: 'link-body-emphasis text-decoration-none', target: '_top' do %>
           <%= user.full_name %>
         <% end %>
       </h6>
