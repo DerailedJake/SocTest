@@ -6,7 +6,7 @@ class NotificationManagersController < ApplicationController
 
   def update
     @manager = current_user.notification_manager
-    @manager.settings_data = params[:settings].to_json
+    @manager.settings_data_from_params(params[:settings])
     if @manager.save
       flash[:info] = 'Settings changed'
     else

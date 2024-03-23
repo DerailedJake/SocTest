@@ -11,17 +11,23 @@ class NotificationManager < ApplicationRecord
     update(settings_data: default_data)
   end
 
+  def settings_data_from_params(params)
+    fields = settings_fields
+    data = fields.map{ |e| [e, false] }.to_h
+    params.each_key do |key|
+      next unless fields.include?(key)
+      data[key] = true
+    end
+    self.settings_data = data.to_json
+  end
+
   private
 
   def default_data
-    self.settings_data = {
-      story_commented: true,
-      story_liked: true,
-      post_commented: true,
-      post_liked: true,
-      comments_liked: true,
-      observed_stories: true,
-      observed_posts: true
-    }.to_json
+    self.settings_data = settings_fields.map{|e| [e, true]}.to_h.to_json
+  end
+
+  def settings_fields
+    %w[story_commented story_liked post_commented post_liked comments_liked observed_stories observed_posts]
   end
 end

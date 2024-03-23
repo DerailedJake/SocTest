@@ -17,6 +17,10 @@ RSpec.describe 'NotificationManagers', type: :system do
       click_on 'Update options'
       expect(page).to have_content 'Settings changed'
       expect(page).to have_css('input[name="settings[story_commented]"]:not(:checked)')
+      check 'settings[story_commented]'
+      click_on 'Update options'
+      expect(page).to have_content 'Settings changed'
+      expect(page).to have_css('input[name="settings[story_commented]"]:checked')
     end
   end
 end

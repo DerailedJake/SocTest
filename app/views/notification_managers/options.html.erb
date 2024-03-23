@@ -4,14 +4,15 @@
       Notification Options:
     </h1>
     <hr class="featurette-divider">
+    <h5>You will receive notifications in following situations:</h5>
   </div>
 
   <%= form_tag update_options_path do |f| %>
-    <div class="list-group container col-6">
+    <div class="list-group container col-sm-12 col-lg-6">
       <% @manager.settings.each do |key, value| %>
         <div>
           <%= label_tag "settings[#{key}]", class: 'list-group-item d-flex gap-2' do %>
-            <%= check_box_tag "settings[#{key}]", value, value ? 1 : 0, class: 'form-check-input flex-shrink-0 float-right' %>
+            <%= check_box_tag "settings[#{key}]", value, value, class: 'form-check-input flex-shrink-0 float-right' %>
             <%= key.titleize %>
           <% end %>
         </div>
@@ -22,7 +23,6 @@
       <%= submit_tag 'Update options', class: "btn btn-primary w-50" %>
     </div>
   <% end %>
-
 
   <hr class="featurette-divider">
 </main>

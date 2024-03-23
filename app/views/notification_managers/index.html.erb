@@ -1,0 +1,33 @@
+<main>
+  <div class="py-5 col-lg-6 col-md-8 mx-auto text-center">
+    <h1>
+      Notifications:
+    </h1>
+    <hr class="featurette-divider">
+  </div>
+
+  <div class="list-group container col-sm-12 col-lg-6">
+    <% @notifications.each do |notification| %>
+      <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+        <div class="d-flex gap-2 w-100 justify-content-between">
+          <div>
+            <h6 class="mb-0">List group item heading</h6>
+            <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+          </div>
+          <small class="opacity-50 text-nowrap">now</small>
+        </div>
+      </a>
+    <% end %>
+    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+        <div>
+          <h6 class="mb-0">Third heading</h6>
+          <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+        </div>
+        <small class="opacity-50 text-nowrap">1w</small>
+      </div>
+    </a>
+  </div>
+
+  <hr class="featurette-divider">
+</main>
