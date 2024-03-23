@@ -1,0 +1,27 @@
+<main>
+  <div class="py-5 col-lg-6 col-md-8 mx-auto text-center">
+    <h1>
+      Notification Options:
+    </h1>
+    <hr class="featurette-divider">
+  </div>
+
+  <%= form_tag update_options_path do |f| %>
+    <div class="list-group">
+      <i>Options:</i>
+      <div class="list-group">
+        <% @manager.settings.each do |key, value| %>
+          <%= label_tag value, key, class: 'list-group-item d-flex gap-2' %>
+          <%= check_box_tag key, value, value ? 1 : 0, class: 'form-check-input flex-shrink-0' %>
+        <% end %>
+      </div>
+    </div><br />
+
+    <div class="actions col-auto text-center">
+      <%= submit_tag 'Update options', class: "btn btn-primary w-50" %>
+    </div>
+  <% end %>
+
+
+  <hr class="featurette-divider">
+</main>

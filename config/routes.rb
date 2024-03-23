@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   post 'send_message' => 'messages#send_message'
   get 'older_messages' => 'messages#older_messages'
 
+  get 'notification_options' => 'notification_managers#options'
+  post 'update_options' => 'notification_managers#update'
+
   resources :posts
 
   resources :stories

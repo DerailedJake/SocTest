@@ -103,7 +103,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_23_134941) do
 
   create_table "notification_managers", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.text "settings"
+    t.text "settings_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_notification_managers_on_user_id", unique: true
