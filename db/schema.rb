@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_19_005518) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_23_134941) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -101,6 +101,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_19_005518) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "notification_managers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "settings"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notification_managers_on_user_id", unique: true
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "notification_manager_id", null: false
+    t.string "type"
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notification_manager_id"], name: "index_notifications_on_notification_manager_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id", null: false
@@ -172,6 +189,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_19_005518) do
   add_foreign_key "likes", "users"
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "users"
+  add_foreign_key "notification_managers", "users"
+  add_foreign_key "notifications", "notification_managers"
   add_foreign_key "posts", "users"
   add_foreign_key "stories", "users"
   add_foreign_key "taggings", "tags"

@@ -3,12 +3,15 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  after_create :create_notification_manager
   has_many :posts, dependent: :destroy
   has_many :contacts
   has_many :acquaintances, through: :contacts
   has_many :messages
   has_many :chat_participations, dependent: :destroy
   has_many :chats, through: :chat_participations
+  has_one :notification_manager, dependent: :destroy
+  has_many :notifications, through: :notification_manager
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [200, 200], preprocessed: true
   end
