@@ -111,7 +111,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_23_134941) do
 
   create_table "notifications", force: :cascade do |t|
     t.bigint "notification_manager_id", null: false
-    t.string "type"
+    t.string "notification_type"
     t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

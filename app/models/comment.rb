@@ -6,6 +6,6 @@ class Comment < ApplicationRecord
   after_create :notify
 
   def notify
-    post.user.notification_manager.notify('post_commented', self)
+    post.user.notification_manager.notify('post_commented', self.post)
   end
 end

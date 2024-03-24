@@ -9,13 +9,11 @@ class NotificationManager < ApplicationRecord
 
   def notify(type, thing)
     return unless notify?(type)
-    Notification.create(user: user, type: "#{thing.id}, #{thing.class.name}")
-
-    %w[story_liked post_commented post_liked comment_liked observed_stories observed_posts]
+    notifications.create(notification_type: "#{type},#{thing.id},#{thing.class.name}")
   end
 
   def notify?(param)
-    settings[param.to_sym]
+    settings[param]
   end
 
   def reset_settings

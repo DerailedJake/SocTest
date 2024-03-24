@@ -1,7 +1,8 @@
 class NotificationManagersController < ApplicationController
 
   def index
-    @notifications = current_user.notifications
+    @pagy_notifications, @notifications = pagy_array(current_user.notifications.order('created_at DESC'), items: 12)
+    @notifications = @notifications
   end
 
   def update
