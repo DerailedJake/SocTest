@@ -8,6 +8,15 @@ class Post < ApplicationRecord
   has_one_attached :picture
   validates :body, presence: true, length: { minimum: 3, maximum: 500 }
   validate :stories_belong_to_user
+  after_create :notify
+
+  def notify
+    users = Contact.where(acquaintance_id: user.id)
+    return if users.empty?
+    users.each do |u|
+      u.notification_manager.notify('observed_posts', self)
+    end
+  end
 
   def short_description
     body.truncate(30)

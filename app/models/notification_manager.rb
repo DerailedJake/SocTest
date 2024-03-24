@@ -7,6 +7,17 @@ class NotificationManager < ApplicationRecord
     JSON.parse(settings_data)
   end
 
+  def notify(type, thing)
+    return unless notify?(type)
+    Notification.create(user: user, type: "#{thing.id}, #{thing.class.name}")
+
+    %w[story_liked post_commented post_liked comment_liked observed_stories observed_posts]
+  end
+
+  def notify?(param)
+    settings[param.to_sym]
+  end
+
   def reset_settings
     update(settings_data: default_data)
   end
@@ -28,6 +39,6 @@ class NotificationManager < ApplicationRecord
   end
 
   def settings_fields
-    %w[story_commented story_liked post_commented post_liked comments_liked observed_stories observed_posts]
+    %w[story_liked post_commented post_liked comment_liked observed_stories observed_posts]
   end
 end

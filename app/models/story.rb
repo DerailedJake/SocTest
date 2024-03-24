@@ -6,6 +6,15 @@ class Story < ApplicationRecord
   has_many :tags, through: :taggings
   validates :title, presence: true, length: { minimum: 1, maximum: 80 }
   validate :validate_posts_belong_to_user
+  after_create :notify
+
+  def notify
+    users = Contact.where(acquaintance_id: user.id)
+    return if users.empty?
+    users.each do |u|
+      u.notification_manager.notify('observed_stories', self)
+    end
+  end
 
   private
 
