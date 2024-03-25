@@ -5,8 +5,9 @@ class Like < ApplicationRecord
 
   def notify
     u = likeable.user
+    return if u == user
     type = "#{likeable_type.underscore}_liked"
-    if likeable.class.name == 'Comment'
+    if likeable.instance_of?(::Comment)
       u.notification_manager.notify(type, likeable.post)
     else
       u.notification_manager.notify(type, likeable)

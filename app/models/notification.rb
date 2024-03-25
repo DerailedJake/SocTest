@@ -14,7 +14,7 @@ class Notification < ApplicationRecord
   private
 
   def set_data
-    info = self.notification_type.split(',')
+    info = notification_type.split(',')
     self.data = case info[0]
                 when 'story_liked'
                   "Your story has a new like;stories/#{info[1]}"

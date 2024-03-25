@@ -9,10 +9,10 @@ class Story < ApplicationRecord
   after_create :notify
 
   def notify
-    users = Contact.where(acquaintance_id: user.id)
-    return if users.empty?
-    users.each do |u|
-      u.notification_manager.notify('observed_stories', self)
+    contacts = Contact.where(acquaintance_id: user.id)
+    return if contacts.empty?
+    contacts.each do |contact|
+      contact.user.notification_manager.notify('observed_stories', self)
     end
   end
 
