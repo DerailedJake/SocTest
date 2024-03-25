@@ -9,10 +9,10 @@
   <div class="list-group container col-sm-12 col-lg-6">
     <%== pagy_bootstrap_nav @pagy_notifications %>
     <% @notifications.each do |notif| %>
-      <%= link_to notif.thing_connected, class: 'list-group-item list-group-item-action d-flex gap-3 py-3' do %>
+      <%= link_to notif.link, class: 'list-group-item list-group-item-action d-flex gap-3 py-3' do %>
         <div class="d-flex gap-2 w-100 justify-content-between">
           <div>
-            <h6 class="mb-0"><%= notif.data %></h6>
+            <h6 class="mb-0"><%= notif.message %></h6>
           </div>
           <small class="opacity-50 text-nowrap"><%= time_ago_in_words(notif.created_at) %> ago</small>
         </div>

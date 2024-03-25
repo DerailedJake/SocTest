@@ -6,6 +6,10 @@ class Like < ApplicationRecord
   def notify
     u = likeable.user
     type = "#{likeable_type.underscore}_liked"
-    u.notification_manager.notify(type, likeable)
+    if likeable.class.name == 'Comment'
+      u.notification_manager.notify(type, likeable.post)
+    else
+      u.notification_manager.notify(type, likeable)
+    end
   end
 end
