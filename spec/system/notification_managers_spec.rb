@@ -19,7 +19,7 @@ end
 RSpec.describe 'NotificationManagers', type: :system do
   before do
     @current_user = user_with_posts_and_stories
-    @another_user = User.create!(attributes_for(:user))
+    @another_user = create(:user)
     @current_user.contacts.create!(acquaintance: @another_user)
     login_as @current_user
   end
@@ -47,11 +47,11 @@ RSpec.describe 'NotificationManagers', type: :system do
       include_examples 'does not show notifications'
     end
     context 'when observed user creates a story' do
-      before { @another_user.stories.create!(attributes_for(:story)) }
+      before { create(:story, user: @another_user) }
       include_examples 'shows notification', 'User you observe made a new story'
     end
     context 'when observed user creates a post' do
-      before { @another_user.posts.create!(attributes_for(:post)) }
+      before { create(:post, user: @another_user) }
       include_examples 'shows notification', 'User you observe made a new post'
     end
   end
@@ -59,14 +59,14 @@ RSpec.describe 'NotificationManagers', type: :system do
   describe 'getting notified when user post is commented' do
     context 'another users comment' do
       before do
-        post = @current_user.posts.create!(attributes_for(:post))
+        post = create(:post, user: @current_user)
         @another_user.comments.create!(attributes_for(:comment).merge(post:))
       end
       include_examples 'shows notification', 'Your post has a new comment'
     end
     context 'user owned comment' do
       before do
-        post = @current_user.posts.create!(attributes_for(:post))
+        post = create(:post, user: @current_user)
         @current_user.comments.create!(attributes_for(:comment).merge(post:))
       end
       include_examples 'does not show notifications'
@@ -77,9 +77,9 @@ RSpec.describe 'NotificationManagers', type: :system do
   describe 'getting notified when user gets a like' do
     context 'from himself' do
       before do
-        story = @current_user.stories.create!(attributes_for(:story))
-        post = @current_user.posts.create!(attributes_for(:post))
-        comment = @current_user.comments.create!(attributes_for(:comment).merge(post:))
+        story   = create(:story,   user: @current_user)
+        post    = create(:post,    user: @current_user)
+        comment = create(:comment, user: @current_user, post:)
         [story, post, comment].each do |likeable|
           @current_user.likes.create!(likeable:)
         end
@@ -89,22 +89,22 @@ RSpec.describe 'NotificationManagers', type: :system do
     context 'from another user' do
       context 'on story' do
         before do
-          story = @current_user.stories.create!(attributes_for(:story))
+          story = create(:story, user: @current_user)
           @another_user.likes.create!(likeable: story)
         end
         include_examples 'shows notification', 'Your story has a new like'
       end
       context 'on post' do
         before do
-          post = @current_user.posts.create!(attributes_for(:post))
+          post = create(:post, user: @current_user)
           @another_user.likes.create!(likeable: post)
         end
         include_examples 'shows notification', 'Your post has a new like'
       end
       context 'on comment' do
         before do
-          post = @current_user.posts.create!(attributes_for(:post))
-          comment = @current_user.comments.create!(attributes_for(:comment).merge(post:))
+          post    = create(:post, user: @current_user)
+          comment = create(:comment, user: @current_user, post:)
           @another_user.likes.create!(likeable: comment)
         end
         include_examples 'shows notification', 'Your comment has a new like'
