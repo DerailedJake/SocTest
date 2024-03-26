@@ -3,6 +3,7 @@ FactoryBot.define do
     first_name { Faker::Name.first_name }
     last_name  { Faker::Name.last_name }
     description { Faker::Lorem.sentence(word_count: 12) }
+    status { 'public' }
     email { Faker::Internet.email }
     avatar { Rack::Test::UploadedFile.new("#{Rails.root}/app/assets/images/test_avt.jpeg", 'jpeg') }
     password { Faker::Internet.password }

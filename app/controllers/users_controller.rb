@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:profile, :home]
 
   def index
-    @pagy_users, @users = pagy(User.all.order('created_at ASC').with_attached_avatar, items: 6)
+    @pagy_users, @users = pagy(User.public_users.order('created_at ASC').with_attached_avatar, items: 6)
   end
 
   def profile; end

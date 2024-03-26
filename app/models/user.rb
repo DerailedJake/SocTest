@@ -23,6 +23,9 @@ class User < ApplicationRecord
   validates :last_name, presence: true, length: { minimum: 1, maximum: 20 }
   validates :avatar, presence: true
   validates :description, length: { maximum: 240 }
+  validates :status, presence: true, inclusion: %w[public private banned deleted]
+
+  scope :public_users, -> { where(status: 'public') }
 
   def full_name
     "#{first_name} #{last_name}"

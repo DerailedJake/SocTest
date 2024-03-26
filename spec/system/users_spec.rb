@@ -31,12 +31,19 @@ end
 
 RSpec.shared_examples 'check index page' do
   before do
-    4.times { User.create!(attributes_for(:user)) }
+    6.times { User.create!(attributes_for(:user)) }
     visit users_index_path
   end
   it 'opens users list' do
     expect(page).to have_content(User.first.full_name)
     expect(page).to have_content(User.first.description)
+  end
+
+  it 'does not show private users' do
+    User.first.update!(status: 'private')
+    visit users_index_path
+    expect(page).not_to have_content(User.first.full_name)
+    expect(page).not_to have_content(User.first.description)
   end
 
   it 'has working pagination of users' do
