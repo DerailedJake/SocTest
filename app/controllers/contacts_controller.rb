@@ -20,4 +20,8 @@ class ContactsController < ApplicationController
     return if params[:collapse]
     @contacts = current_user.contacts.includes(acquaintance: :avatar_attachment)
   end
+
+  def manage_contacts
+    @pagy_contacts, @contacts = pagy(current_user.contacts.includes(acquaintance: :avatar_attachment), items: 10)
+  end
 end
