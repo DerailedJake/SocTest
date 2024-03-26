@@ -25,6 +25,11 @@
     </div><br />
 
     <div class="form-floating">
+      <%= f.select :status, User.available_states, {}, class: "form-select" %>
+      <%= f.label :status %>
+    </div><br />
+
+    <div class="form-floating">
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder:"" %>
       <%= f.label :email %>
     </div><br />

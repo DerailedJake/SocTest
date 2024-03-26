@@ -30,4 +30,8 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def self.available_states
+    ['public', 'private']
+  end
 end
