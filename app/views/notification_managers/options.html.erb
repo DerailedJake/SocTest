@@ -1,0 +1,28 @@
+<main>
+  <div class="py-5 col-lg-6 col-md-8 mx-auto text-center">
+    <h1>
+      Notification Options:
+    </h1>
+    <hr class="featurette-divider">
+    <h5>You will receive notifications in following situations:</h5>
+  </div>
+
+  <%= form_tag update_options_path do |f| %>
+    <div class="list-group container col-sm-12 col-lg-6">
+      <% @manager.settings.each do |key, value| %>
+        <div>
+          <%= label_tag "settings[#{key}]", class: 'list-group-item d-flex gap-2' do %>
+            <%= check_box_tag "settings[#{key}]", value, value, class: 'form-check-input flex-shrink-0 float-right' %>
+            <%= key.titleize %>
+          <% end %>
+        </div>
+      <% end %>
+    </div><br />
+
+    <div class="actions col-auto text-center">
+      <%= submit_tag 'Update options', class: "btn btn-primary w-50" %>
+    </div>
+  <% end %>
+
+  <hr class="featurette-divider">
+</main>
