@@ -26,20 +26,17 @@
                 </p>
                 <div class="mb-0 ">
                   <% if contact.status == 'was_invited' %>
-                    <%= link_to 'Accept invitation', accept_invite_path(user_id: user.id) %>
+                    <%= link_to 'Accept invitation', accept_invite_path(user_id: user.id), method: :put %>
                   <% end %>
                   <% if contact.status == 'invited' %>
-                    <%= link_to 'Cancel invitation', cancel_invite_path(user_id: user.id) %>
+                    <%= link_to 'Cancel invitation', cancel_invite_path(user_id: user.id), method: :put %>
                   <% end %>
-                  <% if contact.status == 'observed' %>
-                    <%= link_to 'Invite', invite_contact_path(user_id: user.id) %>
+                  <% if contact.status == 'stranger' %>
+                    <%= link_to 'Invite', invite_contact_path(user_id: user.id), method: :put %>
                   <% end %>
                   <span class="opacity-75">
                     <% if contact.status == 'befriended' %>
-                      <%= link_to 'Remove friend', remove_friend_path(user_id: user.id), data: { confirm: 'Are you sure you want to remove contact?' } %>
-                    <% end %>
-                    <% if contact.status == 'observed' %>
-                      <%= link_to 'Stop observing', observe_path(user_id: user.id), data: { confirm: 'Are you sure you want to stop observing?' } %>
+                      <%= link_to 'Remove friend', remove_friend_path(user_id: user.id), method: :delete, data: { confirm: 'Are you sure you want to remove contact?' } %>
                     <% end %>
                     <% if contact.status != 'blocked' %>
                       <%= link_to 'Block', block_contact_path(user_id: user.id), data: { confirm: 'Are you sure you want to block contact?' } %>

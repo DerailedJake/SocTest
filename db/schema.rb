@@ -72,7 +72,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_27_145632) do
   create_table "contacts", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "acquaintance_id", null: false
-    t.string "status", default: "observed", null: false
+    t.string "status", default: "stranger", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "observed", default: "SP"

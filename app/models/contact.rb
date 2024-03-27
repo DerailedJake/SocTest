@@ -16,7 +16,7 @@ class Contact < ApplicationRecord
   end
 
   def invite
-    a_contact = acquaintance_contact
+    a_contact = acquaintance_contact || acquaintance.contacts.create(acquaintance: user)
     if a_contact.status == 'stranger' && status == 'stranger'
       a_contact.update!(status: 'was_invited')
       update(status: 'invited')
