@@ -1,6 +1,7 @@
+<% confirmation ||= false %>
 <% if current_user %>
   <%= turbo_frame_tag 'frame-user-observe' do %>
-    <%= link_to observe_path(user_id: user.id), data: { turbo_method: 'post' }, id: 'user-observe', class: 'link-body-emphasis text-decoration-none' do %>
+    <%= link_to observe_path(user_id: user.id), data: { turbo_method: 'post', turbo_confirm: confirmation ? 'Are you sure?' : nil }, id: 'user-observe', class: 'link-body-emphasis text-decoration-none' do %>
       <% if current_user.acquaintances.include?(user) %>
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
           <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>

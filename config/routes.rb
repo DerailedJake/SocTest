@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   get 'observed' => 'contacts#index'
   get 'contacts_panel' => 'contacts#contacts_panel'
   get 'manage_contacts' => 'contacts#manage_contacts'
+  put 'invite_contact' => 'contacts#invite'
+  put 'block_contact' => 'contacts#block'
+  delete 'remove_contact' => 'contacts#remove'
 
   get 'chats' => 'chats#index'
   get 'direct_chat' => 'chats#direct_chat', as: 'direct_chat'

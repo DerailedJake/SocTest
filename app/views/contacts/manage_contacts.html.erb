@@ -11,8 +11,53 @@
       <%== pagy_bootstrap_nav @pagy_contacts %>
       <div class="list-group list-group-flush border-bottom scrollarea">
         <% @contacts.each do |contact| %>
-          <%= render 'users/small', user: contact.acquaintance %>
-        <% end %>
+          <% user = contact.acquaintance %>
+          <div class="list-group-item list-group-item-action d-flex gap-3 py-2">
+            <%= render partial: 'users/avatar', locals: { avatar: user.avatar, size: 50 } %>
+            <div class="d-flex gap-2 w-100 justify-content-between no-style-links">
+              <div>
+                <h5 class="mb-0">
+                  <%= link_to profile_path(user), target: '_top' do %>
+                    <%= user.full_name %>
+                  <% end %>
+                </h5>
+                <p class="mb-0 opacity-75">
+                    User is you contact since <%= time_ago_in_words(contact.created_at) %> ago
+                </p>
+                <div class="mb-0 ">
+                  <% if contact.status == 'was_invited' %>
+                    <%= link_to 'Accept invitation', '#' %>
+                  <% end %>
+                  <% if contact.status == 'invited' %>
+                    <%= link_to 'Cancel invitation', '#' %>
+                  <% end %>
+                  <% if contact.status == 'observed' %>
+                    <%= link_to 'Invite', '#' %>
+                  <% end %>
+                  <span class="opacity-75">
+                    <% if contact.status == 'befriended' %>
+                      <%= link_to 'Remove friend', '#', data: { confirm: 'Are you sure you want to remove contact?' } %>
+                    <% end %>
+                    <% if contact.status == 'observed' %>
+                      <%= link_to 'Stop observing', '#', data: { confirm: 'Are you sure you want to stop observing?' } %>
+                    <% end %>
+                    <% if contact.status != 'blocked' %>
+                      <%= link_to 'Block', '#', data: { confirm: 'Are you sure you want to block contact?' } %>
+                    <% end %>
+                    <% if contact.status == 'blocked' %>
+                      <%= link_to 'Unblock', '#', data: { confirm: 'Are you sure you want to unblock user?' } %>
+                    <% end %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <small class="opacity-50 text-nowrap">
+                <%= link_to direct_chat_path(user_id: user.id), data: { turbo_stream: true }, class: 'link-body-emphasis text-decoration-none' do %>
+                  <%= render 'shared/envelope_empty', size: 24 %>
+                <% end %>
+            </small>
+          </div>
+      <% end %>
       </div>
     <% else %>
       <div class="list-group list-group-flush border-bottom scrollarea">
