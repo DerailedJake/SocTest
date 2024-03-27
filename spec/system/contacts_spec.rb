@@ -122,4 +122,98 @@ RSpec.describe 'Contact', type: :system do
       end
     end
   end
+
+  describe 'inviting and befriending -' do
+    context 'sending invitation' do
+      before do
+        login_as @current_user
+        @current_user.contacts.create(acquaintance: @second_user)
+      end
+      it 'works properly' do
+        visit manage_contacts_path
+        expect(page).to have_content @second_user.full_name
+        click_on 'Invite'
+        expect(page).to have_content 'Invitation sent'
+        expect(page).to have_content 'Cancel invitation'
+        expect(Contact.all.pluck(:status)).to eql(%w[was_invited invited])
+      end
+    end
+    context 'receiving and accepting invitation' do
+      before do
+        login_as @current_user
+        contact = @second_user.contacts.create(acquaintance: @current_user)
+        contact.invite
+      end
+      it 'works properly' do
+        visit manage_contacts_path
+        expect(page).to have_content @second_user.full_name
+        click_on 'Accept invitation'
+        expect(page).to have_content 'Invitation accepted'
+        expect(page).to have_content @second_user.full_name
+        expect(Contact.all.pluck(:status)).to eql(%w[befriended befriended])
+      end
+    end
+    context 'cancelling invitation' do
+      before do
+        login_as @current_user
+        contact = @current_user.contacts.create(acquaintance: @second_user)
+        contact.invite
+      end
+      it 'works properly' do
+        visit manage_contacts_path
+        expect(page).to have_content @second_user.full_name
+        cancel_invitation
+        expect(page).to have_content @second_user.full_name
+        expect(page).to have_content 'Invite'
+        expect(Contact.all.pluck(:status)).to eql(%w[stranger])
+      end
+      it 'removes unobserved contact' do
+        @current_user.contacts.first.update!(observed: nil)
+        visit manage_contacts_path
+        expect(page).to have_content @second_user.full_name
+        cancel_invitation
+        expect(page).to have_content 'You have no contacts yet'
+        expect(Contact.count).to eql(0)
+      end
+    end
+    context 'removing a friend' do
+      before do
+        login_as @current_user
+        @current_user.contacts.create(acquaintance: @second_user, status: 'befriended')
+        @second_user.contacts.create(acquaintance: @current_user, status: 'befriended')
+      end
+      it 'works properly' do
+        visit manage_contacts_path
+        expect(Contact.count).to eql(2)
+        expect(page).to have_content @second_user.full_name
+        remove_friend
+        expect(page).to have_content @second_user.full_name
+        expect(page).to have_content 'Invite'
+        expect(Contact.all.pluck(:status)).to eql(%w[stranger stranger])
+      end
+      it 'removes unobserved contact' do
+        @current_user.contacts.first.update!(observed: nil)
+        @second_user.contacts.first.update!(observed: nil)
+        visit manage_contacts_path
+        expect(Contact.count).to eql(2)
+        expect(page).to have_content @second_user.full_name
+        remove_friend
+        expect(page).to have_content 'You have no contacts yet'
+        expect(Contact.count).to eql(0)
+      end
+    end
+  end
+
+  
+
+  def cancel_invitation
+    click_on 'Cancel invitation'
+    expect(page).to have_content 'Invitation canceled'
+  end
+
+  def remove_friend
+    click_on 'Remove friend'
+    accept_alert
+    expect(page).to have_content 'User is no longer a friend'
+  end
 end

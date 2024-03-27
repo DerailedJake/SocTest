@@ -1,5 +1,5 @@
 class ContactsController < ApplicationController
-  before_action :set_contact, only: %i[invite accept_invite cancel_invite]
+  before_action :set_contact, only: %i[invite accept_invite cancel_invite remove_friend]
 
   def index
     @pagy_users, @users = pagy(current_user.acquaintances, items: 6)
@@ -55,7 +55,7 @@ class ContactsController < ApplicationController
 
   def remove_friend
     if @contact.remove_friend
-      flash[:success] = 'Contact is no longer a friend'
+      flash[:success] = 'User is no longer a friend'
     else
       flash[:danger] = 'Something went wrong'
     end

@@ -16,7 +16,7 @@ class Contact < ApplicationRecord
   end
 
   def invite
-    a_contact = acquaintance_contact || acquaintance.contacts.create(acquaintance: user)
+    a_contact = acquaintance_contact || acquaintance.contacts.create(acquaintance: user, observed: nil)
     if a_contact.status == 'stranger' && status == 'stranger'
       a_contact.update!(status: 'was_invited')
       update(status: 'invited')
@@ -39,7 +39,7 @@ class Contact < ApplicationRecord
     a_contact = acquaintance_contact
     if a_contact.status == 'was_invited' && status == 'invited'
       a_contact.remove_contact
-      update(status: 'stranger')
+      remove_contact
     else
       false
     end
@@ -54,8 +54,6 @@ class Contact < ApplicationRecord
       false
     end
   end
-
-  private
 
   def remove_contact
     if observed.nil?
