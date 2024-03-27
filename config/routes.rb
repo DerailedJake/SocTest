@@ -27,8 +27,11 @@ Rails.application.routes.draw do
   get 'contacts_panel' => 'contacts#contacts_panel'
   get 'manage_contacts' => 'contacts#manage_contacts'
   put 'invite_contact' => 'contacts#invite'
+  put 'accept_invite' => 'contacts#accept_invite'
+  put 'cancel_invite' => 'contacts#cancel_invite'
   put 'block_contact' => 'contacts#block'
-  delete 'remove_contact' => 'contacts#remove'
+  put 'unblock_contact' => 'contacts#unblock'
+  delete 'remove_friend' => 'contacts#remove_friend'
 
   get 'chats' => 'chats#index'
   get 'direct_chat' => 'chats#direct_chat', as: 'direct_chat'
