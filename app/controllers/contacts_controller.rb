@@ -1,5 +1,5 @@
 class ContactsController < ApplicationController
-  before_action :set_contact, only: %i[invite accept_invite cancel_invite remove_friend]
+  before_action :set_contact, only: %i[invite accept_invite cancel_invite remove_friend block unblock]
 
   def index
     @pagy_users, @users = pagy(current_user.acquaintances, items: 6)
@@ -23,7 +23,7 @@ class ContactsController < ApplicationController
   end
 
   def manage_contacts
-    @pagy_contacts, @contacts = pagy(current_user.contacts.includes(acquaintance: :avatar_attachment), items: 10)
+    @pagy_contacts, @contacts = pagy(current_user.contacts.unblocked.includes(acquaintance: :avatar_attachment), items: 10)
   end
 
   def invite
@@ -63,11 +63,21 @@ class ContactsController < ApplicationController
   end
 
   def block
-
+    if @contact.block
+      flash[:success] = 'User is blocked'
+    else
+      flash[:danger] = 'Something went wrong'
+    end
+    redirect_to manage_contacts_path
   end
 
-  def un_block
-
+  def unblock
+    if @contact.unblock
+      flash[:success] = 'User is no longer blocked'
+    else
+      flash[:danger] = 'Something went wrong'
+    end
+    redirect_to manage_contacts_path
   end
 
 

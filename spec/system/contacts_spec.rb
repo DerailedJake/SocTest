@@ -204,7 +204,38 @@ RSpec.describe 'Contact', type: :system do
     end
   end
 
-  
+  describe 'blocking -' do
+    context 'someone else' do
+      before do
+        login_as @current_user
+        @current_user.contacts.create(acquaintance: @second_user)
+      end
+      it 'works properly' do
+        visit manage_contacts_path
+        expect(page).to have_content @second_user.full_name
+        click_on 'Block'
+        accept_alert
+        expect(page).to have_content 'User is blocked'
+        expect(page).to have_content 'Unblock'
+        expect(Contact.all.pluck(:status)).to eql(%w[was_blocked blocked])
+      end
+    end
+    context 'getting blocked' do
+      before do
+        login_as @current_user
+        @current_user.contacts.create(acquaintance: @second_user)
+        @second_user.contacts.create(acquaintance: @current_user)
+      end
+      it 'works properly' do
+        visit manage_contacts_path
+        expect(page).to have_content @second_user.full_name
+        @second_user.contacts.first.block
+        visit manage_contacts_path
+        expect(page).not_to have_content @second_user.full_name
+        expect(Contact.all.pluck(:status)).to eql(%w[was_blocked blocked])
+      end
+    end
+  end
 
   def cancel_invitation
     click_on 'Cancel invitation'

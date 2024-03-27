@@ -3,6 +3,8 @@ class Contact < ApplicationRecord
   belongs_to :acquaintance, class_name: 'User', foreign_key: :acquaintance_id
   validates :status, presence: true, inclusion: %w[stranger invited was_invited befriended blocked was_blocked]
 
+  scope :unblocked, -> { where.not(status: 'was_blocked') }
+
   def self.available_status
     %w[stranger invited was_invited befriended blocked was_blocked]
   end
@@ -53,6 +55,18 @@ class Contact < ApplicationRecord
     else
       false
     end
+  end
+
+  def block
+    a_contact = acquaintance_contact || acquaintance.contacts.create(acquaintance: user, observed: nil)
+    a_contact.update(status: 'was_blocked')
+    update(status: 'blocked')
+  end
+
+  def unblock
+    a_contact = acquaintance_contact
+    a_contact.remove_contact
+    remove_contact
   end
 
   def remove_contact

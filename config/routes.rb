@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   put 'cancel_invite' => 'contacts#cancel_invite'
   put 'block_contact' => 'contacts#block'
   put 'unblock_contact' => 'contacts#unblock'
-  delete 'remove_friend' => 'contacts#remove_friend'
+  put 'remove_friend' => 'contacts#remove_friend'
 
   get 'chats' => 'chats#index'
   get 'direct_chat' => 'chats#direct_chat', as: 'direct_chat'

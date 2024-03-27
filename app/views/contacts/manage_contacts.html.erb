@@ -36,13 +36,13 @@
                   <% end %>
                   <span class="opacity-75">
                     <% if contact.status == 'befriended' %>
-                      <%= link_to 'Remove friend', remove_friend_path(user_id: user.id), method: :delete, data: { confirm: 'Are you sure you want to remove contact?' } %>
+                      <%= link_to 'Remove friend', remove_friend_path(user_id: user.id), method: :put, data: { confirm: 'Are you sure you want to remove contact?' } %>
                     <% end %>
                     <% if contact.status != 'blocked' %>
-                      <%= link_to 'Block', block_contact_path(user_id: user.id), data: { confirm: 'Are you sure you want to block contact?' } %>
+                      <%= link_to 'Block', block_contact_path(user_id: user.id), method: :put, data: { confirm: 'Are you sure you want to block contact?' } %>
                     <% end %>
                     <% if contact.status == 'blocked' %>
-                      <%= link_to 'Unblock', unblock_contact_path(user_id: user.id), data: { confirm: 'Are you sure you want to unblock user?' } %>
+                      <%= link_to 'Unblock', unblock_contact_path(user_id: user.id), method: :put, data: { confirm: 'Are you sure you want to unblock user?' } %>
                     <% end %>
                   </span>
                 </div>
